@@ -818,6 +818,11 @@ input{font-family:'Inter',sans-serif}
         <div class="bnote">🤖 Scores récupérés <strong>automatiquement</strong> depuis ESPN toutes les 60 secondes. Le bracket knockout est mis à jour en temps réel. Utilisez la correction manuelle uniquement en cas d'anomalie.</div>
         <div id="admin-groups-section"></div>
         <hr style="border-color:var(--bd);margin:16px 0">
+        <div class="sh"><div class="st" style="font-size:16px;color:var(--muted2)">👤 TOUS LES JOUEURS</div></div>
+        <div style="background:var(--s2);border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px" id="admin-players-section">
+          <p style="color:var(--muted);font-size:13px;padding:14px">Chargement...</p>
+        </div>
+        <hr style="border-color:var(--bd);margin:16px 0">
         <div class="sh"><div class="st" style="font-size:16px;color:var(--muted2)">CORRECTION MANUELLE</div></div>
         <div class="frow" id="admin-frow"></div>
         <div id="admin-list"></div>
@@ -1206,8 +1211,15 @@ async function initApp() {
   autoFetchScores();
   // Load session
   const saved = localStorage.getItem('wc2026_me');
-  if (saved) { ME = JSON.parse(saved); await loadUserData(); enterApp(); }
-  else { document.getElementById('screen-auth').classList.add('active'); }
+  if (saved) {
+    ME = JSON.parse(saved);
+    // SECURITY: strip isAdmin — only real admin login grants it
+    if (ME.username !== 'admin') ME.isAdmin = false;
+    await loadUserData();
+    enterApp();
+  } else {
+    document.getElementById('screen-auth').classList.add('active');
+  }
 }
 
 // ================================================
@@ -1518,6 +1530,8 @@ function doLogout() {
   cleanupAllListeners();
   ME = null; CUR_GROUP = null;
   localStorage.removeItem('wc2026_me');
+  // SECURITY: Clear admin session on logout
+  sessionStorage.removeItem('wc2026_admin_session');
   document.getElementById('screen-app').classList.remove('active');
   document.getElementById('screen-auth').classList.add('active');
 }
@@ -2803,13 +2817,13 @@ window.verifyAdminGate = function() {
   if (errEl) errEl.textContent = '';
   if (!p) return;
   if (p === ADMIN_PASS) {
-    // Grant temporary admin access for this session
+    // Grant temporary admin access — session only, NOT saved to localStorage
     ME.isAdmin = true;
-    localStorage.setItem('wc2026_me', JSON.stringify(ME));
+    // SECURITY: Only sessionStorage — clears on logout/new login
+    sessionStorage.setItem('wc2026_admin_session', '1');
     document.getElementById('admin-badge')?.classList.remove('hidden');
     document.getElementById('admin-gate')?.classList.add('hidden');
     document.getElementById('admin-content')?.classList.remove('hidden');
-    // Show create group section
     document.getElementById('create-group-section')?.classList.remove('hidden');
     renderAdmin();
     toast('✅ Accès admin accordé');
@@ -2843,6 +2857,76 @@ window.adminDeletePlayer = async function(username) {
   renderAdmin();
   renderLeaderboard();
   toast('✅ Joueur ' + username + ' supprimé');
+};
+
+
+// ================================================
+// ADMIN PLAYERS LIST
+// ================================================
+async function renderAdminPlayers() {
+  // Collect all unique users across all groups
+  const allUsers = new Set();
+  Object.values(DB_members).forEach(members => {
+    (members||[]).forEach(u => { if (u !== 'admin') allUsers.add(u); });
+  });
+
+  // Also load all users from Firebase to catch users not in any group
+  try {
+    const snap = await get(ref(db, 'users'));
+    if (snap.exists()) {
+      Object.keys(snap.val()).forEach(u => { if (u !== 'admin') allUsers.add(u); });
+    }
+  } catch(e) {}
+
+  await loadUsersEmoji([...allUsers]);
+
+  const el = document.getElementById('admin-players-section');
+  if (!el) return;
+
+  if (allUsers.size === 0) {
+    el.innerHTML = '<p style="color:var(--muted);font-size:13px">Aucun joueur.</p>';
+    return;
+  }
+
+  const rows = [...allUsers].sort().map(u => {
+    const emoji = DB_users[u]?.emoji || '👤';
+    const groups = Object.keys(DB_groupMeta).filter(gid => (DB_members[gid]||[]).includes(u));
+    const groupNames = groups.map(gid => DB_groupMeta[gid]?.name || gid).join(', ') || 'Aucun groupe';
+    return `<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--bd)">
+      <span style="font-size:22px">${emoji}</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:600">${u}</div>
+        <div style="font-size:11px;color:var(--muted)">${groupNames}</div>
+      </div>
+      <button onclick="adminDeletePlayer('${u}')"
+        style="background:rgba(255,61,61,0.12);border:1px solid rgba(255,61,61,0.25);color:var(--red);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer">
+        🗑 Supprimer
+      </button>
+    </div>`;
+  }).join('');
+
+  el.innerHTML = rows;
+}
+
+window.adminDeletePlayer = async function(username) {
+  if (!isAdmin()) return;
+  if (!confirm('Supprimer "' + username + '" ? Tous ses paris seront supprimés.')) return;
+  // Remove from all groups
+  const gids = Object.keys(DB_groupMeta);
+  for (const gid of gids) {
+    await remove(ref(db, 'members/' + gid + '/' + username));
+    await remove(ref(db, 'bets/' + gid + '/' + username));
+    await remove(ref(db, 'doubles/' + gid + '/' + username));
+  }
+  await remove(ref(db, 'users/' + username));
+  // Update local
+  Object.keys(DB_members).forEach(gid => {
+    DB_members[gid] = (DB_members[gid]||[]).filter(u => u !== username);
+  });
+  delete DB_users[username];
+  renderAdminPlayers();
+  renderLeaderboard();
+  toast('✅ Joueur "' + username + '" supprimé');
 };
 
 </script>
