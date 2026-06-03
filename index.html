@@ -795,12 +795,33 @@ input{font-family:'Inter',sans-serif}
     </div>
     <div class="tc" id="tab-admin">
       <div class="sh"><div class="st">⚙️ Administration</div></div>
-      <div class="bnote">🤖 Scores récupérés <strong>automatiquement</strong> depuis ESPN toutes les 60 secondes. Le bracket knockout est mis à jour en temps réel. Utilisez la correction manuelle uniquement en cas d'anomalie.</div>
-      <div id="admin-groups-section"></div>
-      <hr style="border-color:var(--bd);margin:16px 0">
-      <div class="sh"><div class="st" style="font-size:16px;color:var(--muted2)">CORRECTION MANUELLE</div></div>
-      <div class="frow" id="admin-frow"></div>
-      <div id="admin-list"></div>
+
+      <!-- ADMIN GATE — shown to non-admins -->
+      <div id="admin-gate" class="hidden">
+        <div style="text-align:center;padding:40px 20px">
+          <div style="font-size:48px;margin-bottom:16px">🔒</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--gold);margin-bottom:8px">Accès restreint</div>
+          <div style="font-size:13px;color:var(--muted2);margin-bottom:24px">Cette section est réservée à l'administrateur</div>
+          <div style="max-width:300px;margin:0 auto">
+            <div class="fg"><label>Mot de passe admin</label>
+              <input type="password" id="gate-pass" placeholder="••••••••"
+                onkeydown="if(event.key==='Enter') verifyAdminGate()">
+            </div>
+            <button class="btn-auth" onclick="verifyAdminGate()">Accéder →</button>
+            <div id="gate-err" class="err" style="margin-top:8px"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN CONTENT — shown only after auth -->
+      <div id="admin-content" class="hidden">
+        <div class="bnote">🤖 Scores récupérés <strong>automatiquement</strong> depuis ESPN toutes les 60 secondes. Le bracket knockout est mis à jour en temps réel. Utilisez la correction manuelle uniquement en cas d'anomalie.</div>
+        <div id="admin-groups-section"></div>
+        <hr style="border-color:var(--bd);margin:16px 0">
+        <div class="sh"><div class="st" style="font-size:16px;color:var(--muted2)">CORRECTION MANUELLE</div></div>
+        <div class="frow" id="admin-frow"></div>
+        <div id="admin-list"></div>
+      </div>
     </div>
   </div>
 
@@ -809,7 +830,7 @@ input{font-family:'Inter',sans-serif}
     <button class="bnav" onclick="showTab('leaderboard')" id="bnav-leaderboard"><span class="ni">🏆</span><span>Classement</span></button>
     <button class="bnav" onclick="showTab('chat')" id="bnav-chat"><span class="ni">💬</span><span>Chat</span></button>
     <button class="bnav" onclick="showTab('groups')" id="bnav-groups"><span class="ni">👥</span><span>Groupes</span></button>
-    <button class="bnav" onclick="showTab('admin')" id="bnav-admin"><span class="ni">⚙️</span><span>Admin</span></button>
+    <button class="bnav hidden" onclick="showTab('admin')" id="bnav-admin"><span class="ni">⚙️</span><span>Admin</span></button>
   </nav>
 </div>
 
@@ -1194,8 +1215,7 @@ async function initApp() {
 // ================================================
 async function autoFetchScores() {
   try {
-    // PERFORMANCE: Use Netlify proxy instead of ESPN directly
-    const r = await fetch('/.netlify/functions/fetch-scores');
+    const r = await fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard');
     const data = await r.json();
     const events = data.events || [];
     const updates = {};
@@ -1511,6 +1531,9 @@ function enterApp() {
   document.getElementById('topbar-group').textContent = CUR_GROUP ? (DB_groupMeta[CUR_GROUP]?.name || 'Groupe') : 'Pas de groupe';
   document.getElementById('admin-badge').classList.toggle('hidden', !isAdmin());
   document.getElementById('live-indicator').title = 'Scores mis à jour automatiquement';
+  // Show admin nav only for admin
+  const adminNav = document.getElementById('bnav-admin');
+  if (adminNav) adminNav.classList.toggle('hidden', !isAdmin());
   // Show create group only for admin
   const createSection = document.getElementById('create-group-section');
   if (createSection) createSection.classList.toggle('hidden', !isAdmin());
@@ -1572,7 +1595,17 @@ function showTab(tab) {
   if (tab==='global') renderGlobalLeaderboard();
   if (tab==='chat') initChat();
   if (tab==='groups') renderGroups();
-  if (tab==='admin') renderAdmin();
+  if (tab==='admin') {
+    if (isAdmin()) {
+      document.getElementById('admin-gate')?.classList.add('hidden');
+      document.getElementById('admin-content')?.classList.remove('hidden');
+      renderAdmin();
+    } else {
+      // Show password gate instead of blocking
+      document.getElementById('admin-gate')?.classList.remove('hidden');
+      document.getElementById('admin-content')?.classList.add('hidden');
+    }
+  }
 }
 window.showTab = showTab;
 
@@ -1888,7 +1921,7 @@ function renderAdmin() {
         + (memberScores.length > 0 ? memberScores.map((pl,i) =>
             '<tr style="border-bottom:1px solid rgba(255,255,255,0.03)">'
             + '<td style="padding:5px 8px;color:var(--muted);font-family:Bebas Neue,sans-serif;font-size:16px">' + (i+1) + '</td>'
-            + '<td style="padding:5px 8px"><span style="font-size:18px">' + pl.emoji + '</span> ' + pl.u + '</td>'
+            + '<td style="padding:5px 8px;display:flex;align-items:center;gap:8px"><span style="font-size:18px">' + pl.emoji + '</span> ' + pl.u + '<button onclick="adminDeletePlayer(\'' + pl.u + '\')" style="background:rgba(255,61,61,0.12);border:1px solid rgba(255,61,61,0.25);color:var(--red);border-radius:6px;padding:2px 8px;font-size:10px;cursor:pointer;margin-left:auto">🗑</button></td>'
             + '<td style="padding:5px 8px;text-align:center;color:var(--muted2)">' + pl.bets + '</td>'
             + '<td style="padding:5px 8px;text-align:center;color:var(--muted2)">' + pl.exact + '</td>'
             + '<td style="padding:5px 8px;text-align:right;font-family:Bebas Neue,sans-serif;font-size:18px;color:var(--gold)">' + pl.total + '</td>'
@@ -1900,6 +1933,7 @@ function renderAdmin() {
 }
 
 window.adminSaveResult = async function(mid) {
+  if (!isAdmin()) return toast('🔒 Accès refusé');
   const h = document.getElementById('rh_'+mid)?.value.trim();
   const a = document.getElementById('ra_'+mid)?.value.trim();
   if (h===''||a==='') return toast('⚠️ Entrez les deux scores');
@@ -2189,6 +2223,7 @@ window.createGroupFromModal = async function() {
 
 
 window.adminDeleteGroup = async function(gid) {
+  if (!isAdmin()) return toast('🔒 Accès refusé');
   const g = DB_groupMeta[gid];
   if (!g) return;
   if (!confirm('Supprimer le groupe "' + g.name + '" ? Cette action est irréversible.')) return;
@@ -2757,6 +2792,58 @@ window.addEventListener('offline', () => {
   setSyncStatus('error');
   toast('⚠️ Hors ligne — les scores ne se mettent plus à jour');
 });
+
+
+// ================================================
+// ADMIN GATE — password verification for non-admins
+// ================================================
+window.verifyAdminGate = function() {
+  const p = document.getElementById('gate-pass')?.value;
+  const errEl = document.getElementById('gate-err');
+  if (errEl) errEl.textContent = '';
+  if (!p) return;
+  if (p === ADMIN_PASS) {
+    // Grant temporary admin access for this session
+    ME.isAdmin = true;
+    localStorage.setItem('wc2026_me', JSON.stringify(ME));
+    document.getElementById('admin-badge')?.classList.remove('hidden');
+    document.getElementById('admin-gate')?.classList.add('hidden');
+    document.getElementById('admin-content')?.classList.remove('hidden');
+    // Show create group section
+    document.getElementById('create-group-section')?.classList.remove('hidden');
+    renderAdmin();
+    toast('✅ Accès admin accordé');
+  } else {
+    if (errEl) errEl.textContent = '❌ Mot de passe incorrect';
+  }
+};
+
+// ================================================
+// DELETE PLAYER — admin only
+// ================================================
+window.adminDeletePlayer = async function(username) {
+  if (!isAdmin()) return;
+  if (!confirm('Supprimer le joueur "' + username + '" ? Cette action est irréversible.')) return;
+  
+  // Remove from all groups
+  const gids = Object.keys(DB_groupMeta);
+  for (const gid of gids) {
+    await remove(ref(db, 'members/' + gid + '/' + username));
+    await remove(ref(db, 'bets/' + gid + '/' + username));
+    await remove(ref(db, 'doubles/' + gid + '/' + username));
+  }
+  // Remove user account
+  await remove(ref(db, 'users/' + username));
+  
+  // Update local state
+  Object.keys(DB_members).forEach(gid => {
+    DB_members[gid] = (DB_members[gid] || []).filter(u => u !== username);
+  });
+  
+  renderAdmin();
+  renderLeaderboard();
+  toast('✅ Joueur ' + username + ' supprimé');
+};
 
 </script>
 
