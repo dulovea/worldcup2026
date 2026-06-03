@@ -1,0 +1,89 @@
+{
+  "rules": {
+    "users": {
+      "$username": {
+        ".read": "auth != null || $username == 'public'",
+        ".write": "auth == null",
+        "pass": {
+          ".read": false,
+          ".write": "auth == null"
+        },
+        "emoji": { ".validate": "newData.isString() && newData.val().length <= 10" },
+        "groups": { ".validate": "newData.isString() || newData.hasChildren()" }
+      }
+    },
+    "groups": {
+      ".read": true,
+      "$groupId": {
+        ".write": true,
+        "name": { ".validate": "newData.isString() && newData.val().length <= 50" },
+        "code": { ".validate": "newData.isString() && newData.val().length == 6" }
+      }
+    },
+    "codes": {
+      ".read": true,
+      "$code": {
+        ".write": true,
+        ".validate": "newData.isString()"
+      }
+    },
+    "members": {
+      ".read": true,
+      "$groupId": {
+        "$username": {
+          ".write": true,
+          ".validate": "newData.isBoolean()"
+        }
+      }
+    },
+    "bets": {
+      "$groupId": {
+        ".read": true,
+        "$username": {
+          ".write": true,
+          "$matchId": {
+            "home": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 30" },
+            "away": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 30" },
+            "double": { ".validate": "newData.isBoolean()" }
+          }
+        }
+      }
+    },
+    "doubles": {
+      ".read": true,
+      "$groupId": {
+        "$username": {
+          ".write": true
+        }
+      }
+    },
+    "results": {
+      ".read": true,
+      ".write": true,
+      "$matchId": {
+        "home": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 30" },
+        "away": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 30" },
+        "live": { ".validate": "newData.isBoolean()" },
+        "ts": { ".validate": "newData.isNumber()" }
+      }
+    },
+    "chat": {
+      ".read": true,
+      "$groupId": {
+        "$messageId": {
+          ".write": true,
+          "user": { ".validate": "newData.isString() && newData.val().length <= 30" },
+          "text": { ".validate": "newData.isString() && newData.val().length <= 300" },
+          "emoji": { ".validate": "newData.isString() && newData.val().length <= 10" },
+          "ts": { ".validate": "newData.isNumber()" }
+        }
+      }
+    },
+    "fcm_tokens": {
+      "$username": {
+        ".read": "$username === auth.uid",
+        ".write": true
+      }
+    }
+  }
+}
