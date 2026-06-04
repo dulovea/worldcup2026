@@ -501,6 +501,11 @@ input{font-family:'Inter',sans-serif}
 /* ===== CHAT ===== */
 .chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 120px)}
 .chat-messages{flex:1;overflow-y:auto;padding:8px 0;display:flex;flex-direction:column;gap:6px}
+/* FIX: Keep input visible above keyboard on mobile */
+@supports (-webkit-touch-callout: none) {
+  .chat-wrap{height:calc(100svh - 120px)}
+  .chat-input-row{position:sticky;bottom:0;background:var(--bg);padding-bottom:env(safe-area-inset-bottom,8px)}
+}
 .chat-msg{display:flex;gap:8px;align-items:flex-start;padding:4px 0}
 .chat-msg.me{flex-direction:row-reverse}
 .chat-avatar{width:32px;height:32px;border-radius:50%;background:var(--s3);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
@@ -729,7 +734,8 @@ input{font-family:'Inter',sans-serif}
         </div>
         <div class="chat-input-row">
           <input class="chat-input" type="text" id="chat-input" placeholder="Votre message..." maxlength="300"
-            onkeydown="if(event.key==='Enter')sendChatMsg()">
+            onkeydown="if(event.key==='Enter')sendChatMsg()"
+            onfocus="setTimeout(()=>{this.scrollIntoView({behavior:'smooth',block:'end'});document.getElementById('chat-messages').scrollTop=document.getElementById('chat-messages').scrollHeight;},300)">
           <button class="chat-send-btn" onclick="sendChatMsg()">➤</button>
         </div>
       </div>
@@ -1410,8 +1416,12 @@ async function doLogin() {
   // SECURITY: Compare hashed password
   const hashed = hashPass(p, u);
   if (ud.pass !== hashed) return (errEl.textContent = '❌ Mot de passe incorrect');
-  ME = {username:u, emoji:ud.emoji};
+  // SECURITY: Explicitly set isAdmin:false + clear any admin session
+  ME = {username:u, emoji:ud.emoji, isAdmin:false};
+  sessionStorage.removeItem('wc2026_admin_session');
   localStorage.setItem('wc2026_me', JSON.stringify(ME));
+  // Also remove admin badge if visible
+  document.getElementById('admin-badge')?.classList.add('hidden');
   await loadUserData();
   const invGid = getURLParam('group');
   if (invGid) await joinGroup(invGid);
@@ -1943,7 +1953,41 @@ function renderAdmin() {
           : '<tr><td colspan="5" style="padding:10px;text-align:center;color:var(--muted)">Aucun membre</td></tr>')
         + '</tbody></table></div>';
     }).join('')}`;
-  document.getElementById('admin-list').innerHTML = html;
+  // Render players list
+  renderAdminPlayers();
+  // Render scores list
+  buildFilters('admin-frow', ADMIN_FILTER, 'setAdminFilter');
+  const R = resolveKnockoutTeams(DB_results);
+  const matches = ADMIN_FILTER==='all' ? MATCHES : MATCHES.filter(m=>m.gr===ADMIN_FILTER);
+  let html2='', lastDate2='';
+  matches.forEach(m => {
+    const em = enrichMatch(m, R);
+    if (m.dt!==lastDate2) { html2+=`<div class="daysep">${fmtDate(m.dt)}</div>`; lastDate2=m.dt; }
+    const res = DB_results[m.id]||{};
+    html2 += `<div class="mc">
+      <div class="mh">
+        <span class="tag tg">${STAGE_LABELS[m.gr]||m.gr}</span>
+        <span style="color:var(--muted);font-size:10px">${fmtDate(m.dt)} · ${m.tm} GMT</span>
+        ${res.home!==undefined?'<span class="tag tres">✅</span>':''}
+        ${res.live?'<span class="tag tlive">🔴 LIVE</span>':''}
+        ${res.home!==undefined?`<button class="btn btn-sm" style="background:rgba(245,200,66,.1);color:var(--gold);font-size:10px" onclick="showDetail('${m.id}')">📊 Paris</button>`:''}
+      </div>
+      <div class="mb">
+        <div class="team"><div class="fl">${em.h||'🏆'}</div><div class="tn" style="font-size:11px">${em.hn}</div></div>
+        <div class="vscol">${res.home!==undefined?`<div class="sfinal">${res.home}–${res.away}</div>`:'<div class="vstxt">VS</div>'}</div>
+        <div class="team"><div class="fl">${em.a||'🏆'}</div><div class="tn" style="font-size:11px">${em.an}</div></div>
+      </div>
+      <div class="rrow">
+        <span style="font-size:11px;color:var(--muted)">Correction :</span>
+        <input class="ri" type="number" min="0" max="30" id="rh_${m.id}" value="${res.home??''}" placeholder="0">
+        <span style="color:var(--muted)">–</span>
+        <input class="ri" type="number" min="0" max="30" id="ra_${m.id}" value="${res.away??''}" placeholder="0">
+        <button class="btn btn-gold btn-sm" onclick="adminSaveResult('${m.id}')">✅ Valider</button>
+        ${res.home!==undefined?`<button class="btn btn-out btn-sm" onclick="adminClearResult('${m.id}')">✕</button>`:''}
+      </div>
+    </div>`;
+  });
+  document.getElementById('admin-list').innerHTML = html2;
 }
 
 window.adminSaveResult = async function(mid) {
