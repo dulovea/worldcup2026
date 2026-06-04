@@ -803,7 +803,7 @@ input{font-family:'Inter',sans-serif}
       <div class="sh"><div class="st">⚙️ Administration</div></div>
 
       <!-- ADMIN GATE — shown to non-admins -->
-      <div id="admin-gate" class="hidden">
+      <div id="admin-gate" style="display:none">
         <div style="text-align:center;padding:40px 20px">
           <div style="font-size:48px;margin-bottom:16px">🔒</div>
           <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--gold);margin-bottom:8px">Accès restreint</div>
@@ -820,7 +820,7 @@ input{font-family:'Inter',sans-serif}
       </div>
 
       <!-- ADMIN CONTENT — shown only after auth -->
-      <div id="admin-content" class="hidden">
+      <div id="admin-content" style="display:none">
         <div class="bnote">🤖 Scores récupérés <strong>automatiquement</strong> depuis ESPN toutes les 60 secondes. Le bracket knockout est mis à jour en temps réel. Utilisez la correction manuelle uniquement en cas d'anomalie.</div>
         <div id="admin-groups-section"></div>
         <hr style="border-color:var(--bd);margin:16px 0">
@@ -1620,14 +1620,16 @@ function showTab(tab) {
   if (tab==='chat') initChat();
   if (tab==='groups') renderGroups();
   if (tab==='admin') {
+    // SECURITY: Show gate or content based on isAdmin()
+    const gate = document.getElementById('admin-gate');
+    const content = document.getElementById('admin-content');
     if (isAdmin()) {
-      document.getElementById('admin-gate')?.classList.add('hidden');
-      document.getElementById('admin-content')?.classList.remove('hidden');
+      if (gate) gate.style.display = 'none';
+      if (content) content.style.display = 'block';
       renderAdmin();
     } else {
-      // Show password gate instead of blocking
-      document.getElementById('admin-gate')?.classList.remove('hidden');
-      document.getElementById('admin-content')?.classList.add('hidden');
+      if (gate) gate.style.display = 'block';
+      if (content) content.style.display = 'none';
     }
   }
 }
@@ -1889,25 +1891,8 @@ window.switchGroup = async function(gid) {
   toast('✅ Groupe actif : ' + DB_groupMeta[gid]?.name);
 };
 
-window.createGroup = async function() {
-  if (!ME) return;
-  const name = document.getElementById('new-gname').value.trim();
-  if (!name) return toast('⚠️ Entrez un nom de groupe');
-  const gid = uid();
-  const groupData = {name, adminUser: ME.isAdmin ? 'admin' : ME.username, createdAt: Date.now()};
-  await set(ref(db, `groups/${gid}`), groupData);
-  if (!ME.isAdmin) {
-    await set(ref(db, `users/${ME.username}/groups/${gid}`), true);
-    await set(ref(db, `members/${gid}/${ME.username}`), true);
-  }
-  DB_groupMeta[gid] = groupData;
-  DB_members[gid] = ME.isAdmin ? [] : [ME.username];
-  CUR_GROUP = gid;
-  subscribeGroup(gid);
-  document.getElementById('new-gname').value = '';
-  document.getElementById('topbar-group').textContent = name;
-  renderGroups(); toast('✅ Groupe créé : ' + name);
-};
+// createGroup deduplicated
+
 
 window.copyLink = function(l) { navigator.clipboard.writeText(l).then(()=>toast('📋 Lien d\'invitation copié !')); };
 
@@ -2756,10 +2741,14 @@ function renderChatMessages(msgs) {
     // Avatar shows initials of username, not team flag
     const initials = msg.user ? msg.user.slice(0,2).toUpperCase() : '??';
 
+    const isAdminUser = ME?.isAdmin || false;
     html += `<div class="chat-msg${isMe?' me':''}">
       <div class="chat-avatar" style="font-size:12px;font-weight:700;font-family:Inter,sans-serif;color:var(--gold)">${initials}</div>
       <div class="chat-bubble">
-        ${!isMe ? `<div class="chat-sender">${msg.user}</div>` : `<div class="chat-sender" style="display:block;text-align:right;color:var(--gold)">${msg.user}</div>`}
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+          <div class="chat-sender" style="${isMe?'color:var(--gold)':''}">${msg.user}</div>
+          ${isAdminUser ? `<button onclick="adminDeleteMsg('${chatGroupId}','${msg.id}')" style="background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;padding:0 2px;flex-shrink:0" title="Supprimer">🗑</button>` : ''}
+        </div>
         ${msg.matchRef ? `<div class="chat-match-ref">⚽ ${msg.matchRef}</div>` : ''}
         <div class="chat-text">${escapeHtml(msg.text)}</div>
         <div class="chat-time">${time}</div>
@@ -2866,8 +2855,10 @@ window.verifyAdminGate = function() {
     // SECURITY: Only sessionStorage — clears on logout/new login
     sessionStorage.setItem('wc2026_admin_session', '1');
     document.getElementById('admin-badge')?.classList.remove('hidden');
-    document.getElementById('admin-gate')?.classList.add('hidden');
-    document.getElementById('admin-content')?.classList.remove('hidden');
+    const gate = document.getElementById('admin-gate');
+    const content = document.getElementById('admin-content');
+    if (gate) gate.style.display = 'none';
+    if (content) content.style.display = 'block';
     document.getElementById('create-group-section')?.classList.remove('hidden');
     renderAdmin();
     toast('✅ Accès admin accordé');
@@ -2971,6 +2962,14 @@ window.adminDeletePlayer = async function(username) {
   renderAdminPlayers();
   renderLeaderboard();
   toast('✅ Joueur "' + username + '" supprimé');
+};
+
+
+// Admin delete chat message
+window.adminDeleteMsg = async function(groupId, msgId) {
+  if (!isAdmin()) return;
+  await remove(ref(db, 'chat/' + groupId + '/' + msgId));
+  toast('🗑 Message supprimé');
 };
 
 </script>
