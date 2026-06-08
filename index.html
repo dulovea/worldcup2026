@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WORLD CUP 2026 — Paris entre amis</title>
+<meta name="theme-color" content="#080c14">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="WC 2026">
+<link rel="manifest" href="manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
 <style>
@@ -535,15 +540,6 @@ input{font-family:'Inter',sans-serif}
 .chat-grp-btn.active{background:rgba(232,184,75,0.12);border-color:rgba(232,184,75,0.3);color:var(--gold)}
 
 </style>
-<meta name="theme-color" content="#080c14">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="WC 2026">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="application-name" content="World Cup 2026">
-<link rel="manifest" href="manifest.json">
-<!-- Apple touch icons (inline SVG converted to data URI) -->
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%23080c14'/%3E%3Ccircle cx='96' cy='96' r='60' fill='none' stroke='%23e8b84b' stroke-width='6'/%3E%3Ccircle cx='96' cy='96' r='22' fill='%23e8b84b'/%3E%3Ctext x='96' y='168' font-family='Arial' font-size='18' font-weight='bold' fill='%23e8b84b' text-anchor='middle'%3EWC 2026%3C/text%3E%3C/svg%3E">
 </head>
 <body>
 
@@ -561,20 +557,7 @@ input{font-family:'Inter',sans-serif}
   <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;background:var(--bg)">
   <div class="setup-card">
     <h2>⚙️ Configuration Firebase</h2>
-    <div class="sub">Pour activer la synchronisation temps réel entre tous vos joueurs, connectez un projet Firebase gratuit.</div>
-    <ol>
-      <li>Allez sur <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a></li>
-      <li>Créez un projet → activez <strong>Realtime Database</strong></li>
-      <li>⚙️ Paramètres → Vos applications → Web → copiez la config</li>
-      <li>Règles DB → mettez <code style="color:var(--gold)">.read:true, .write:true</code></li>
-    </ol>
-    <div class="sfield"><label>API Key</label><input id="cfg-apiKey" placeholder="AIzaSy..."></div>
-    <div class="sfield"><label>Auth Domain</label><input id="cfg-authDomain" placeholder="monprojet.firebaseapp.com"></div>
-    <div class="sfield"><label>Database URL</label><input id="cfg-dbUrl" placeholder="https://monprojet-default-rtdb.firebaseio.com"></div>
-    <div class="sfield"><label>Project ID</label><input id="cfg-projectId" placeholder="monprojet"></div>
-    <div class="sfield"><label>App ID</label><input id="cfg-appId" placeholder="1:123:web:abc..."></div>
-    <button class="btn btn-gold btn-full" style="margin-top:8px" onclick="saveFirebaseConfig()">🚀 Connecter Firebase</button>
-    <p style="margin-top:12px;font-size:11px;color:var(--muted);text-align:center">Config sauvegardée localement dans votre navigateur.</p>
+    <button class="btn-gold btn-full" style="margin-top:8px" onclick="saveFirebaseConfig()">🚀 Connecter</button>
   </div>
   </div>
 </div>
@@ -583,104 +566,69 @@ input{font-family:'Inter',sans-serif}
 <div class="screen" id="screen-auth">
   <div class="auth-bg"></div>
   <div class="auth-grid"></div>
-
-  <!-- Discreet admin button top-right -->
-  <div style="position:absolute;top:16px;right:16px;z-index:10">
-    <button onclick="showAdminLogin()" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:var(--muted);font-size:11px;padding:6px 12px;border-radius:20px;cursor:pointer;transition:all .2s;font-family:Inter,sans-serif;letter-spacing:.5px"
-      onmouseover="this.style.color='var(--gold)';this.style.borderColor='rgba(232,184,75,0.3)'"
-      onmouseout="this.style.color='var(--muted)';this.style.borderColor='rgba(255,255,255,0.08)'">
-      ⚙️ Admin
-    </button>
+  <div style="position:fixed;top:16px;right:16px;z-index:10">
+    <button onclick="showAdminLogin()" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:var(--muted);font-size:11px;padding:6px 12px;border-radius:20px;cursor:pointer;font-family:Inter,sans-serif">⚙️ Admin</button>
   </div>
-
-  <!-- CENTER CONTENT -->
   <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:20px;width:100%;position:relative;z-index:1">
-
-    <!-- LOGO -->
-    <div style="text-align:center;margin-bottom:32px">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(42px,8vw,72px);letter-spacing:4px;line-height:.95;background:linear-gradient(135deg,#fff 0%,var(--gold2) 50%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">WORLD CUP<br>2026</div>
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:3px;color:var(--muted);margin-top:8px;text-transform:uppercase">Paris entre amis</div>
+    <div style="text-align:center;margin-bottom:28px">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(42px,8vw,68px);letter-spacing:4px;line-height:.95;background:linear-gradient(135deg,#fff 0%,var(--gold2) 50%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">WORLD CUP<br>2026</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:3px;color:var(--muted);margin-top:6px;text-transform:uppercase">Paris entre amis</div>
     </div>
-
-    <!-- INVITE BANNER -->
-    <div id="invite-bar" class="invite-bar hidden" style="max-width:420px;width:100%;margin-bottom:16px">
-      <strong id="invite-gname">Groupe</strong>
-      Vous avez été invité à rejoindre ce groupe !
+    <div id="invite-bar" class="invite-bar hidden" style="max-width:420px;width:100%;margin-bottom:14px">
+      <strong id="invite-gname">Groupe</strong> Vous avez été invité !
     </div>
-
-    <!-- FORM CARD -->
-    <div style="background:rgba(22,27,39,0.85);border:1px solid var(--bd2);border-radius:20px;padding:28px;width:100%;max-width:420px;backdrop-filter:blur(12px);position:relative;overflow:hidden">
+    <div style="background:rgba(22,27,39,0.88);border:1px solid var(--bd2);border-radius:20px;padding:26px;width:100%;max-width:420px;backdrop-filter:blur(12px);position:relative;overflow:hidden">
       <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)"></div>
-
-      <!-- TABS -->
-      <div class="auth-tabs" style="margin-bottom:22px">
+      <div class="auth-tabs" style="margin-bottom:20px">
         <button class="atab active" onclick="switchAuthTab('login')">Se connecter</button>
         <button class="atab" onclick="switchAuthTab('register')">Créer un compte</button>
       </div>
-
-      <!-- LOGIN FORM -->
+      <!-- LOGIN -->
       <div id="form-login">
         <div class="fg"><label>Pseudo</label><input type="text" id="lu" placeholder="votre pseudo..." maxlength="20" autocomplete="username"></div>
         <div class="fg"><label>Mot de passe</label><input type="password" id="lp" placeholder="••••••••" autocomplete="current-password"></div>
         <button class="btn-auth" onclick="doLogin()">Se connecter →</button>
-        <div id="login-err" class="err" style="margin-top:10px"></div>
+        <div id="login-err" class="err" style="margin-top:8px"></div>
       </div>
-
-      <!-- REGISTER FORM -->
+      <!-- REGISTER -->
       <div id="form-register" class="hidden">
         <div class="fg"><label>Pseudo</label><input type="text" id="ru" placeholder="votre pseudo..." maxlength="20"></div>
-        <div class="fg">
-          <label>⭐ Équipe favorite</label>
-          <div class="ep-wrap" id="ep"></div>
-          <input type="hidden" id="re" value="🇫🇷">
-        </div>
-        <div class="fg"><label>Mot de passe (min. 4 caractères)</label><input type="password" id="rp" placeholder="••••••••" minlength="4"></div>
+        <div class="fg"><label>⭐ Équipe favorite</label><div class="ep-wrap" id="ep"></div><input type="hidden" id="re" value="🇫🇷"></div>
+        <div class="fg"><label>Mot de passe (min. 4 car.)</label><input type="password" id="rp" placeholder="••••••••" minlength="4"></div>
         <button class="btn-auth" onclick="doRegister()">Créer mon compte →</button>
-        <div id="reg-err" class="err" style="margin-top:10px"></div>
+        <div id="reg-err" class="err" style="margin-top:8px"></div>
       </div>
-
-      <!-- ADMIN LOGIN PANEL -->
+      <!-- ADMIN LOGIN -->
       <div id="form-admin" class="hidden">
-        <div style="background:rgba(232,65,65,0.07);border:1px solid rgba(232,65,65,0.2);border-radius:10px;padding:14px;margin-bottom:16px;text-align:center">
-          <div style="font-size:14px;color:#ff8a8a;font-weight:600;margin-bottom:2px">🛡️ Connexion Administrateur</div>
-          <div style="font-size:11px;color:var(--muted)">Réservé à l'organisateur</div>
+        <div style="background:rgba(232,65,65,0.07);border:1px solid rgba(232,65,65,0.2);border-radius:10px;padding:12px;margin-bottom:14px;text-align:center">
+          <div style="font-size:13px;color:#ff8a8a;font-weight:600">🛡️ Connexion Administrateur</div>
         </div>
         <div class="fg"><label>Mot de passe admin</label><input type="password" id="admin-pass-input" placeholder="••••••••"></div>
         <button class="btn-auth" onclick="doAdminLogin()" style="background:linear-gradient(135deg,#e84141,#c41a1a)">Connexion Admin →</button>
-        <div id="admin-err" class="err" style="margin-top:10px"></div>
-        <div style="text-align:center;margin-top:14px">
-          <span onclick="showNormalLogin()" style="font-size:12px;color:var(--muted);cursor:pointer">← Retour</span>
-        </div>
+        <div id="admin-err" class="err" style="margin-top:8px"></div>
+        <div style="text-align:center;margin-top:12px"><span onclick="showNormalLogin()" style="font-size:12px;color:var(--muted);cursor:pointer">← Retour</span></div>
       </div>
     </div>
-
-    <div style="margin-top:16px;font-size:11px;color:var(--muted);text-align:center">
-      ⚽ Scores mis à jour automatiquement · 104 matchs · Groupes privés
-    </div>
+    <div style="margin-top:14px;font-size:11px;color:var(--muted);text-align:center">⚽ 104 matchs · Scores automatiques · Groupes privés</div>
   </div>
 </div>
 
-<!-- CODE ENTRY SCREEN — shown after register -->
+<!-- CODE SCREEN -->
 <div class="screen" id="screen-code">
   <div class="auth-bg"></div>
   <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:20px;position:relative;z-index:1">
-    <div style="text-align:center;margin-bottom:28px">
+    <div style="text-align:center;margin-bottom:24px">
       <div style="font-size:40px;margin-bottom:8px">🔑</div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--gold)">Code d'invitation</div>
-      <div style="font-size:13px;color:var(--muted2);margin-top:6px">Entrez le code fourni par l'organisateur</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:var(--gold)">Code d'invitation</div>
+      <div style="font-size:13px;color:var(--muted2);margin-top:4px">Entrez le code fourni par l'organisateur</div>
     </div>
-    <div style="background:rgba(22,27,39,0.85);border:1px solid var(--bd2);border-radius:20px;padding:28px;width:100%;max-width:380px;backdrop-filter:blur(12px);position:relative;overflow:hidden">
-      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)"></div>
-      <div class="fg">
-        <label>Code du groupe (6 caractères)</label>
-        <input class="code-input" type="text" id="screen-code-input" placeholder="XXXXXX" maxlength="6"
-          style="margin-top:4px" oninput="this.value=this.value.toUpperCase()">
+    <div style="background:rgba(22,27,39,0.88);border:1px solid var(--bd2);border-radius:20px;padding:26px;width:100%;max-width:380px;backdrop-filter:blur(12px)">
+      <div class="fg"><label>Code (6 caractères)</label>
+        <input class="code-input" type="text" id="screen-code-input" placeholder="XXXXXX" maxlength="6" oninput="this.value=this.value.toUpperCase()">
       </div>
-      <button class="btn-auth" onclick="joinByCodeFromScreen()">Rejoindre le groupe →</button>
-      <div id="code-screen-err" class="err" style="margin-top:10px"></div>
-      <div style="text-align:center;margin-top:16px">
-        <span onclick="doLogout()" style="font-size:12px;color:var(--muted);cursor:pointer">← Se déconnecter</span>
-      </div>
+      <button class="btn-auth" onclick="joinByCodeFromScreen()">Rejoindre →</button>
+      <div id="code-screen-err" class="err" style="margin-top:8px"></div>
+      <div style="text-align:center;margin-top:14px"><span onclick="doLogout()" style="font-size:12px;color:var(--muted);cursor:pointer">← Se déconnecter</span></div>
     </div>
   </div>
 </div>
@@ -689,21 +637,22 @@ input{font-family:'Inter',sans-serif}
 <div class="screen" id="screen-app">
   <div class="topbar">
     <div class="tbl">
-      <div class="tlogo">WORLD CUP 2026</div>
+      <div class="tlogo">⚽ WORLD CUP 2026</div>
       <div class="gpill" id="topbar-group" onclick="showTab('groups')">—</div>
       <span class="abadge hidden" id="admin-badge">🛡 ADMIN</span>
     </div>
     <div class="tbr">
-      <div class="live-dot" id="live-indicator" title="Sync temps réel"></div>
+      <div class="live-dot" id="live-indicator"></div>
       <div class="uchip">
         <div class="avsm" id="topbar-avatar">?</div>
         <span id="topbar-user" style="max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">...</span>
       </div>
-      <button class="lbtn" onclick="doLogout()" title="Déconnexion">↩</button>
+      <button class="lbtn" onclick="doLogout()">↩</button>
     </div>
   </div>
 
   <div class="main">
+    <!-- MATCHES -->
     <div class="tc active" id="tab-matches">
       <div class="sh">
         <div class="st">🏟 Matches</div>
@@ -713,11 +662,11 @@ input{font-family:'Inter',sans-serif}
       <div class="frow" id="frow"></div>
       <div id="matches-list"></div>
     </div>
+
+    <!-- CHAT -->
     <div class="tc" id="tab-chat">
       <div class="sh"><div class="st">💬 Chat</div></div>
-      <!-- Group selector if in multiple groups -->
       <div class="chat-group-selector" id="chat-group-selector"></div>
-      <!-- Quick reactions -->
       <div class="chat-reactions" id="chat-reactions">
         <button class="react-btn" onclick="sendReaction('🔥')">🔥</button>
         <button class="react-btn" onclick="sendReaction('😱')">😱</button>
@@ -735,93 +684,80 @@ input{font-family:'Inter',sans-serif}
         <div class="chat-input-row">
           <input class="chat-input" type="text" id="chat-input" placeholder="Votre message..." maxlength="300"
             onkeydown="if(event.key==='Enter')sendChatMsg()"
-            onfocus="setTimeout(()=>{this.scrollIntoView({behavior:'smooth',block:'end'});document.getElementById('chat-messages').scrollTop=document.getElementById('chat-messages').scrollHeight;},300)">
+            onfocus="setTimeout(()=>{this.scrollIntoView({behavior:'smooth',block:'end'});const m=document.getElementById('chat-messages');if(m)m.scrollTop=m.scrollHeight;},300)">
           <button class="chat-send-btn" onclick="sendChatMsg()">➤</button>
         </div>
       </div>
     </div>
+
+    <!-- LEADERBOARD + STATS -->
     <div class="tc" id="tab-leaderboard">
       <div class="sh"><div class="st">🏆 Mon Groupe</div></div>
       <div class="podium" id="podium"></div>
       <div class="lbt" id="lb-table"></div>
-
-      <!-- MES STATS intégrées sous le classement -->
       <div style="margin-top:20px">
         <div class="sh"><div class="st" style="font-size:18px">📊 Mes Stats</div></div>
         <div class="sgrid" id="sgrid"></div>
         <div class="ptable">
-          <div class="prow" style="background:var(--s1)"><strong style="font-size:11px;color:var(--muted);letter-spacing:1px;font-weight:600">SYSTÈME DE POINTS</strong></div>
+          <div class="prow" style="background:var(--s1)"><strong style="font-size:11px;color:var(--muted);letter-spacing:1px">SYSTÈME DE POINTS</strong></div>
           <div class="prow"><span>Score exact</span><span class="pbadge">30 pts</span></div>
           <div class="prow"><span>Bon vainqueur + bon écart</span><span class="pbadge">20 pts</span></div>
           <div class="prow"><span>Bon vainqueur seulement</span><span class="pbadge">10 pts</span></div>
           <div class="prow"><span>Match nul correct</span><span class="pbadge">20 pts</span></div>
-          <div class="prow"><span>Pari doublé (×2)</span><span class="pbadge x2">×2</span></div>
+          <div class="prow"><span>Pari doublé ×2</span><span class="pbadge x2">×2</span></div>
           <div class="prow"><span>1 bonus ×2 max / semaine</span><span style="color:var(--gold)">📅</span></div>
         </div>
       </div>
     </div>
+
+    <!-- GLOBAL -->
     <div class="tc" id="tab-global">
       <div class="sh"><div class="st">🌍 Classement Global</div></div>
-      <div style="font-size:12px;color:var(--muted2);margin-bottom:14px;padding:10px 14px;background:var(--s2);border-radius:10px;border:1px solid var(--bd)">
-        Tous les joueurs de toutes les équipes, classés par points totaux.
-      </div>
+      <div style="font-size:12px;color:var(--muted2);margin-bottom:12px;padding:10px 14px;background:var(--s2);border-radius:10px;border:1px solid var(--bd)">Tous les joueurs de toutes les équipes.</div>
       <div class="lbt" id="global-lb-table"></div>
     </div>
-    <div class="tc" id="tab-stats">
-      <div class="sh"><div class="st">📊 Mes Stats</div></div>
-      <div class="sgrid" id="sgrid"></div>
-      <div class="ptable">
-        <div class="prow" style="background:var(--s1)"><strong style="font-size:11px;color:var(--muted);letter-spacing:1px;font-weight:600">SYSTÈME DE POINTS</strong></div>
-        <div class="prow"><span>Score exact</span><span class="pbadge">30 pts</span></div>
-        <div class="prow"><span>Bon vainqueur + bon écart</span><span class="pbadge">20 pts</span></div>
-        <div class="prow"><span>Bon vainqueur seulement</span><span class="pbadge">10 pts</span></div>
-        <div class="prow"><span>Match nul correct</span><span class="pbadge">20 pts</span></div>
-        <div class="prow"><span>Pari doublé (×2)</span><span class="pbadge x2">×2</span></div>
-        <div class="prow"><span>1 bonus ×2 max / semaine</span><span style="color:var(--gold)">📅</span></div>
-      </div>
-    </div>
+
+    <!-- GROUPS -->
     <div class="tc" id="tab-groups">
       <div class="sh"><div class="st">👥 Groupes</div></div>
       <div id="groups-content"></div>
-      <!-- JOIN BY CODE — for members -->
-      <div id="join-code-section" class="gbox" style="background:rgba(232,184,75,0.03);border-color:rgba(232,184,75,0.2)">
-        <h3 style="margin-bottom:4px">🔑 Rejoindre un autre groupe</h3>
+      <div class="gbox" style="background:rgba(232,184,75,0.03);border-color:rgba(232,184,75,0.2);margin-bottom:12px">
+        <h3 style="margin-bottom:4px">🔑 Rejoindre avec un code</h3>
         <p>Entrez le code donné par l'organisateur</p>
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
           <input class="code-input" type="text" id="join-code" placeholder="XXXXXX" maxlength="6" style="flex:1;min-width:150px" oninput="this.value=this.value.toUpperCase()">
           <button class="btn btn-gold" onclick="joinByCode('join-code')">Rejoindre →</button>
         </div>
       </div>
-      <!-- CREATE GROUP — admin only -->
-      <div id="create-group-section" class="gbox hidden" style="border-style:dashed;text-align:center;border-color:var(--bd2)">
-        <h3 style="margin-bottom:8px;color:var(--gold)">+ Créer un nouveau groupe</h3>
-        <div class="fg" style="max-width:300px;margin:0 auto 12px"><input type="text" id="new-gname" placeholder="Ex: Collègues, Amis, Famille..." maxlength="30"></div>
+      <div class="gbox hidden" id="create-group-section" style="border-style:dashed;text-align:center;border-color:var(--bd2)">
+        <h3 style="margin-bottom:8px;color:var(--gold)">+ Créer un groupe</h3>
+        <div class="fg" style="max-width:300px;margin:0 auto 12px"><input type="text" id="new-gname" placeholder="Ex: Collègues, Amis..." maxlength="30"></div>
         <button class="btn btn-gold btn-sm" onclick="createGroup()">Créer le groupe</button>
       </div>
     </div>
+
+    <!-- ADMIN -->
     <div class="tc" id="tab-admin">
       <div class="sh"><div class="st">⚙️ Administration</div></div>
-
-      <!-- ADMIN GATE — shown to non-admins -->
+      <!-- GATE for non-admins -->
       <div id="admin-gate" style="display:none">
         <div style="text-align:center;padding:40px 20px">
-          <div style="font-size:48px;margin-bottom:16px">🔒</div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--gold);margin-bottom:8px">Accès restreint</div>
-          <div style="font-size:13px;color:var(--muted2);margin-bottom:24px">Cette section est réservée à l'administrateur</div>
-          <div style="max-width:300px;margin:0 auto">
+          <div style="font-size:48px;margin-bottom:14px">🔒</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);margin-bottom:6px">Accès restreint</div>
+          <div style="font-size:13px;color:var(--muted2);margin-bottom:22px">Réservé à l'administrateur</div>
+          <div style="max-width:280px;margin:0 auto">
             <div class="fg"><label>Mot de passe admin</label>
-              <input type="password" id="gate-pass" placeholder="••••••••"
-                onkeydown="if(event.key==='Enter') verifyAdminGate()">
+              <input type="password" id="gate-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')verifyAdminGate()">
             </div>
             <button class="btn-auth" onclick="verifyAdminGate()">Accéder →</button>
             <div id="gate-err" class="err" style="margin-top:8px"></div>
           </div>
         </div>
       </div>
-
-      <!-- ADMIN CONTENT — shown only after auth -->
+      <!-- ADMIN CONTENT -->
       <div id="admin-content" style="display:none">
-        <div class="bnote">🤖 Scores récupérés <strong>automatiquement</strong> depuis ESPN toutes les 60 secondes. Le bracket knockout est mis à jour en temps réel. Utilisez la correction manuelle uniquement en cas d'anomalie.</div>
+        <div class="bnote">🤖 Scores ESPN automatiques toutes les 60s. Bracket knockout mis à jour en temps réel.</div>
+        <div class="sh" style="margin-top:4px"><div class="st" style="font-size:16px;color:var(--muted2)">👥 GROUPES</div></div>
         <div id="admin-groups-section"></div>
         <hr style="border-color:var(--bd);margin:16px 0">
         <div class="sh"><div class="st" style="font-size:16px;color:var(--muted2)">👤 TOUS LES JOUEURS</div></div>
@@ -829,7 +765,7 @@ input{font-family:'Inter',sans-serif}
           <p style="color:var(--muted);font-size:13px;padding:14px">Chargement...</p>
         </div>
         <hr style="border-color:var(--bd);margin:16px 0">
-        <div class="sh"><div class="st" style="font-size:16px;color:var(--muted2)">CORRECTION MANUELLE</div></div>
+        <div class="sh"><div class="st" style="font-size:16px;color:var(--muted2)">📊 SCORES MANUELS</div></div>
         <div class="frow" id="admin-frow"></div>
         <div id="admin-list"></div>
       </div>
@@ -841,21 +777,23 @@ input{font-family:'Inter',sans-serif}
     <button class="bnav" onclick="showTab('leaderboard')" id="bnav-leaderboard"><span class="ni">🏆</span><span>Classement</span></button>
     <button class="bnav" onclick="showTab('chat')" id="bnav-chat"><span class="ni">💬</span><span>Chat</span></button>
     <button class="bnav" onclick="showTab('groups')" id="bnav-groups"><span class="ni">👥</span><span>Groupes</span></button>
-    <button class="bnav hidden" onclick="showTab('admin')" id="bnav-admin"><span class="ni">⚙️</span><span>Admin</span></button>
+    <button class="bnav" onclick="showTab('admin')" id="bnav-admin"><span class="ni">⚙️</span><span>Admin</span></button>
   </nav>
 </div>
 
-<!-- MODALS -->
+<!-- MODAL DOUBLE -->
 <div class="overlay" id="modal-double">
   <div class="modal">
     <h3>🔥 PARI DOUBLÉ</h3>
-    <p>Activez le ×2 sur ce match ?<br>Vos points sont <strong style="color:var(--gold)">doublés</strong> si vous avez raison — <strong style="color:var(--red)">0 point</strong> sinon.<br><br>⚠️ <strong>1 seul bonus ×2 par semaine.</strong></p>
+    <p>Activez le ×2 sur ce match ?<br>Points <strong style="color:var(--gold)">doublés</strong> si vous avez raison — <strong style="color:var(--red)">0 point</strong> sinon.<br><br>⚠️ <strong>1 seul bonus ×2 par semaine.</strong></p>
     <div class="mact">
       <button class="btn btn-out" onclick="closeModal('modal-double')">Annuler</button>
       <button class="btn btn-red" onclick="confirmDouble()">Je prends le risque !</button>
     </div>
   </div>
 </div>
+
+<!-- MODAL DETAIL PARIS -->
 <div class="overlay" id="modal-detail">
   <div class="modal" style="max-width:500px;text-align:left">
     <h3 id="detail-title" style="margin-bottom:12px">Paris du groupe</h3>
@@ -864,38 +802,34 @@ input{font-family:'Inter',sans-serif}
   </div>
 </div>
 
-
-<!-- NOTIFICATION PERMISSION BANNER -->
+<!-- NOTIF BANNER -->
 <div class="notif-banner" id="notif-banner">
   <div class="notif-banner-icon">🔔</div>
   <div class="notif-banner-text">
     <strong>Rappels avant les matchs</strong>
-    <span>Recevez une alerte 2h et 30min avant chaque match pour ne pas oublier de parier</span>
+    <span>Alerte 2h et 30min avant chaque match</span>
   </div>
   <button class="notif-enable-btn" onclick="enableNotifs()">Activer</button>
   <button class="notif-dismiss" onclick="dismissNotifBanner()">✕</button>
 </div>
 
-
-<!-- IN-APP MESSAGE CONTAINER -->
+<!-- IN-APP MESSAGE -->
 <div class="inapp-msg" id="inapp-msg">
   <div class="inapp-msg-icon" id="inapp-icon">📢</div>
   <div class="inapp-msg-body">
-    <strong id="inapp-title">Titre</strong>
-    <span id="inapp-body">Message</span>
+    <strong id="inapp-title"></strong>
+    <span id="inapp-body"></span>
   </div>
   <button class="inapp-msg-action gold hidden" id="inapp-action-btn"></button>
   <button class="inapp-msg-close" onclick="closeInAppMsg()">✕</button>
 </div>
 
-<div class="toast" id="toast"></div>
-
-<!-- PWA INSTALL BANNER (Android/Desktop) -->
+<!-- PWA INSTALL BANNER -->
 <div class="pwa-banner" id="pwa-banner">
   <div class="pwa-banner-icon">⚽</div>
   <div class="pwa-banner-text">
     <strong>Installer l'application</strong>
-    <span>Accédez à World Cup 2026 directement depuis votre écran d'accueil</span>
+    <span>Accédez depuis votre écran d'accueil</span>
   </div>
   <div class="pwa-banner-actions">
     <button class="pwa-install-btn" id="pwa-install-btn">Installer</button>
@@ -903,57 +837,49 @@ input{font-family:'Inter',sans-serif}
   </div>
 </div>
 
-<!-- iOS INSTALL HINT -->
 <div class="ios-hint" id="ios-hint">
   <button class="ios-close" onclick="dismissPWA()">✕</button>
-  <p>Pour installer <strong>World Cup 2026</strong> sur votre iPhone :<br>
-  Appuyez sur <strong>⎙ Partager</strong> puis <strong>"Sur l'écran d'accueil"</strong></p>
-  <div class="ios-arrow">⬇️</div>
+  <p>Appuyez sur <strong>⎙ Partager</strong> puis <strong>"Sur l'écran d'accueil"</strong></p>
 </div>
 
+<div class="toast" id="toast"></div>
 
-<!-- FIREBASE SDK -->
 <script>
-// FALLBACK: if module script fails to load, show auth after 4s
 window.__appStarted = false;
+window.saveFirebaseConfig = function() { location.reload(); };
 setTimeout(() => {
   if (!window.__appStarted) {
     document.getElementById('screen-splash').classList.remove('active');
-    document.getElementById('screen-setup').classList.remove('active');
     document.getElementById('screen-auth').classList.add('active');
   }
 }, 10000);
 </script>
+
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getDatabase, ref, set, get, update, remove, onValue, off, push, serverTimestamp }
+import { getDatabase, ref, set, get, update, remove, onValue, off, push }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 import { getMessaging, getToken, onMessage }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging.js';
 
-// ================================================
-// FIREBASE CONFIG — hardcoded
-// ================================================
-function getFirebaseConfig() {
-  return {
-    apiKey: "AIzaSyCdm6T0RlBvnFFgXuGB3-q5EtTcci7p6LI",
-    authDomain: "world-cup-2026-1b9ee.firebaseapp.com",
-    databaseURL: "https://world-cup-2026-1b9ee-default-rtdb.firebaseio.com",
-    projectId: "world-cup-2026-1b9ee",
-    storageBucket: "world-cup-2026-1b9ee.firebasestorage.app",
-    messagingSenderId: "349637498450",
-    appId: "1:349637498450:web:70be216f600622526d718b"
-  };
-}
-function saveFirebaseConfig() {
-  document.getElementById('screen-setup').classList.remove('active');
-  initApp();
-}
-window.saveFirebaseConfig = saveFirebaseConfig;
+// ========================================
+// CONFIG
+// ========================================
+const FIREBASE_CFG = {  apiKey: "AIzaSyCdm6T0RlBvnFFgXuGB3-q5EtTcci7p6LI",
+  authDomain: "world-cup-2026-1b9ee.firebaseapp.com",
+  databaseURL: "https://world-cup-2026-1b9ee-default-rtdb.firebaseio.com",
+  projectId: "world-cup-2026-1b9ee",
+  storageBucket: "world-cup-2026-1b9ee.firebasestorage.app",
+  messagingSenderId: "349637498450",
+  appId: "1:349637498450:web:70be216f600622526d718b" };
+const ADMIN_PASS = 'wc2026admin';
+const VAPID_KEY = 'BM75R5l_y22m8apv2l3xgDa5UjVZ2qpffUyNWcDcJ2HSV8WmuZYU3qsPEkT5OSYXjB1HdDphtQztDQnv_noldy0';
+let messaging = null;
+let db;
 
-// ================================================
+// ========================================
 // MATCHES DATA
-// ================================================
+// ========================================
 const MATCHES = [
   {id:'a1',h:'🇲🇽',hn:'Mexique',hc:'MEX',a:'🇿🇦',an:'Afrique du Sud',ac:'RSA',dt:'2026-06-11',tm:'21:00',gr:'A',ve:'Mexico City'},
   {id:'a2',h:'🇰🇷',hn:'Corée du Sud',hc:'KOR',a:'🇨🇿',an:'Tchéquie',ac:'CZE',dt:'2026-06-12',tm:'04:00',gr:'A',ve:'Guadalajara'},
@@ -1065,644 +991,445 @@ const MATCHES = [
 const GROUP_MATCHES = {};
 'ABCDEFGHIJKL'.split('').forEach(g => { GROUP_MATCHES[g] = MATCHES.filter(m => m.gr === g); });
 
-// ================================================
-// BRACKET ENGINE
-// ================================================
-function getGroupStandings(grp, results) {
-  const ms = GROUP_MATCHES[grp] || [];
-  const teams = {};
-  ms.forEach(m => {
-    [m.hc, m.ac].forEach(c => {
-      if (!teams[c]) teams[c] = { code:c, name:m.hc===c?m.hn:m.an, flag:m.hc===c?m.h:m.a, pts:0, gd:0, gf:0 };
-    });
-    const r = results[m.id];
-    if (!r || r.home === undefined) return;
-    const hg = +r.home, ag = +r.away;
-    teams[m.hc].gf += hg; teams[m.hc].gd += (hg - ag);
-    teams[m.ac].gf += ag; teams[m.ac].gd += (ag - hg);
-    if (hg > ag) { teams[m.hc].pts += 3; }
-    else if (ag > hg) { teams[m.ac].pts += 3; }
-    else { teams[m.hc].pts += 1; teams[m.ac].pts += 1; }
-  });
-  return Object.values(teams).sort((a,b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf);
-}
-
-// FIX: Recursive bracket resolution — propagates winners through all KO rounds
-function resolveKnockoutTeams(results) {
-  const R = {};
-
-  // Step 1: Group stage standings
-  'ABCDEFGHIJKL'.split('').forEach(g => {
-    const s = getGroupStandings(g, results);
-    R[g+'1'] = s[0] ? {name:s[0].name, flag:s[0].flag} : {name:`1er Gr.${g}`, flag:'🏆'};
-    R[g+'2'] = s[1] ? {name:s[1].name, flag:s[1].flag} : {name:`2e Gr.${g}`, flag:'🏆'};
-    R[g+'3'] = s[2] ? {name:s[2].name, flag:s[2].flag} : {name:`3e Gr.${g}`, flag:'🏆'};
-  });
-  R['3rd?'] = {name:'Meilleur 3e', flag:'🏆'};
-
-  // Step 2: Resolve a single KO match — look up teams recursively from R
-  function resolveMatch(matchId) {
-    const r = results[matchId];
-    const m = MATCHES.find(x => x.id === matchId);
-    if (!m) return;
-
-    // Get home and away teams (may reference W-xxx keys already resolved)
-    const ht = R[m.hc] || (m.hn ? {name:m.hn, flag:m.h||'🏆'} : {name:m.hc, flag:'🏆'});
-    const at = R[m.ac] || (m.an ? {name:m.an, flag:m.a||'🏆'} : {name:m.ac, flag:'🏆'});
-
-    // Always set placeholder so next rounds show something
-    R['W-'+matchId] = R['W-'+matchId] || {name:'Vainq. '+matchId, flag:'🏆'};
-    R['L-'+matchId] = R['L-'+matchId] || {name:'Perd. '+matchId, flag:'🏆'};
-
-    // If result exists, set actual winner/loser
-    if (r && r.home !== undefined) {
-      const w = +r.home >= +r.away ? ht : at;
-      const l = +r.home >= +r.away ? at : ht;
-      R['W-'+matchId] = w;
-      R['L-'+matchId] = l;
-    }
-  }
-
-  // Step 3: Process in order (R32 → R16 → QF → SF → Final)
-  // R32
-  for (let i=1;i<=16;i++) resolveMatch('r32_'+i);
-  // R16
-  for (let i=1;i<=8;i++) resolveMatch('r16_'+i);
-  // QF
-  for (let i=1;i<=4;i++) resolveMatch('qf'+i);
-  // SF
-  resolveMatch('sf1'); resolveMatch('sf2');
-  // 3rd place + Final
-  resolveMatch('p3rd'); resolveMatch('final');
-
-  return R;
-}
-
-function enrichMatch(m, R) {
-  if (m.hn) return m;
-  const ht = R[m.hc] || {name:m.hc,flag:'🏆'};
-  const at = R[m.ac] || {name:m.ac,flag:'🏆'};
-  return {...m, h:ht.flag, hn:ht.name, a:at.flag, an:at.name};
-}
-
-// ================================================
+// ========================================
 // STATE
-// ================================================
-const ADMIN_PASS = 'wc2026admin';
-const VAPID_KEY = 'BM75R5l_y22m8apv2l3xgDa5UjVZ2qpffUyNWcDcJ2HSV8WmuZYU3qsPEkT5OSYXjB1HdDphtQztDQnv_noldy0';
-let messaging = null;
-let ME = null;
-let CUR_GROUP = null;
-let FILTER = 'all';
-let ADMIN_FILTER = 'all';
+// ========================================
+let ME = null, CUR_GROUP = null, FILTER = 'all', ADMIN_FILTER = 'all';
 let pendingDouble = null;
-let DB_users = {};
-let DB_groups = {};
-let DB_results = {};  // global results shared across all groups
-let DB_bets = {};     // { groupId: { userId: { matchId: {home,away,double} } } }
-let DB_doubles = {};  // { groupId: { userId: { weekKey: matchId } } }
-let DB_members = {};  // { groupId: [userIds] }
-let DB_groupMeta = {};// { groupId: {name, adminUser, createdAt} }
-let listeners = [];
-let db;
+let DB_users = {}, DB_groups = {}, DB_bets = {}, DB_doubles = {};
+let DB_members = {}, DB_groupMeta = {}, DB_results = {};
+const _activeListeners = {};
 
-// ================================================
+// ========================================
 // FIREBASE INIT
-// ================================================
-const fbCfg = getFirebaseConfig();
-// Config is hardcoded — always initialize directly
+// ========================================
 try {
-  const app = initializeApp(fbCfg);
+  const app = initializeApp(FIREBASE_CFG);
   db = getDatabase(app);
-  setTimeout(initApp, 500);
+  setTimeout(initApp, 600);
 } catch(e) {
   console.error('Firebase init error:', e);
-  window.__appStarted = true;
   document.getElementById('screen-splash').classList.remove('active');
-  document.getElementById('screen-setup').classList.remove('active');
   document.getElementById('screen-auth').classList.add('active');
-  document.getElementById('login-err').textContent = '⚠️ Erreur Firebase: ' + e.message;
 }
 
 async function initApp() {
   window.__appStarted = true;
   document.getElementById('screen-splash').classList.remove('active');
-  document.getElementById('screen-setup').classList.remove('active');
   document.getElementById('screen-auth').classList.add('active');
   setSyncStatus('connected');
-  // Init FCM
-  try {
-    messaging = getMessaging();
-    // Listen for foreground messages
-    onMessage(messaging, (payload) => {
-      const title = payload.notification?.title || 'World Cup 2026';
-      const body = payload.notification?.body || '';
-      toast('🔔 ' + title + ' — ' + body, 5000);
-    });
-  } catch(e) { console.log('FCM init:', e); }
-  // Listen for global results (scores)
+  // Listen for global results
   const resRef = ref(db, 'results');
   onValue(resRef, snap => {
     const newResults = snap.val() || {};
-    if (ME && !ME.isAdmin && Object.keys(_prevResults).length > 0) {
-      checkNewResults(newResults);
-    }
+    if (ME && !ME.isAdmin && Object.keys(DB_results).length > 0) checkNewResults(newResults);
     DB_results = newResults;
-    if (ME) { renderMatches(); renderLeaderboard(); renderStats(); if (ACTIVE_TAB === 'admin') renderAdmin(); }
+    if (ME) { renderMatches(); renderLeaderboard(); renderStats(); if (ACTIVE_TAB==='admin') renderAdmin(); }
   });
-  // Check invite
   checkInvite();
-  // Auto-fetch ESPN scores every 60s — no admin needed, runs server-side via client
   setInterval(autoFetchScores, 60000);
   autoFetchScores();
-  // Load session
+  // FCM
+  try {
+    messaging = getMessaging();
+    onMessage(messaging, p => toast('🔔 ' + (p.notification?.title||'') + ' — ' + (p.notification?.body||''), 5000));
+  } catch(e) {}
+  // Session restore
   const saved = localStorage.getItem('wc2026_me');
   if (saved) {
     ME = JSON.parse(saved);
-    // SECURITY: strip isAdmin — only real admin login grants it
     if (ME.username !== 'admin') ME.isAdmin = false;
     await loadUserData();
     enterApp();
-  } else {
-    document.getElementById('screen-auth').classList.add('active');
   }
 }
 
-// ================================================
-// AUTO SCORE FETCH — ALL clients run this, Firebase deduplicates
-// ================================================
-async function autoFetchScores() {
-  try {
-    const r = await fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard');
-    const data = await r.json();
-    const events = data.events || [];
-    const updates = {};
-    events.forEach(ev => {
-      const comp = ev.competitions?.[0]; if (!comp) return;
-      const status = comp.status?.type?.name;
-      const isFinal = status === 'STATUS_FINAL';
-      const isLive = ['STATUS_IN_PROGRESS','STATUS_HALFTIME'].includes(status);
-      if (!isFinal && !isLive) return;
-      const home = comp.competitors?.find(c => c.homeAway === 'home');
-      const away = comp.competitors?.find(c => c.homeAway === 'away');
-      if (!home || !away) return;
-      const hScore = +home.score, aScore = +away.score;
-      const hAbbr = (home.team?.abbreviation || '').toUpperCase();
-      const aAbbr = (away.team?.abbreviation || '').toUpperCase();
-      const hFull = (home.team?.shortDisplayName || '').toLowerCase();
-      const aFull = (away.team?.shortDisplayName || '').toLowerCase();
-      const match = MATCHES.find(m => {
-        if (!m.hn) return false;
-        const mh = (m.hc||'').toUpperCase(), ma = (m.ac||'').toUpperCase();
-        const mhn = (m.hn||'').toLowerCase(), man = (m.an||'').toLowerCase();
-        return (mh === hAbbr || mhn.includes(hFull.split(' ')[0]) || hFull.includes(mhn.split(' ')[0])) &&
-               (ma === aAbbr || man.includes(aFull.split(' ')[0]) || aFull.includes(man.split(' ')[0]));
-      });
-      if (match) {
-        const key = match.id.replace(/[^a-zA-Z0-9_]/g, '_');
-        updates[key] = { home: hScore, away: aScore, live: isLive, ts: Date.now() };
-        if (isFinal) delete updates[key].live;
-      }
-    });
-    if (Object.keys(updates).length > 0) {
-      await update(ref(db, 'results'), updates);
-      setSyncStatus('connected');
-      document.getElementById('last-refresh')?.setAttribute && null;
-    }
-  } catch(e) { setSyncStatus('error'); }
-}
+// ========================================
+// SECURITY
+// ========================================
+function hashPass(pw, u) { return CryptoJS.SHA256(pw + u.toLowerCase()).toString(); }
+function escHtml(s) { return s ? String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') : ''; }
 
-// ================================================
-// SYNC STATUS
-// ================================================
-let ACTIVE_TAB = 'matches';
-function setSyncStatus(state) {
-  const dot = document.getElementById('sync-dot');
-  const lbl = document.getElementById('sync-label');
-  if (!dot) return;
-  dot.className = 'sync-dot' + (state === 'error' ? ' off' : state === 'syncing' ? ' sync' : '');
-  if (lbl) lbl.textContent = state === 'connected' ? 'Sync · ' + new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}) : state === 'error' ? 'Hors ligne' : 'Sync...';
-}
-
-// ================================================
+// ========================================
 // UTILS
-// ================================================
-function getWeekKey(dateStr) { const d=new Date(dateStr); const j=new Date(d.getFullYear(),0,1); return d.getFullYear()+'-W'+Math.ceil(((d-j)/86400000+j.getDay()+1)/7); }
+// ========================================
+let ACTIVE_TAB = 'matches';
+function getWeekKey(d) { const dt=new Date(d); const j=new Date(dt.getFullYear(),0,1); return dt.getFullYear()+'-W'+Math.ceil(((dt-j)/86400000+j.getDay()+1)/7); }
 function getURLParam(p) { return new URLSearchParams(window.location.search).get(p); }
-function toast(msg, d=2800) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),d); }
+function toast(msg, dur=2800) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),dur); }
 function fmtDate(s) { return new Date(s).toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'}); }
 function uid() { return Math.random().toString(36).slice(2,10); }
-function closeModal(id) { document.getElementById(id).classList.remove('show'); }
-function isAdmin() { return ME?.isAdmin; }
-
-// ================================================
-// AUTH
-// ================================================
-function switchAuthTab(tab) {
-  document.querySelectorAll('.atab').forEach(b=>b.classList.remove('active'));
-  ['form-login','form-register'].forEach(id=>document.getElementById(id).classList.add('hidden'));
-  if (tab==='login') { document.querySelectorAll('.atab')[0].classList.add('active'); document.getElementById('form-login').classList.remove('hidden'); }
-  else { document.querySelectorAll('.atab')[1].classList.add('active'); document.getElementById('form-register').classList.remove('hidden'); }
-}
-window.switchAuthTab = switchAuthTab;
-
-function initEP() {
-  const teams = [
-    {f:'🇦🇷',n:'Argentine'},{f:'🇫🇷',n:'France'},{f:'🇧🇷',n:'Brésil'},
-    {f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',n:'Angleterre'},{f:'🇩🇪',n:'Allemagne'},{f:'🇪🇸',n:'Espagne'},
-    {f:'🇵🇹',n:'Portugal'},{f:'🇳🇱',n:'Pays-Bas'},{f:'🇧🇪',n:'Belgique'},
-    {f:'🇺🇸',n:'USA'},{f:'🇲🇽',n:'Mexique'},{f:'🇨🇦',n:'Canada'},
-    {f:'🇯🇵',n:'Japon'},{f:'🇰🇷',n:'Corée du Sud'},{f:'🇲🇦',n:'Maroc'},
-    {f:'🇸🇳',n:'Sénégal'},{f:'🇩🇿',n:'Algérie'},{f:'🇨🇮',n:"Côte d'Ivoire"},
-    {f:'🇪🇬',n:'Égypte'},{f:'🇬🇭',n:'Ghana'},{f:'🇨🇩',n:'RD Congo'},
-    {f:'🇺🇾',n:'Uruguay'},{f:'🇨🇴',n:'Colombie'},{f:'🇵🇾',n:'Paraguay'},
-    {f:'🇪🇨',n:'Équateur'},{f:'🇨🇭',n:'Suisse'},{f:'🇨🇿',n:'Tchéquie'},
-    {f:'🇭🇷',n:'Croatie'},{f:'🇦🇹',n:'Autriche'},{f:'🇹🇷',n:'Türkiye'},
-    {f:'🇺🇦',n:'Ukraine'},{f:'🇵🇦',n:'Panama'},{f:'🇶🇦',n:'Qatar'},
-    {f:'🇸🇦',n:'Arabie S.'},{f:'🇮🇷',n:'Iran'},{f:'🇯🇴',n:'Jordanie'},
-    {f:'🇦🇺',n:'Australie'},{f:'🇳🇿',n:'N-Zélande'},{f:'🇺🇿',n:'Ouzbékistan'},
-    {f:'🇹🇳',n:'Tunisie'},{f:'🇿🇦',n:'Afrique du Sud'},{f:'🇳🇴',n:'Norvège'},
-    {f:'🇧🇦',n:'Bosnie'},{f:'🇨🇻',n:'Cap-Vert'},{f:'🇭🇹',n:'Haïti'},
-    {f:'🇮🇶',n:'Irak'},{f:'🇨🇼',n:'Curaçao'},{f:'🇵🇹',n:'Portugal'},
-  ];
-  // Remove duplicates
-  const seen = new Set();
-  const unique = teams.filter(t => { if(seen.has(t.n)) return false; seen.add(t.n); return true; });
-  window._epTeams = unique;
-
-  document.getElementById('ep').innerHTML = unique.map((t, i) =>
-    `<div data-idx="${i}" data-flag="${encodeURIComponent(t.f)}" onclick="pickE(${i})"
-      style="cursor:pointer;display:flex;flex-direction:column;align-items:center;
-      gap:3px;padding:8px 6px;border-radius:10px;border:2px solid transparent;
-      transition:all .15s;min-width:52px;text-align:center;background:transparent"
-      id="ep_${i}">
-      <img src="https://cdnflags.netlify.app/${t.n}.png"
-           onerror="this.style.display='none';this.nextElementSibling.style.fontSize='32px'"
-           style="width:36px;height:24px;object-fit:cover;border-radius:3px">
-      <span style="font-size:24px;display:none">${t.f}</span>
-      <span style="font-size:9px;color:var(--muted2);font-weight:500;letter-spacing:.2px;line-height:1.2;max-width:52px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.n}</span>
-    </div>`
-  ).join('');
-
-  // Actually use inline SVG flags via twemoji approach — just use the emoji directly
-  // Reset to simpler approach: large emoji + name, no image loading
-  document.getElementById('ep').innerHTML = unique.map((t, i) =>
-    `<div data-idx="${i}" onclick="pickE(${i})"
-      style="cursor:pointer;display:flex;flex-direction:column;align-items:center;
-      gap:3px;padding:8px 6px;border-radius:10px;border:2px solid transparent;
-      transition:all .15s;min-width:52px;text-align:center;background:transparent"
-      id="ep_${i}">
-      <span style="font-size:30px;line-height:1.1;display:block">${t.f}</span>
-      <span style="font-size:9px;color:var(--muted2);font-weight:600;letter-spacing:.2px;line-height:1.2;max-width:52px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.n}</span>
-    </div>`
-  ).join('');
-
-  pickE(0);
+window.closeModal = function(id) { document.getElementById(id).classList.remove('show'); };
+function isAdmin() { return ME?.isAdmin===true; }
+function isMatchLocked(m) { return new Date() >= new Date(m.dt+'T'+m.tm+':00Z'); }
+function setSyncStatus(s) {
+  const dot=document.getElementById('sync-dot'), lbl=document.getElementById('sync-label');
+  if(dot) dot.className='sync-dot'+(s==='error'?' off':s==='syncing'?' sync':'');
+  if(lbl) lbl.textContent=s==='connected'?'Sync · '+new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}):s==='error'?'Hors ligne':'Sync...';
 }
 
-window.pickE = function(idx) {
-  const teams = window._epTeams || [];
-  if (idx >= teams.length) return;
-  const flag = teams[idx].f;
-  document.getElementById('re').value = flag;
-  // Reset all
-  document.querySelectorAll('#ep > div').forEach(d => {
-    d.style.borderColor = 'transparent';
-    d.style.background = 'transparent';
+// ========================================
+// LISTENERS CLEANUP
+// ========================================
+function cleanupGroupListeners(gid) {
+  if (_activeListeners[gid]) { _activeListeners[gid].forEach(r=>{ try{off(r);}catch(e){} }); delete _activeListeners[gid]; }
+}
+function cleanupAllListeners() { Object.keys(_activeListeners).forEach(cleanupGroupListeners); }
+
+// ========================================
+// POINTS
+// ========================================
+function calcPts(bet, result) {
+  if (!bet||result?.home===undefined) return null;
+  const bH=+bet.home,bA=+bet.away,rH=+result.home,rA=+result.away;
+  if (isNaN(bH)||isNaN(bA)) return null;
+  let p=0;
+  if (bH===rH&&bA===rA) { p=30; }
+  else { const br=bH>bA?1:bH<bA?-1:0,rr=rH>rA?1:rH<rA?-1:0; if(br===rr){p=rr===0?20:(bH-bA)===(rH-rA)?20:10;} }
+  if (bet.double&&p>0) p*=2;
+  return p;
+}
+function getScoreForGroup(username, gid) {
+  const bets=(DB_bets[gid]||{})[username]||{};
+  let total=0,exact=0,betCount=0,dblCount=0;
+  MATCHES.forEach(m=>{
+    const bet=bets[m.id],result=DB_results[m.id];
+    if(bet&&bet.home!==undefined&&bet.away!==undefined) betCount++;
+    if(bet?.double) dblCount++;
+    if(result?.home!==undefined){const p=calcPts(bet,result);if(p!==null)total+=p;if(bet&&+bet.home===+result.home&&+bet.away===+result.away)exact++;}
   });
-  // Highlight selected
-  const el = document.getElementById('ep_' + idx);
-  if (el) {
-    el.style.borderColor = 'var(--gold)';
-    el.style.background = 'rgba(232,184,75,0.12)';
+  return {total,exact,bets:betCount,doubles:dblCount};
+}
+function getScore(u) { return CUR_GROUP?getScoreForGroup(u,CUR_GROUP):{total:0,exact:0,bets:0,doubles:0}; }
+
+// ========================================
+// BRACKET ENGINE
+// ========================================
+function getGroupStandings(grp, results) {
+  const ms=GROUP_MATCHES[grp]||[], teams={};
+  ms.forEach(m=>{
+    [m.hc,m.ac].forEach(c=>{ if(!teams[c]) teams[c]={code:c,name:m.hc===c?m.hn:m.an,flag:m.hc===c?m.h:m.a,pts:0,gd:0,gf:0}; });
+    const r=results[m.id]; if(!r||r.home===undefined) return;
+    const hg=+r.home,ag=+r.away;
+    teams[m.hc].gf+=hg; teams[m.hc].gd+=(hg-ag);
+    teams[m.ac].gf+=ag; teams[m.ac].gd+=(ag-hg);
+    if(hg>ag){teams[m.hc].pts+=3;}else if(ag>hg){teams[m.ac].pts+=3;}else{teams[m.hc].pts+=1;teams[m.ac].pts+=1;}
+  });
+  return Object.values(teams).sort((a,b)=>b.pts-a.pts||b.gd-a.gd||b.gf-a.gf);
+}
+function resolveKnockoutTeams(results) {
+  const R={};
+  'ABCDEFGHIJKL'.split('').forEach(g=>{
+    const s=getGroupStandings(g,results);
+    R[g+'1']=s[0]?{name:s[0].name,flag:s[0].flag}:{name:'1er Gr.'+g,flag:'🏆'};
+    R[g+'2']=s[1]?{name:s[1].name,flag:s[1].flag}:{name:'2e Gr.'+g,flag:'🏆'};
+    R[g+'3']=s[2]?{name:s[2].name,flag:s[2].flag}:{name:'3e Gr.'+g,flag:'🏆'};
+  });
+  R['3rd?']={name:'Meilleur 3e',flag:'🏆'};
+  function resolveMatch(id) {
+    const r=results[id],m=MATCHES.find(x=>x.id===id); if(!m) return;
+    const ht=R[m.hc]||(m.hn?{name:m.hn,flag:m.h||'🏆'}:{name:m.hc,flag:'🏆'});
+    const at=R[m.ac]||(m.an?{name:m.an,flag:m.a||'🏆'}:{name:m.ac,flag:'🏆'});
+    R['W-'+id]=R['W-'+id]||{name:'Vainq.'+id,flag:'🏆'};
+    R['L-'+id]=R['L-'+id]||{name:'Perd.'+id,flag:'🏆'};
+    if(r&&r.home!==undefined){const w=+r.home>=+r.away?ht:at,l=+r.home>=+r.away?at:ht;R['W-'+id]=w;R['L-'+id]=l;}
   }
+  for(let i=1;i<=16;i++) resolveMatch('r32_'+i);
+  for(let i=1;i<=8;i++) resolveMatch('r16_'+i);
+  for(let i=1;i<=4;i++) resolveMatch('qf'+i);
+  resolveMatch('sf1');resolveMatch('sf2');resolveMatch('p3rd');resolveMatch('final');
+  return R;
+}
+function enrichMatch(m,R) {
+  if(m.hn) return m;
+  const ht=R[m.hc]||{name:m.hc,flag:'🏆'},at=R[m.ac]||{name:m.ac,flag:'🏆'};
+  return {...m,h:ht.flag,hn:ht.name,a:at.flag,an:at.name};
+}
+
+// ========================================
+// AUTH
+// ========================================
+window.switchAuthTab = function(tab) {
+  document.querySelectorAll('.atab').forEach(b=>b.classList.remove('active'));
+  ['form-login','form-register','form-admin'].forEach(id=>document.getElementById(id).classList.add('hidden'));
+  if(tab==='login'){document.querySelectorAll('.atab')[0].classList.add('active');document.getElementById('form-login').classList.remove('hidden');}
+  else{document.querySelectorAll('.atab')[1].classList.add('active');document.getElementById('form-register').classList.remove('hidden');}
+};
+window.showAdminLogin = function() {
+  ['form-login','form-register'].forEach(id=>document.getElementById(id).classList.add('hidden'));
+  document.getElementById('form-admin').classList.remove('hidden');
+  document.querySelectorAll('.atab').forEach(b=>b.classList.remove('active'));
+};
+window.showNormalLogin = function() {
+  document.getElementById('form-admin').classList.add('hidden');
+  document.getElementById('form-login').classList.remove('hidden');
+  document.querySelectorAll('.atab')[0].classList.add('active');
 };
 
-initEP();
-
-
-
-// SECURITY: XSS protection helper
-function escHtml(str) {
-  if (!str) return '';
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
-
-// SECURITY: Hash password with SHA-256 before storing/comparing
-function hashPass(password, username) {
-  return CryptoJS.SHA256(password + username.toLowerCase()).toString();
-}
-
 async function doLogin() {
-  const u = document.getElementById('lu').value.trim().toLowerCase();
-  const p = document.getElementById('lp').value;
-  const errEl = document.getElementById('login-err');
-  errEl.textContent = '';
-  if (!u || !p) return (errEl.textContent = '⚠️ Remplissez tous les champs');
-  // Admin login
-  if (u === 'admin' && p === ADMIN_PASS) {
-    ME = {username:'admin', emoji:'🛡️', isAdmin:true};
-    localStorage.setItem('wc2026_me', JSON.stringify(ME));
-    await loadUserData();
-    return enterApp();
-  }
-  // Wrong admin password
-  if (u === 'admin' && p !== ADMIN_PASS) {
-    return (errEl.textContent = '❌ Mot de passe incorrect');
-  }
-  const snap = await get(ref(db, `users/${u}`));
-  if (!snap.exists()) return (errEl.textContent = '❌ Pseudo introuvable');
-  const ud = snap.val();
-  // SECURITY: Compare hashed password
-  const hashed = hashPass(p, u);
-  if (ud.pass !== hashed) return (errEl.textContent = '❌ Mot de passe incorrect');
-  // SECURITY: Explicitly set isAdmin:false + clear any admin session
-  ME = {username:u, emoji:ud.emoji, isAdmin:false};
+  const u=document.getElementById('lu').value.trim().toLowerCase();
+  const p=document.getElementById('lp').value;
+  const errEl=document.getElementById('login-err');
+  errEl.textContent='';
+  if(!u||!p) return(errEl.textContent='⚠️ Remplissez tous les champs');
+  if(u==='admin'&&p===ADMIN_PASS){ME={username:'admin',emoji:'🛡️',isAdmin:true};localStorage.setItem('wc2026_me',JSON.stringify(ME));await loadUserData();return enterApp();}
+  if(u==='admin'&&p!==ADMIN_PASS) return(errEl.textContent='❌ Mot de passe incorrect');
+  const snap=await get(ref(db,'users/'+u));
+  if(!snap.exists()) return(errEl.textContent='❌ Pseudo introuvable');
+  const ud=snap.val();
+  const hashed=hashPass(p,u);
+  if(ud.pass!==hashed&&ud.pass!==p) return(errEl.textContent='❌ Mot de passe incorrect');
+  ME={username:u,emoji:ud.emoji,isAdmin:false};
   sessionStorage.removeItem('wc2026_admin_session');
-  localStorage.setItem('wc2026_me', JSON.stringify(ME));
-  // Also remove admin badge if visible
-  document.getElementById('admin-badge')?.classList.add('hidden');
+  localStorage.setItem('wc2026_me',JSON.stringify(ME));
   await loadUserData();
-  const invGid = getURLParam('group');
-  if (invGid) await joinGroup(invGid);
+  const invGid=getURLParam('group');
+  if(invGid) await joinGroup(invGid);
   enterApp();
 }
-window.doLogin = doLogin;
+window.doLogin=doLogin;
 
 async function doRegister() {
-  const u = document.getElementById('ru').value.trim().toLowerCase().replace(/\s/g,'_');
-  const p = document.getElementById('rp').value;
-  const e = document.getElementById('re').value;
-  const errEl = document.getElementById('reg-err');
-  errEl.textContent = '';
-  if (!u || !p) return (errEl.textContent = '⚠️ Remplissez tous les champs');
-  if (p.length < 4) return (errEl.textContent = '⚠️ Mot de passe trop court');
-  if (u === 'admin') return (errEl.textContent = '❌ Pseudo réservé');
-  const snap = await get(ref(db, `users/${u}`));
-  if (snap.exists()) return (errEl.textContent = '❌ Ce pseudo est déjà pris');
-  // SECURITY: Store hashed password, never plaintext
-  await set(ref(db, `users/${u}`), {pass:hashPass(p,u), emoji:e, groups:{}});
-  ME = {username:u, emoji:e};
-  localStorage.setItem('wc2026_me', JSON.stringify(ME));
+  const u=document.getElementById('ru').value.trim().toLowerCase().replace(/\s/g,'_');
+  const p=document.getElementById('rp').value;
+  const e=document.getElementById('re').value;
+  const errEl=document.getElementById('reg-err');
+  errEl.textContent='';
+  if(!u||!p) return(errEl.textContent='⚠️ Remplissez tous les champs');
+  if(p.length<4) return(errEl.textContent='⚠️ Mot de passe trop court');
+  if(u==='admin') return(errEl.textContent='❌ Pseudo réservé');
+  const snap=await get(ref(db,'users/'+u));
+  if(snap.exists()) return(errEl.textContent='❌ Ce pseudo est déjà pris');
+  await set(ref(db,'users/'+u),{pass:hashPass(p,u),emoji:e,groups:{}});
+  ME={username:u,emoji:e,isAdmin:false};
+  localStorage.setItem('wc2026_me',JSON.stringify(ME));
   await loadUserData();
-  // If came via invite link, join and enter directly
-  const invGid = getURLParam('group');
-  if (invGid) {
-    await joinGroup(invGid);
-    enterApp();
-    return;
-  }
-  // Otherwise show code entry screen
+  const invGid=getURLParam('group');
+  if(invGid){await joinGroup(invGid);enterApp();return;}
   document.getElementById('screen-auth').classList.remove('active');
   document.getElementById('screen-code').classList.add('active');
 }
-window.doRegister = doRegister;
+window.doRegister=doRegister;
 
-async function loadUserData() {
-  if (ME.isAdmin) {
-    // Admin loads all groups
-    const snap = await get(ref(db, 'groups'));
-    DB_groupMeta = snap.val() || {};
-    DB_members = {};
-    for (const gid of Object.keys(DB_groupMeta)) {
-      const ms = await get(ref(db, `members/${gid}`));
-      DB_members[gid] = ms.val() ? Object.keys(ms.val()) : [];
-    }
-  } else {
-    const snap = await get(ref(db, `users/${ME.username}/groups`));
-    const myGroups = snap.val() ? Object.keys(snap.val()) : [];
-    DB_groupMeta = {};
-    DB_members = {};
-    for (const gid of myGroups) {
-      const gs = await get(ref(db, `groups/${gid}`));
-      if (gs.exists()) DB_groupMeta[gid] = gs.val();
-      const ms = await get(ref(db, `members/${gid}`));
-      DB_members[gid] = ms.val() ? Object.keys(ms.val()) : [];
-    }
-    if (myGroups.length > 0) CUR_GROUP = myGroups[0];
-  }
-  if (ME.isAdmin && Object.keys(DB_groupMeta).length > 0) CUR_GROUP = Object.keys(DB_groupMeta)[0];
-  // Subscribe to bets + doubles for current group
-  if (CUR_GROUP) subscribeGroup(CUR_GROUP);
-}
+window.doAdminLogin=async function(){
+  const p=document.getElementById('admin-pass-input').value;
+  const errEl=document.getElementById('admin-err');
+  errEl.textContent='';
+  if(!p) return(errEl.textContent='⚠️ Entrez le mot de passe');
+  if(p!==ADMIN_PASS) return(errEl.textContent='❌ Mot de passe incorrect');
+  ME={username:'admin',emoji:'🛡️',isAdmin:true};
+  localStorage.setItem('wc2026_me',JSON.stringify(ME));
+  await loadUserData();
+  enterApp();
+};
 
-// FIX: Track all active listeners for proper cleanup
-const _activeListeners = {};
-
-function cleanupGroupListeners(gid) {
-  if (_activeListeners[gid]) {
-    _activeListeners[gid].forEach(unsub => { try { off(unsub); } catch(e) {} });
-    delete _activeListeners[gid];
-  }
-}
-
-function cleanupAllListeners() {
-  Object.keys(_activeListeners).forEach(cleanupGroupListeners);
-}
-
-function subscribeGroup(gid) {
-  // Cleanup existing listeners for this group first
-  cleanupGroupListeners(gid);
-  _activeListeners[gid] = [];
-
-  // Bets listener
-  const bRef = ref(db, `bets/${gid}`);
-  onValue(bRef, snap => { DB_bets[gid] = snap.val() || {}; if(ME) { renderMatches(); renderLeaderboard(); renderStats(); } });
-  _activeListeners[gid].push(bRef);
-
-  // Doubles listener
-  const dRef = ref(db, `doubles/${gid}`);
-  onValue(dRef, snap => { DB_doubles[gid] = snap.val() || {}; if(ME) renderMatches(); });
-  _activeListeners[gid].push(dRef);
-
-  // Members listener
-  const mRef = ref(db, `members/${gid}`);
-  onValue(mRef, snap => { DB_members[gid] = snap.val() ? Object.keys(snap.val()) : []; if(ME) { renderLeaderboard(); renderGroups(); } });
-  _activeListeners[gid].push(mRef);
-}
-
-async function joinGroup(gid) {
-  const gs = await get(ref(db, `groups/${gid}`));
-  if (!gs.exists()) return;
-  DB_groupMeta[gid] = gs.val();
-  await set(ref(db, `users/${ME.username}/groups/${gid}`), true);
-  await set(ref(db, `members/${gid}/${ME.username}`), true);
-  DB_members[gid] = DB_members[gid] || [];
-  if (!DB_members[gid].includes(ME.username)) DB_members[gid].push(ME.username);
-  if (!CUR_GROUP) CUR_GROUP = gid;
-  subscribeGroup(gid);
-  markUserHasGroup();
-  toast('✅ Rejoint le groupe : ' + gs.val().name);
-}
-
-function doLogout() {
-  // FIX: Cleanup all Firebase listeners before logout
+window.doLogout=function(){
   cleanupAllListeners();
-  ME = null; CUR_GROUP = null;
+  ME=null;CUR_GROUP=null;
   localStorage.removeItem('wc2026_me');
-  // SECURITY: Clear admin session on logout
   sessionStorage.removeItem('wc2026_admin_session');
   document.getElementById('screen-app').classList.remove('active');
   document.getElementById('screen-auth').classList.add('active');
-}
-window.doLogout = doLogout;
+};
 
-function enterApp() {
-  document.getElementById('screen-auth').classList.remove('active');
-  document.getElementById('screen-app').classList.add('active');
-  document.getElementById('topbar-user').textContent = ME.username;
-  document.getElementById('topbar-avatar').textContent = ME.emoji;
-  document.getElementById('topbar-group').textContent = CUR_GROUP ? (DB_groupMeta[CUR_GROUP]?.name || 'Groupe') : 'Pas de groupe';
-  document.getElementById('admin-badge').classList.toggle('hidden', !isAdmin());
-  document.getElementById('live-indicator').title = 'Scores mis à jour automatiquement';
-  // Show admin nav only for admin
-  const adminNav = document.getElementById('bnav-admin');
-  if (adminNav) adminNav.classList.toggle('hidden', !isAdmin());
-  // Show create group only for admin
-  const createSection = document.getElementById('create-group-section');
-  if (createSection) createSection.classList.toggle('hidden', !isAdmin());
-  renderAll();
-  if (!ME.isAdmin) { showNotifBanner(); scheduleInAppChecks(); }
-}
-
-// ================================================
-// POINTS
-// ================================================
-function calcPts(bet, result) {
-  if (!bet || result?.home === undefined) return null;
-  const bH=+bet.home, bA=+bet.away, rH=+result.home, rA=+result.away;
-  if (isNaN(bH)||isNaN(bA)) return null;
-  let p = 0;
-  if (bH===rH && bA===rA) { p = 30; }
-  else {
-    const br=bH>bA?1:bH<bA?-1:0, rr=rH>rA?1:rH<rA?-1:0;
-    if (br===rr) { p = rr===0 ? 20 : (bH-bA)===(rH-rA) ? 20 : 10; }
+window.verifyAdminGate=function(){
+  const p=document.getElementById('gate-pass')?.value;
+  const errEl=document.getElementById('gate-err');
+  if(errEl) errEl.textContent='';
+  if(!p) return;
+  if(p===ADMIN_PASS){
+    ME.isAdmin=true;
+    sessionStorage.setItem('wc2026_admin_session','1');
+    document.getElementById('admin-badge')?.classList.remove('hidden');
+    document.getElementById('admin-gate').style.display='none';
+    document.getElementById('admin-content').style.display='block';
+    document.getElementById('create-group-section')?.classList.remove('hidden');
+    renderAdmin();
+    toast('✅ Accès admin accordé');
+  } else {
+    if(errEl) errEl.textContent='❌ Mot de passe incorrect';
   }
-  if (bet.double && p > 0) p *= 2;
-  return p;
+};
+
+window.joinByCodeFromScreen=async function(){
+  const code=document.getElementById('screen-code-input')?.value.trim().toUpperCase();
+  const errEl=document.getElementById('code-screen-err');
+  errEl.textContent='';
+  if(!code||code.length<4) return(errEl.textContent='⚠️ Entrez un code valide');
+  const snap=await get(ref(db,'codes/'+code));
+  if(!snap.exists()) return(errEl.textContent='❌ Code invalide');
+  const gid=snap.val();
+  const gsnap=await get(ref(db,'groups/'+gid));
+  if(!gsnap.exists()) return(errEl.textContent='❌ Groupe introuvable');
+  await joinGroup(gid);
+  document.getElementById('screen-code').classList.remove('active');
+  enterApp();
+};
+
+function enterApp(){
+  document.getElementById('screen-auth').classList.remove('active');
+  document.getElementById('screen-code').classList.remove('active');
+  document.getElementById('screen-app').classList.add('active');
+  document.getElementById('topbar-user').textContent=ME.username;
+  document.getElementById('topbar-avatar').textContent=ME.emoji;
+  document.getElementById('topbar-group').textContent=CUR_GROUP?(DB_groupMeta[CUR_GROUP]?.name||'Groupe'):'Pas de groupe';
+  document.getElementById('admin-badge').classList.toggle('hidden',!isAdmin());
+  document.getElementById('create-group-section')?.classList.toggle('hidden',!isAdmin());
+  renderAll();
+  if(!isAdmin()) showNotifBanner();
+  if(!isAdmin()) scheduleInAppChecks();
 }
 
-function getScoreForGroup(username, gid) {
-  const bets = (DB_bets[gid]||{})[username] || {};
-  let total=0, exact=0, betCount=0, dblCount=0;
-  MATCHES.forEach(m => {
-    const bet = bets[m.id];
-    const result = DB_results[m.id];
-    if (bet && bet.home!==undefined && bet.away!==undefined) betCount++;
-    if (bet?.double) dblCount++;
-    if (result?.home !== undefined) {
-      const p = calcPts(bet, result);
-      if (p !== null) total += p;
-      if (bet && +bet.home===+result.home && +bet.away===+result.away) exact++;
+// ========================================
+// DATA LOADING
+// ========================================
+async function loadUserData(){
+  if(ME.isAdmin){
+    const snap=await get(ref(db,'groups'));
+    DB_groupMeta=snap.val()||{};
+    for(const gid of Object.keys(DB_groupMeta)){
+      const ms=await get(ref(db,'members/'+gid));
+      DB_members[gid]=ms.val()?Object.keys(ms.val()):[];
     }
-  });
-  return {total, exact, bets:betCount, doubles:dblCount};
+  }else{
+    const snap=await get(ref(db,'users/'+ME.username+'/groups'));
+    const myGroups=snap.val()?Object.keys(snap.val()):[];
+    DB_groupMeta={};DB_members={};
+    for(const gid of myGroups){
+      const gs=await get(ref(db,'groups/'+gid));
+      if(gs.exists()) DB_groupMeta[gid]=gs.val();
+      const ms=await get(ref(db,'members/'+gid));
+      DB_members[gid]=ms.val()?Object.keys(ms.val()):[];
+    }
+    if(myGroups.length>0) CUR_GROUP=myGroups[0];
+  }
+  if(ME.isAdmin&&Object.keys(DB_groupMeta).length>0) CUR_GROUP=Object.keys(DB_groupMeta)[0];
+  if(CUR_GROUP) subscribeGroup(CUR_GROUP);
 }
 
-function getScore(username) {
-  if (!CUR_GROUP) return {total:0,exact:0,bets:0,doubles:0};
-  return getScoreForGroup(username, CUR_GROUP);
+function subscribeGroup(gid){
+  cleanupGroupListeners(gid);
+  _activeListeners[gid]=[];
+  const bRef=ref(db,'bets/'+gid);
+  onValue(bRef,snap=>{DB_bets[gid]=snap.val()||{};if(ME){renderMatches();renderLeaderboard();renderStats();}});
+  _activeListeners[gid].push(bRef);
+  const dRef=ref(db,'doubles/'+gid);
+  onValue(dRef,snap=>{DB_doubles[gid]=snap.val()||{};if(ME)renderMatches();});
+  _activeListeners[gid].push(dRef);
+  const mRef=ref(db,'members/'+gid);
+  onValue(mRef,snap=>{DB_members[gid]=snap.val()?Object.keys(snap.val()):[];if(ME){renderLeaderboard();renderGroups();}});
+  _activeListeners[gid].push(mRef);
 }
 
-// ================================================
-// NAVIGATION
-// ================================================
-function showTab(tab) {
-  ACTIVE_TAB = tab;
+async function joinGroup(gid){
+  const gs=await get(ref(db,'groups/'+gid));
+  if(!gs.exists()) return;
+  DB_groupMeta[gid]=gs.val();
+  await set(ref(db,'users/'+ME.username+'/groups/'+gid),true);
+  await set(ref(db,'members/'+gid+'/'+ME.username),true);
+  DB_members[gid]=DB_members[gid]||[];
+  if(!DB_members[gid].includes(ME.username)) DB_members[gid].push(ME.username);
+  if(!CUR_GROUP) CUR_GROUP=gid;
+  subscribeGroup(gid);
+  toast('✅ Rejoint : '+gs.val().name);
+}
+
+async function loadUsersEmoji(usernames){
+  for(const u of usernames){
+    if(DB_users[u]||u==='admin') continue;
+    try{const snap=await get(ref(db,'users/'+u+'/emoji'));if(snap.exists())DB_users[u]={emoji:snap.val()};}catch(e){}
+  }
+}
+
+// ========================================
+// NAV
+// ========================================
+function showTab(tab){
+  ACTIVE_TAB=tab;
   document.querySelectorAll('.tc').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.bnav').forEach(b=>b.classList.remove('active'));
-  const tabEl = document.getElementById('tab-'+tab);
-  const navEl = document.getElementById('bnav-'+tab);
-  if (tabEl) tabEl.classList.add('active');
-  if (navEl) navEl.classList.add('active');
-  if (tab==='leaderboard') { renderLeaderboard(); renderStats(); }
-  if (tab==='global') renderGlobalLeaderboard();
-  if (tab==='chat') initChat();
-  if (tab==='groups') renderGroups();
-  if (tab==='admin') {
-    // SECURITY: Show gate or content based on isAdmin()
-    const gate = document.getElementById('admin-gate');
-    const content = document.getElementById('admin-content');
-    if (isAdmin()) {
-      if (gate) gate.style.display = 'none';
-      if (content) content.style.display = 'block';
+  const tabEl=document.getElementById('tab-'+tab);
+  const navEl=document.getElementById('bnav-'+tab);
+  if(tabEl) tabEl.classList.add('active');
+  if(navEl) navEl.classList.add('active');
+  if(tab==='leaderboard'){renderLeaderboard();renderStats();}
+  if(tab==='global') renderGlobalLeaderboard();
+  if(tab==='chat') initChat();
+  if(tab==='groups') renderGroups();
+  if(tab==='admin'){
+    const gate=document.getElementById('admin-gate');
+    const content=document.getElementById('admin-content');
+    if(isAdmin()){
+      if(gate) gate.style.display='none';
+      if(content) content.style.display='block';
       renderAdmin();
-    } else {
-      if (gate) gate.style.display = 'block';
-      if (content) content.style.display = 'none';
+    }else{
+      if(gate) gate.style.display='block';
+      if(content) content.style.display='none';
     }
   }
 }
-window.showTab = showTab;
+window.showTab=showTab;
+window.setFilter=function(f){FILTER=f;buildFilters('frow',FILTER,'setFilter');renderMatches();};
+window.setAdminFilter=function(f){ADMIN_FILTER=f;buildFilters('admin-frow',ADMIN_FILTER,'setAdminFilter');renderAdmin();};
 
-function renderAll() { renderMatches(); renderLeaderboard(); renderStats(); renderGlobalLeaderboard(); }
+function renderAll(){renderMatches();renderLeaderboard();renderStats();renderGlobalLeaderboard();}
 
-// ================================================
-// MATCHES
-// ================================================
-
-// ================================================
-// MATCH LOCK — no betting after kickoff
-// ================================================
-function isMatchLocked(m) {
-  // Match datetime in UTC
-  const matchDate = new Date(m.dt + 'T' + m.tm + ':00Z');
-  const now = new Date();
-  return now >= matchDate;
+// ========================================
+// FILTERS
+// ========================================
+const STAGE_LABELS={A:'GRP A',B:'GRP B',C:'GRP C',D:'GRP D',E:'GRP E',F:'GRP F',G:'GRP G',H:'GRP H',I:'GRP I',J:'GRP J',K:'GRP K',L:'GRP L',R32:'⚔️ Huitièmes',R16:'⚔️ Quarts',QF:'⚔️ Demies',SF:'⚔️ Semis',FIN:'🏆 Finale','3PL':'🥉 3e Place'};
+function buildFilters(elId,activeFilter,setFn){
+  const items=['all',...'ABCDEFGHIJKL'.split(''),'R32','R16','QF','SF','FIN'];
+  const lbl={all:'Tous',...Object.fromEntries('ABCDEFGHIJKL'.split('').map(g=>[g,'Gr.'+g])),R32:'Huitièmes',R16:'Quarts',QF:'Demies',SF:'Semis',FIN:'🏆Finale'};
+  const el=document.getElementById(elId);
+  if(el) el.innerHTML=items.map(i=>`<button class="fb${activeFilter===i?' active':''}" onclick="${setFn}('${i}')">${lbl[i]}</button>`).join('');
 }
 
-const STAGE_LABELS = {A:'GRP A',B:'GRP B',C:'GRP C',D:'GRP D',E:'GRP E',F:'GRP F',G:'GRP G',H:'GRP H',I:'GRP I',J:'GRP J',K:'GRP K',L:'GRP L',R32:'⚔️ Huitièmes',R16:'⚔️ Quarts',QF:'⚔️ Demies',SF:'⚔️ Semis',FIN:'🏆 Finale','3PL':'🥉 3e Place'};
-function buildFilters(elId, activeFilter, setFn) {
-  const items = ['all',...'ABCDEFGHIJKL'.split(''),'R32','R16','QF','SF','FIN'];
-  const lbl = {all:'Tous',...Object.fromEntries('ABCDEFGHIJKL'.split('').map(g=>[g,'Gr.'+g])),R32:'Huitièmes',R16:'Quarts',QF:'Demies',SF:'Semis',FIN:'🏆Finale'};
-  document.getElementById(elId).innerHTML = items.map(i=>`<button class="fb${activeFilter===i?' active':''}" onclick="${setFn}('${i}')">${lbl[i]}</button>`).join('');
-}
-window.setFilter = function(f) { FILTER=f; buildFilters('frow',FILTER,'setFilter'); renderMatches(); };
-window.setAdminFilter = function(f) { ADMIN_FILTER=f; buildFilters('admin-frow',ADMIN_FILTER,'setAdminFilter'); renderAdmin(); };
-
-function renderMatches() {
-  buildFilters('frow', FILTER, 'setFilter');
-  const bets = CUR_GROUP ? (DB_bets[CUR_GROUP]||{})[ME?.username]||{} : {};
-  const doubles = CUR_GROUP ? (DB_doubles[CUR_GROUP]||{})[ME?.username]||{} : {};
-  const R = resolveKnockoutTeams(DB_results);
-  // Bonus week info
-  if (ME && !ME.isAdmin) {
-    const curWk = getWeekKey(new Date().toISOString().slice(0,10));
-    const used = doubles[curWk];
-    const bi = document.getElementById('bonus-info');
-    if (used) { bi.classList.remove('hidden'); const m=MATCHES.find(x=>x.id===used); document.getElementById('bonus-txt').textContent=`Bonus ×2 utilisé cette semaine${m?(' sur '+enrichMatch(m,R).hn+' vs '+enrichMatch(m,R).an):''}.`; }
-    else bi.classList.add('hidden');
+// ========================================
+// MATCHES RENDER
+// ========================================
+function renderMatches(){
+  buildFilters('frow',FILTER,'setFilter');
+  const bets=CUR_GROUP?(DB_bets[CUR_GROUP]||{})[ME?.username]||{}:{};
+  const doubles=CUR_GROUP?(DB_doubles[CUR_GROUP]||{})[ME?.username]||{}:{};
+  const R=resolveKnockoutTeams(DB_results);
+  if(ME&&!ME.isAdmin){
+    const curWk=getWeekKey(new Date().toISOString().slice(0,10));
+    const used=doubles[curWk];
+    const bi=document.getElementById('bonus-info');
+    if(used){bi.classList.remove('hidden');const m=MATCHES.find(x=>x.id===used);const em=m?enrichMatch(m,R):null;document.getElementById('bonus-txt').textContent='Bonus ×2 utilisé cette semaine'+(em?' sur '+em.hn+' vs '+em.an:'')+'.';}}
+    }else bi.classList.add('hidden');
   }
-  const matches = FILTER==='all' ? MATCHES : MATCHES.filter(m=>m.gr===FILTER);
-  let html='', lastDate='';
-  matches.forEach(m => {
-    const em = enrichMatch(m, R);
-    if (m.dt !== lastDate) { html+=`<div class="daysep">${fmtDate(m.dt)}</div>`; lastDate=m.dt; }
-    const myBet = bets[m.id];
-    const result = DB_results[m.id];
-    const isDouble = myBet?.double;
-    const hasBet = myBet && myBet.home!==undefined && myBet.away!==undefined;
-    const pts = result ? calcPts(myBet, result) : null;
-    const wk = getWeekKey(m.dt);
-    const weekUsed = doubles[wk];
-    const canDouble = !weekUsed || weekUsed===m.id;
-    const isLive = result?.live;
-    let dbl = '';
-    if (ME && !ME.isAdmin && CUR_GROUP && !result && !isMatchLocked(m)) {
-      if (isDouble) dbl=`<span class="tag td on" onclick="toggleDouble('${m.id}','${wk}',true)">🔥×2 ON</span>`;
-      else if (canDouble) dbl=`<span class="tag td" onclick="toggleDouble('${m.id}','${wk}',false)">⚡×2</span>`;
+  const matches=FILTER==='all'?MATCHES:MATCHES.filter(m=>m.gr===FILTER);
+  let html='',lastDate='';
+  matches.forEach(m=>{
+    const em=enrichMatch(m,R);
+    if(m.dt!==lastDate){html+=`<div class="daysep">${fmtDate(m.dt)}</div>`;lastDate=m.dt;}
+    const myBet=bets[m.id],result=DB_results[m.id];
+    const isDouble=myBet?.double,hasBet=myBet&&myBet.home!==undefined&&myBet.away!==undefined;
+    const pts=result?calcPts(myBet,result):null;
+    const wk=getWeekKey(m.dt);
+    const weekUsed=doubles[wk];
+    const canDouble=!weekUsed||weekUsed===m.id;
+    const isLive=result?.live;
+    const locked=isMatchLocked(m);
+    let dbl='';
+    if(ME&&!ME.isAdmin&&CUR_GROUP&&!result&&!locked){
+      if(isDouble) dbl=`<span class="tag td on" onclick="toggleDouble('${m.id}','${wk}',true)">🔥×2 ON</span>`;
+      else if(canDouble) dbl=`<span class="tag td" onclick="toggleDouble('${m.id}','${wk}',false)">⚡×2</span>`;
       else dbl=`<span class="tag td lock">🔒×2</span>`;
     }
-    html += `<div class="mc">
+    html+=`<div class="mc">
       <div class="mh">
         <span class="tag tg">${STAGE_LABELS[m.gr]||m.gr}</span>
         <span style="font-size:10px">📍${em.ve||''} · ${m.tm} GMT</span>
         ${dbl}
         ${result&&!isLive?'<span class="tag tres">✅ Officiel</span>':''}
-        ${isLive?'<span class="tag tlive">🔴 <span class="tlive-dot">LIVE</span></span>':''}
-        ${!result&&isMatchLocked(m)?'<span class="tag" style="background:rgba(90,100,128,0.15);color:var(--muted);border:1px solid rgba(90,100,128,0.2)">🔒 Lancé</span>':''}
-        ${result?`<span style="cursor:pointer;font-size:10px;color:var(--muted);text-decoration:underline" onclick="showDetail('${m.id}')">→ Tous les paris</span>`:''}
-        ${ME&&!ME.isAdmin?`<span style="cursor:pointer;font-size:10px;color:var(--muted2);text-decoration:underline" onclick="commentOnMatch('${m.id}')">💬</span>`:''}
+        ${isLive?'<span class="tag tlive">🔴 LIVE</span>':''}
+        ${!result&&locked?'<span class="tag" style="background:rgba(90,100,128,.15);color:var(--muted)">🔒 Lancé</span>':''}
+        ${result?`<span style="cursor:pointer;font-size:10px;color:var(--muted2);text-decoration:underline" onclick="showDetail('${m.id}')">→ Paris</span>`:''}
+        ${ME&&!ME.isAdmin?`<span style="cursor:pointer;font-size:10px;color:var(--muted2)" onclick="commentOnMatch('${m.id}')">💬</span>`:''}
       </div>
       <div class="mb">
         <div class="team"><div class="fl">${em.h||'🏆'}</div><div class="tn">${em.hn}</div><div class="tc2">${em.hc||''}</div></div>
@@ -1713,7 +1440,7 @@ function renderMatches() {
         </div>
         <div class="team"><div class="fl">${em.a||'🏆'}</div><div class="tn">${em.an}</div><div class="tc2">${em.ac||''}</div></div>
       </div>
-      ${ME&&!ME.isAdmin&&CUR_GROUP&&!result&&!isMatchLocked(m)?`
+      ${ME&&!ME.isAdmin&&CUR_GROUP&&!result&&!locked?`
       <div class="bz">
         <div class="bl">${em.hn}</div>
         <input class="si" type="number" min="0" max="20" placeholder="0" id="h_${m.id}" value="${myBet?.home??''}" oninput="autosave('${m.id}')">
@@ -1721,112 +1448,95 @@ function renderMatches() {
         <input class="si" type="number" min="0" max="20" placeholder="0" id="a_${m.id}" value="${myBet?.away??''}" oninput="autosave('${m.id}')">
         <div class="bl">${em.an}</div>
       </div>
-      <div class="ba">
-        <span class="sok${hasBet?' show':''}" id="ok_${m.id}">✅ Pari enregistré${isDouble?' (×2)':''}</span>
-      </div>`:''}
+      <div class="ba"><span class="sok${hasBet?' show':''}" id="ok_${m.id}">✅ Enregistré${isDouble?' (×2)':''}</span></div>`:''}
       ${hasBet?`<div class="mbb">
         <span class="bp${isDouble?' d':''}">Mon pari : ${myBet.home}–${myBet.away}${isDouble?' 🔥×2':''}</span>
-        ${pts!==null?`<span style="font-size:12px;font-weight:600;color:${pts>0?'var(--green)':'var(--muted)'}">→ ${pts>0?'+'+pts+' pts':'Aucun point'}</span>`:''}
+        ${pts!==null?`<span style="font-size:12px;font-weight:600;color:${pts>0?'var(--green)':'var(--muted)'}">${pts>0?'+'+pts+' pts':'Aucun point'}</span>`:''}
       </div>`:''}
     </div>`;
   });
-  document.getElementById('matches-list').innerHTML = html || '<p style="color:var(--muted);text-align:center;padding:20px">Aucun match dans cette phase.</p>';
+  document.getElementById('matches-list').innerHTML=html||'<p style="color:var(--muted);text-align:center;padding:20px">Aucun match.</p>';
 }
 
-let saveTimer = {};
-window.autosave = function(mid) {
-  const h = document.getElementById('h_'+mid)?.value.trim();
-  const a = document.getElementById('a_'+mid)?.value.trim();
-  if (h !== '' && a !== '') {
-    clearTimeout(saveTimer[mid]);
-    saveTimer[mid] = setTimeout(() => saveBetData(mid, h, a), 800);
-    const ok = document.getElementById('ok_'+mid); if (ok) ok.classList.add('show');
-  }
+let saveTimer={};
+window.autosave=function(mid){
+  const hv=document.getElementById('h_'+mid)?.value.trim(),av=document.getElementById('a_'+mid)?.value.trim();
+  if(hv!==''&&av!==''){clearTimeout(saveTimer[mid]);saveTimer[mid]=setTimeout(()=>saveBetData(mid,hv,av),800);const ok=document.getElementById('ok_'+mid);if(ok)ok.classList.add('show');}
 };
 
-async function saveBetData(mid, h, a) {
-  if (!CUR_GROUP || !ME || ME.isAdmin) return;
-  const existing = (DB_bets[CUR_GROUP]?.[ME.username]||{})[mid] || {};
-  const betPath = `bets/${CUR_GROUP}/${ME.username}/${mid}`;
-  await set(ref(db, betPath), {home:+h, away:+a, double: existing.double||false});
+async function saveBetData(mid,h,a){
+  if(!CUR_GROUP||!ME||ME.isAdmin) return;
+  if(!DB_bets[CUR_GROUP]) DB_bets[CUR_GROUP]={};
+  if(!DB_bets[CUR_GROUP][ME.username]) DB_bets[CUR_GROUP][ME.username]={};
+  const ex=DB_bets[CUR_GROUP][ME.username][mid]||{};
+  await set(ref(db,'bets/'+CUR_GROUP+'/'+ME.username+'/'+mid),{home:+h,away:+a,double:ex.double||false});
 }
 
-window.toggleDouble = function(mid, wk, isCurrentlyOn) {
-  if (!ME || !CUR_GROUP) return;
-  if (isCurrentlyOn) {
-    // Turn off
-    update(ref(db, `bets/${CUR_GROUP}/${ME.username}/${mid}`), {double:false});
-    remove(ref(db, `doubles/${CUR_GROUP}/${ME.username}/${wk}`));
-  } else {
-    const weekUsed = (DB_doubles[CUR_GROUP]||{})[ME.username]?.[wk];
-    if (weekUsed && weekUsed !== mid) return toast('🔒 Bonus ×2 déjà utilisé cette semaine !');
-    pendingDouble = {mid, wk};
+window.toggleDouble=function(mid,wk,isOn){
+  if(!ME||!CUR_GROUP) return;
+  if(isOn){
+    update(ref(db,'bets/'+CUR_GROUP+'/'+ME.username+'/'+mid),{double:false});
+    remove(ref(db,'doubles/'+CUR_GROUP+'/'+ME.username+'/'+wk));
+  }else{
+    const weekUsed=(DB_doubles[CUR_GROUP]||{})[ME.username]?.[wk];
+    if(weekUsed&&weekUsed!==mid) return toast('🔒 Bonus déjà utilisé cette semaine !');
+    pendingDouble={mid,wk};
     document.getElementById('modal-double').classList.add('show');
   }
 };
 
-window.confirmDouble = async function() {
-  if (!pendingDouble || !ME || !CUR_GROUP) return;
-  const {mid, wk} = pendingDouble;
-  await update(ref(db, `bets/${CUR_GROUP}/${ME.username}/${mid}`), {double:true});
-  await set(ref(db, `doubles/${CUR_GROUP}/${ME.username}/${wk}`), mid);
-  closeModal('modal-double');
-  pendingDouble = null;
+window.confirmDouble=async function(){
+  if(!pendingDouble||!ME||!CUR_GROUP) return;
+  const {mid,wk}=pendingDouble;
+  if(!DB_bets[CUR_GROUP]) DB_bets[CUR_GROUP]={};
+  if(!DB_bets[CUR_GROUP][ME.username]) DB_bets[CUR_GROUP][ME.username]={};
+  if(!DB_bets[CUR_GROUP][ME.username][mid]) DB_bets[CUR_GROUP][ME.username][mid]={home:'',away:'',double:false};
+  await update(ref(db,'bets/'+CUR_GROUP+'/'+ME.username+'/'+mid),{double:true});
+  await set(ref(db,'doubles/'+CUR_GROUP+'/'+ME.username+'/'+wk),mid);
+  closeModal('modal-double');pendingDouble=null;
   toast('🔥 Pari doublé activé !');
 };
 
-// ================================================
-// SHOW DETAIL
-// ================================================
-window.showDetail = function(mid) {
-  if (!CUR_GROUP) return;
-  const m = MATCHES.find(x=>x.id===mid); if (!m) return;
-  const R = resolveKnockoutTeams(DB_results);
-  const em = enrichMatch(m, R);
-  const result = DB_results[mid];
-  const members = DB_members[CUR_GROUP] || [];
-  document.getElementById('detail-title').textContent = em.hn + ' vs ' + em.an;
-  let html = `<table class="dtbl"><thead><tr><th>Joueur</th><th>Pari</th><th>Bonus</th><th>Pts</th></tr></thead><tbody>`;
-  members.forEach(u => {
-    if (u === 'admin') return;
-    const bet = ((DB_bets[CUR_GROUP]||{})[u]||{})[mid];
-    const pts = calcPts(bet, result);
-    const isMe = u === ME?.username;
-    const emoji = DB_users[u]?.emoji || '👤';
-    html += `<tr${isMe?' class="mer"':''}><td>${emoji} ${u}${isMe?' (vous)':''}</td>
-      <td>${bet&&bet.home!==undefined&&bet.away!==undefined?bet.home+'–'+bet.away:'<span style="color:var(--muted)">—</span>'}</td>
-      <td>${bet?.double?'🔥×2':'—'}</td>
+window.showDetail=function(mid){
+  if(!CUR_GROUP) return;
+  const m=MATCHES.find(x=>x.id===mid);if(!m) return;
+  const R=resolveKnockoutTeams(DB_results),em=enrichMatch(m,R);
+  const result=DB_results[mid],members=(DB_members[CUR_GROUP]||[]).filter(u=>u!=='admin');
+  document.getElementById('detail-title').textContent=em.hn+' vs '+em.an;
+  let html=`<table class="dtbl"><thead><tr><th>Joueur</th><th>Pari</th><th>×2</th><th>Pts</th></tr></thead><tbody>`;
+  members.forEach(u=>{
+    const bet=((DB_bets[CUR_GROUP]||{})[u]||{})[mid],pts=calcPts(bet,result),isMe=u===ME?.username;
+    html+=`<tr${isMe?' class="mer"':''}><td>${DB_users[u]?.emoji||'👤'} ${escHtml(u)}${isMe?' (vous)':''}</td>
+      <td>${bet&&bet.home!==undefined?bet.home+'–'+bet.away:'—'}</td>
+      <td>${bet?.double?'🔥':'—'}</td>
       <td class="ptsc${pts===0?' z':''}">${pts!==null?pts:'—'}</td></tr>`;
   });
-  html += '</tbody></table>';
-  document.getElementById('detail-content').innerHTML = html;
+  html+='</tbody></table>';
+  document.getElementById('detail-content').innerHTML=html;
   document.getElementById('modal-detail').classList.add('show');
 };
 
-// ================================================
+// ========================================
 // LEADERBOARD
-// ================================================
-function renderLeaderboard() {
-  const members = (DB_members[CUR_GROUP]||[]).filter(u=>u!=='admin');
-  if (!CUR_GROUP || members.length===0) {
+// ========================================
+function renderLeaderboard(){
+  const members=(DB_members[CUR_GROUP]||[]).filter(u=>u!=='admin');
+  if(!CUR_GROUP||members.length===0){
     document.getElementById('podium').innerHTML='<p style="color:var(--muted);grid-column:1/-1;text-align:center">Pas encore de membres.</p>';
-    document.getElementById('lb-table').innerHTML=''; return;
+    document.getElementById('lb-table').innerHTML='';return;
   }
-  const sorted = members.map(u => {
-    const snap = DB_users[u] || {};
-    return {u, emoji: snap.emoji||'👤', ...getScore(u)};
-  }).sort((a,b) => b.total-a.total||b.exact-a.exact);
-  const top3 = sorted.slice(0,3);
-  const order = top3.length>=3 ? [top3[1],top3[0],top3[2]] : top3.length===2 ? [top3[1],top3[0]] : top3;
-  document.getElementById('podium').innerHTML = order.map(pl => {
-    const r = top3.indexOf(pl)+1;
-    return `<div class="pod${r===1?' p1':''}"><div class="prank">#${r}</div><div class="pemo">${pl.emoji}</div><div class="pname">${pl.u}</div><div class="ppts">${pl.total}</div><div class="psub">${pl.exact} exact${pl.exact>1?'s':''}</div></div>`;
+  const sorted=members.map(u=>({u,emoji:DB_users[u]?.emoji||'🏳️',...getScore(u)})).sort((a,b)=>b.total-a.total||b.exact-a.exact);
+  const top3=sorted.slice(0,3);
+  const order=top3.length>=3?[top3[1],top3[0],top3[2]]:top3.length===2?[top3[1],top3[0]]:top3;
+  document.getElementById('podium').innerHTML=order.map(pl=>{
+    const r=top3.indexOf(pl)+1;
+    return `<div class="pod${r===1?' p1':''}"><div class="prank">#${r}</div><div class="pemo">${pl.emoji}</div><div class="pname">${escHtml(pl.u)}</div><div class="ppts">${pl.total}</div><div class="psub">${pl.exact} exact${pl.exact>1?'s':''}</div></div>`;
   }).join('');
-  document.getElementById('lb-table').innerHTML = sorted.map((pl,i) => `
+  document.getElementById('lb-table').innerHTML=sorted.map((pl,i)=>`
     <div class="lbr${pl.u===ME?.username?' me':''}">
       <div class="lrank">${i+1}</div>
       <div class="linfo"><div class="lav">${pl.emoji}</div>
-        <div><div class="lname">${pl.u}${pl.u===ME?.username?' <span style="font-size:10px;color:var(--gold)">(vous)</span>':''}</div>
+        <div><div class="lname">${escHtml(pl.u)}${pl.u===ME?.username?' <span style="font-size:10px;color:var(--gold)">(vous)</span>':''}</div>
         <div class="lsub">${pl.bets} paris · ${pl.doubles} ×2</div></div>
       </div>
       <div class="lval">${pl.exact}<br><span style="font-size:9px">exacts</span></div>
@@ -1835,121 +1545,172 @@ function renderLeaderboard() {
     </div>`).join('');
 }
 
-// ================================================
-// STATS
-// ================================================
-function renderStats() {
-  if (!ME) return;
-  const s = getScore(ME.username);
-  const members = (DB_members[CUR_GROUP]||[]).filter(u=>u!=='admin');
-  const sorted = members.map(u=>({u,...getScore(u)})).sort((a,b)=>b.total-a.total);
-  const rank = sorted.findIndex(x=>x.u===ME.username)+1;
-  const played = MATCHES.filter(m=>DB_results[m.id]?.home!==undefined).length;
-  document.getElementById('sgrid').innerHTML = [
+function renderStats(){
+  if(!ME) return;
+  const s=getScore(ME.username);
+  const members=(DB_members[CUR_GROUP]||[]).filter(u=>u!=='admin');
+  const sorted=members.map(u=>(({u,...getScore(u)})).sort((a,b)=>b.total-a.total);
+  const rank=sorted.findIndex(x=>x.u===ME.username)+1;
+  const played=MATCHES.filter(m=>DB_results[m.id]?.home!==undefined).length;
+  document.getElementById('sgrid').innerHTML=[
     {v:s.total,l:'Points totaux'},{v:`#${rank||'–'}/${members.length||'–'}`,l:'Classement'},
     {v:s.bets,l:'Paris placés'},{v:s.exact,l:'Scores exacts'},
-    {v:s.doubles,l:'Bonus ×2 utilisés'},{v:played,l:'Matchs avec résultat'},
+    {v:s.doubles,l:'Bonus ×2'},{v:played,l:'Matchs joués'},
   ].map(x=>`<div class="sc"><div class="sv">${x.v}</div><div class="sl">${x.l}</div></div>`).join('');
 }
 
-// ================================================
+async function renderGlobalLeaderboard(){
+  const el=document.getElementById('global-lb-table');if(!el) return;
+  const allUsers=new Set();
+  Object.values(DB_members).forEach(ms=>(ms||[]).forEach(u=>{if(u!=='admin')allUsers.add(u);}}}));
+  if(allUsers.size===0){el.innerHTML='<p style="color:var(--muted);text-align:center;padding:20px">Aucun joueur.</p>';return;}
+  await loadUsersEmoji([...allUsers]);
+  const scores=[...allUsers].map(u=>{
+    let total=0,exact=0,bets=0,doubles=0;
+    Object.keys(DB_groupMeta).forEach(gid=>{
+      if((DB_members[gid]||[]).includes(u)){const s=getScoreForGroup(u,gid);total+=s.total;exact+=s.exact;bets+=s.bets;doubles+=s.doubles;}
+    });
+    return {u,emoji:DB_users[u]?.emoji||'🏳️',total,exact,bets,doubles};
+  }).sort((a,b)=>b.total-a.total||b.exact-a.exact);
+  el.innerHTML=scores.map((pl,i)=>`
+    <div class="lbr${pl.u===ME?.username?' me':''}">
+      <div class="lrank">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div>
+      <div class="linfo"><div class="lav" style="font-size:20px">${pl.emoji}</div>
+        <div><div class="lname">${escHtml(pl.u)}${pl.u===ME?.username?' <span style="font-size:10px;color:var(--gold)">(vous)</span>':''}</div>
+        <div class="lsub">${pl.bets} paris · ${pl.exact} exacts</div></div>
+      </div>
+      <div class="lval">${pl.exact}<br><span style="font-size:9px">exacts</span></div>
+      <div class="lval">${pl.doubles}<br><span style="font-size:9px">bonus</span></div>
+      <div class="lpts">${pl.total}<span style="font-size:11px;color:var(--muted)"> pts</span></div>
+    </div>`).join('');
+}
+
+// ========================================
 // GROUPS
-// ================================================
-function renderGroups() {
-  if (!ME) return;
-  const myGids = Object.keys(DB_groupMeta);
-  let html = myGids.map(gid => {
-    const g = DB_groupMeta[gid]; if (!g) return '';
-    const link = `${location.origin}${location.pathname}?group=${gid}`;
-    const code = g.code || '——';
-    const members = (DB_members[gid]||[]).filter(u=>u!=='admin');
+// ========================================
+function renderGroups(){
+  if(!ME) return;
+  const myGids=Object.keys(DB_groupMeta);
+  let html=myGids.map(gid=>{
+    const g=DB_groupMeta[gid];if(!g) return '';
+    const link=location.origin+location.pathname+'?group='+gid;
+    const code=g.code||'——';
+    const members=(DB_members[gid]||[]).filter(u=>u!=='admin');
     return `<div class="gbox" style="${CUR_GROUP===gid?'border-color:var(--gold);':''}">
-      <h3>${g.name}${CUR_GROUP===gid?' ✓':''}</h3>
+      <h3>${escHtml(g.name)}${CUR_GROUP===gid?' ✓':''}</h3>
       <p>${members.length} membre(s) · ${g.adminUser===ME.username||ME.isAdmin?'🛡️ Admin':'Membre'}</p>
       ${CUR_GROUP!==gid?`<button class="btn btn-gold btn-sm" style="margin-bottom:10px" onclick="switchGroup('${gid}')">Activer</button>`:'<span style="font-size:12px;color:var(--green);display:block;margin-bottom:8px">✅ Groupe actif</span>'}
-      <div style="margin-bottom:14px">
-        <div style="font-size:11px;color:var(--muted);margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase;font-weight:600">🔑 Code d'invitation</div>
-        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <div style="margin-bottom:12px">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;font-weight:600;letter-spacing:.5px">🔑 Code d'invitation</div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
           <span class="code-badge" onclick="navigator.clipboard.writeText('${code}').then(()=>toast('📋 Code copié !'))">${code}</span>
           <span style="font-size:12px;color:var(--muted2)">Cliquer pour copier</span>
         </div>
       </div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:6px;letter-spacing:.5px;text-transform:uppercase;font-weight:600">Lien d'invitation</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;font-weight:600;letter-spacing:.5px">Lien d'invitation</div>
       <div class="ilink"><input class="ilinkin" value="${link}" readonly><button class="cbtn" onclick="copyLink('${link}')">📋 Copier</button></div>
-      <div class="mlist">${members.map(u=>`<div class="mchip${g.adminUser===u?' adm':''}">${DB_users[u]?.emoji||'👤'} ${u}${g.adminUser===u?' 🛡':''}</div>`).join('')}</div>
+      <div class="mlist">${members.map(u=>`<div class="mchip${g.adminUser===u?' adm':''}">${DB_users[u]?.emoji||'👤'} ${escHtml(u)}</div>`).join('')}</div>
     </div>`;
   }).join('');
-  if (!html) html = '<p style="color:var(--muted);font-size:13px;margin-bottom:14px">Aucun groupe. Créez-en un ci-dessous.</p>';
-  document.getElementById('groups-content').innerHTML = html;
+  if(!html) html='<p style="color:var(--muted);font-size:13px;margin-bottom:14px">Aucun groupe.</p>';
+  document.getElementById('groups-content').innerHTML=html;
 }
 
-window.switchGroup = async function(gid) {
-  CUR_GROUP = gid;
+window.switchGroup=async function(gid){
+  CUR_GROUP=gid;
   subscribeGroup(gid);
-  document.getElementById('topbar-group').textContent = DB_groupMeta[gid]?.name||'Groupe';
-  renderAll(); showTab('matches');
-  toast('✅ Groupe actif : ' + DB_groupMeta[gid]?.name);
+  document.getElementById('topbar-group').textContent=DB_groupMeta[gid]?.name||'Groupe';
+  renderAll();showTab('matches');
+  toast('✅ Groupe : '+DB_groupMeta[gid]?.name);
 };
 
-// createGroup deduplicated
+window.createGroup=async function(){
+  if(!ME||!isAdmin()) return toast('⚠️ Réservé à l'admin');
+  const name=document.getElementById('new-gname').value.trim();
+  if(!name) return toast('⚠️ Entrez un nom');
+  const gid=uid(),code=generateCode();
+  const groupData={name,adminUser:ME.username==='admin'?'admin':ME.username,createdAt:Date.now(),code};
+  await set(ref(db,'groups/'+gid),groupData);
+  await set(ref(db,'codes/'+code),gid);
+  DB_groupMeta[gid]=groupData;DB_members[gid]=[];
+  CUR_GROUP=gid;subscribeGroup(gid);
+  document.getElementById('new-gname').value='';
+  document.getElementById('topbar-group').textContent=name;
+  renderGroups();toast('✅ Groupe créé : '+name+' · Code : '+code);
+};
 
+function generateCode(){
+  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  return Array.from({length:6},()=>chars[Math.floor(Math.random()*chars.length)]).join('');
+}
 
-window.copyLink = function(l) { navigator.clipboard.writeText(l).then(()=>toast('📋 Lien d\'invitation copié !')); };
+window.copyLink=function(l){navigator.clipboard.writeText(l).then(()=>toast('📋 Lien copié !'));};
 
-// ================================================
+window.joinByCode=async function(inputId){
+  const code=document.getElementById(inputId)?.value.trim().toUpperCase();
+  if(!code||code.length<4) return toast('⚠️ Code invalide');
+  const snap=await get(ref(db,'codes/'+code));
+  if(!snap.exists()) return toast('❌ Code invalide ou expiré');
+  const gid=snap.val();
+  const gsnap=await get(ref(db,'groups/'+gid));
+  if(!gsnap.exists()) return toast('❌ Groupe introuvable');
+  await joinGroup(gid);
+  renderGroups();showTab('matches');
+  toast('✅ Groupe rejoint : '+gsnap.val().name);
+};
+
+// ========================================
 // ADMIN
-// ================================================
-function renderAdmin() {
-  if (!isAdmin()) { document.getElementById('admin-list').innerHTML='<p style="color:var(--muted)">Accès admin uniquement.</p>'; return; }
-  // Admin groups overview
-  const gids = Object.keys(DB_groupMeta);
-  document.getElementById('admin-groups-section').innerHTML = `
-    <div class="sh"><div class="st" style="font-size:16px">GROUPES (${gids.length})</div></div>
-    ${gids.map(gid => {
-      const g = DB_groupMeta[gid];
-      const link = location.origin + location.pathname + '?group=' + gid;
-      const code = g.code || '<em style="color:var(--red)">Pas de code</em>';
-      const members = (DB_members[gid]||[]).filter(u=>u!=='admin');
-      const memberScores = members.map(u => ({u, emoji: DB_users[u]?.emoji||'🏳️', ...getScoreForGroup(u,gid)})).sort((a,b)=>b.total-a.total||b.exact-a.exact);
-      return '<div class="gbox" style="margin-bottom:16px">'
-        + '<div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">'
-        + '<div><div style="font-size:16px;font-weight:700;color:var(--gold);margin-bottom:3px">' + g.name + '</div>'
-        + '<div style="font-size:11px;color:var(--muted)">' + members.length + ' membre(s) · Code : <strong style="color:var(--gold);letter-spacing:2px">' + (g.code||'—') + '</strong></div></div>'
-        + '<div style="display:flex;gap:8px;flex-wrap:wrap">'
-        + (CUR_GROUP!==gid ? '<button class="btn btn-gold btn-sm" onclick="switchGroup(\'' + gid + '\')">Activer</button>' : '<span style="font-size:11px;color:var(--green);padding:6px 0">✅ Actif</span>')
-        + '<button class="cbtn" style="background:var(--s3);color:var(--muted2)" onclick="copyLink(\'' + link + '\')">📋</button>'
-        + '<button class="btn btn-sm" style="background:rgba(255,61,61,0.12);color:var(--red);border:1px solid rgba(255,61,61,0.25)" onclick="adminDeleteGroup(\'' + gid + '\')">🗑 Supprimer</button>'
-        + '</div></div>'
-        + '<table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:4px"><thead><tr style="border-bottom:1px solid var(--bd)">'
-        + '<th style="text-align:left;padding:5px 8px;color:var(--muted);font-size:11px">#</th>'
-        + '<th style="text-align:left;padding:5px 8px;color:var(--muted);font-size:11px">Joueur</th>'
-        + '<th style="text-align:center;padding:5px 8px;color:var(--muted);font-size:11px">Paris</th>'
-        + '<th style="text-align:center;padding:5px 8px;color:var(--muted);font-size:11px">Exacts</th>'
-        + '<th style="text-align:right;padding:5px 8px;color:var(--muted);font-size:11px">Pts</th>'
-        + '</tr></thead><tbody>'
-        + (memberScores.length > 0 ? memberScores.map((pl,i) =>
-            '<tr style="border-bottom:1px solid rgba(255,255,255,0.03)">'
-            + '<td style="padding:5px 8px;color:var(--muted);font-family:Bebas Neue,sans-serif;font-size:16px">' + (i+1) + '</td>'
-            + '<td style="padding:5px 8px;display:flex;align-items:center;gap:8px"><span style="font-size:18px">' + pl.emoji + '</span> ' + pl.u + '<button onclick="adminDeletePlayer(\'' + pl.u + '\')" style="background:rgba(255,61,61,0.12);border:1px solid rgba(255,61,61,0.25);color:var(--red);border-radius:6px;padding:2px 8px;font-size:10px;cursor:pointer;margin-left:auto">🗑</button></td>'
-            + '<td style="padding:5px 8px;text-align:center;color:var(--muted2)">' + pl.bets + '</td>'
-            + '<td style="padding:5px 8px;text-align:center;color:var(--muted2)">' + pl.exact + '</td>'
-            + '<td style="padding:5px 8px;text-align:right;font-family:Bebas Neue,sans-serif;font-size:18px;color:var(--gold)">' + pl.total + '</td>'
-            + '</tr>').join('')
-          : '<tr><td colspan="5" style="padding:10px;text-align:center;color:var(--muted)">Aucun membre</td></tr>')
-        + '</tbody></table></div>';
-    }).join('')}`;
-  // Render players list
+// ========================================
+function renderAdmin(){
+  // SECURITY: Double-check admin status, hide content if not admin
+  const gate=document.getElementById('admin-gate');
+  const content=document.getElementById('admin-content');
+  if(!isAdmin()){
+    if(gate) gate.style.display='block';
+    if(content) content.style.display='none';
+    return;
+  }
+  if(gate) gate.style.display='none';
+  if(content) content.style.display='block';
+  const gids=Object.keys(DB_groupMeta);
+  document.getElementById('admin-groups-section').innerHTML=gids.map(gid=>{
+    const g=DB_groupMeta[gid];
+    const link=location.origin+location.pathname+'?group='+gid;
+    const members=(DB_members[gid]||[]).filter(u=>u!=='admin');
+    const scores=members.map(u=>({u,emoji:DB_users[u]?.emoji||'🏳️',...getScoreForGroup(u,gid)})).sort((a,b)=>b.total-a.total);
+    return `<div class="gbox" style="margin-bottom:14px">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px">
+        <div><strong style="color:var(--gold)">${escHtml(g.name)}</strong> <span style="font-size:11px;color:var(--muted)">${members.length} membres · Code: <strong style="letter-spacing:2px">${g.code||'—'}</strong></span></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          ${CUR_GROUP!==gid?`<button class="btn btn-gold btn-sm" onclick="switchGroup('${gid}')">Activer</button>`:'<span style="font-size:11px;color:var(--green)">✅ Actif</span>'}
+          <button class="cbtn" style="background:var(--s3);color:var(--muted2)" onclick="copyLink('${link}')">📋</button>
+          <button class="btn btn-sm" style="background:rgba(255,61,61,.12);color:var(--red);border:1px solid rgba(255,61,61,.25)" onclick="adminDeleteGroup('${gid}')">🗑 Supprimer</button>
+        </div>
+      </div>
+      <table style="width:100%;border-collapse:collapse;font-size:12px"><thead><tr style="border-bottom:1px solid var(--bd)">
+        <th style="text-align:left;padding:5px 8px;color:var(--muted);font-size:11px">#</th>
+        <th style="text-align:left;padding:5px 8px;color:var(--muted);font-size:11px">Joueur</th>
+        <th style="text-align:right;padding:5px 8px;color:var(--muted);font-size:11px">Pts</th>
+      </tr></thead><tbody>
+      ${scores.length>0?scores.map((pl,i)=>`<tr style="border-bottom:1px solid rgba(255,255,255,.03)">
+        <td style="padding:5px 8px;color:var(--muted);font-family:'Bebas Neue',sans-serif;font-size:16px">${i+1}</td>
+        <td style="padding:5px 8px"><span style="font-size:18px">${pl.emoji}</span> ${escHtml(pl.u)}</td>
+        <td style="padding:5px 8px;text-align:right;font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--gold)">${pl.total}</td>
+      </tr>`).join(''):'<tr><td colspan="3" style="padding:10px;text-align:center;color:var(--muted)">Aucun membre</td></tr>'}
+      </tbody></table>
+    </div>`;
+  }).join('');
   renderAdminPlayers();
-  // Render scores list
-  buildFilters('admin-frow', ADMIN_FILTER, 'setAdminFilter');
-  const R = resolveKnockoutTeams(DB_results);
-  const matches = ADMIN_FILTER==='all' ? MATCHES : MATCHES.filter(m=>m.gr===ADMIN_FILTER);
-  let html2='', lastDate2='';
-  matches.forEach(m => {
-    const em = enrichMatch(m, R);
-    if (m.dt!==lastDate2) { html2+=`<div class="daysep">${fmtDate(m.dt)}</div>`; lastDate2=m.dt; }
-    const res = DB_results[m.id]||{};
-    html2 += `<div class="mc">
+  buildFilters('admin-frow',ADMIN_FILTER,'setAdminFilter');
+  const R=resolveKnockoutTeams(DB_results);
+  const matches=ADMIN_FILTER==='all'?MATCHES:MATCHES.filter(m=>m.gr===ADMIN_FILTER);
+  let html='',lastDate='';
+  matches.forEach(m=>{
+    const em=enrichMatch(m,R);
+    if(m.dt!==lastDate){html+=`<div class="daysep">${fmtDate(m.dt)}</div>`;lastDate=m.dt;}
+    const res=DB_results[m.id]||{};
+    html+=`<div class="mc">
       <div class="mh">
         <span class="tag tg">${STAGE_LABELS[m.gr]||m.gr}</span>
         <span style="color:var(--muted);font-size:10px">${fmtDate(m.dt)} · ${m.tm} GMT</span>
@@ -1963,1016 +1724,443 @@ function renderAdmin() {
         <div class="team"><div class="fl">${em.a||'🏆'}</div><div class="tn" style="font-size:11px">${em.an}</div></div>
       </div>
       <div class="rrow">
-        <span style="font-size:11px;color:var(--muted)">Correction :</span>
+        <span style="font-size:11px;color:var(--muted)">Score :</span>
         <input class="ri" type="number" min="0" max="30" id="rh_${m.id}" value="${res.home??''}" placeholder="0">
         <span style="color:var(--muted)">–</span>
         <input class="ri" type="number" min="0" max="30" id="ra_${m.id}" value="${res.away??''}" placeholder="0">
-        <button class="btn btn-gold btn-sm" onclick="adminSaveResult('${m.id}')">✅ Valider</button>
+        <button class="btn btn-gold btn-sm" onclick="adminSaveResult('${m.id}')">✅</button>
         ${res.home!==undefined?`<button class="btn btn-out btn-sm" onclick="adminClearResult('${m.id}')">✕</button>`:''}
       </div>
     </div>`;
   });
-  document.getElementById('admin-list').innerHTML = html2;
+  document.getElementById('admin-list').innerHTML=html;
 }
 
-window.adminSaveResult = async function(mid) {
-  if (!isAdmin()) return toast('🔒 Accès refusé');
-  const h = document.getElementById('rh_'+mid)?.value.trim();
-  const a = document.getElementById('ra_'+mid)?.value.trim();
-  if (h===''||a==='') return toast('⚠️ Entrez les deux scores');
-  await set(ref(db, `results/${mid}`), {home:+h, away:+a, ts:Date.now()});
-  notifyScoreUpdate(mid, h, a);
-  toast('✅ Score enregistré et propagé à tous !');
-};
-window.adminClearResult = async function(mid) {
-  await remove(ref(db, `results/${mid}`));
-  toast('🗑 Score supprimé');
-};
-
-// ================================================
-// INVITE
-// ================================================
-async function checkInvite() {
-  // Secret admin auto-login via URL param (never shown on page)
-  const adminKey = getURLParam('admin');
-  if (adminKey === ADMIN_PASS) {
-    ME = {username:'admin', emoji:'🛡️', isAdmin:true};
-    localStorage.setItem('wc2026_me', JSON.stringify(ME));
-    await loadUserData();
-    enterApp();
-    return;
-  }
-  const gid = getURLParam('group');
-  if (gid) {
-    const snap = await get(ref(db, `groups/${gid}`));
-    if (snap.exists()) {
-      document.getElementById('invite-bar').classList.remove('hidden');
-      document.getElementById('invite-gname').textContent = snap.val().name;
-    }
-  }
-}
-
-// ================================================
-// LOAD USER EMOJIS (for leaderboard display)
-// ================================================
-async function loadUsersEmoji(usernames) {
-  for (const u of usernames) {
-    if (DB_users[u] || u==='admin') continue;
-    const snap = await get(ref(db, `users/${u}/emoji`));
-    if (snap.exists()) DB_users[u] = {emoji: snap.val()};
-  }
-}
-
-// Watch for new members and load their emojis
-const _origRenderLB = renderLeaderboard;
-
-
-// ================================================
-// EXPOSE GLOBALS
-// ================================================
-window.closeModal = closeModal;
-window.renderAll = renderAll;
-window.showDetail = window.showDetail;
-
-// ================================================
-// PWA — Install prompt
-// ================================================
-let deferredPrompt = null;
-const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-
-if (!isInStandaloneMode) {
-  if (isIOS) {
-    // Show iOS hint after 3s
-    const dismissed = sessionStorage.getItem('pwa_dismissed');
-    if (!dismissed) {
-      setTimeout(() => {
-        document.getElementById('ios-hint').classList.add('show');
-      }, 3000);
-    }
-  } else {
-    // Listen for beforeinstallprompt (Android/Desktop Chrome)
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      const dismissed = sessionStorage.getItem('pwa_dismissed');
-      if (!dismissed) {
-        setTimeout(() => {
-          document.getElementById('pwa-banner').classList.add('show');
-        }, 2000);
-      }
-    });
-  }
-}
-
-document.getElementById('pwa-install-btn')?.addEventListener('click', async () => {
-  if (!deferredPrompt) return;
-  deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
-  if (outcome === 'accepted') {
-    document.getElementById('pwa-banner').classList.remove('show');
-    toast('✅ Application installée !');
-  }
-  deferredPrompt = null;
-});
-
-window.dismissPWA = function() {
-  document.getElementById('pwa-banner').classList.remove('show');
-  document.getElementById('ios-hint').classList.remove('show');
-  sessionStorage.setItem('pwa_dismissed', '1');
-};
-
-window.addEventListener('appinstalled', () => {
-  document.getElementById('pwa-banner').classList.remove('show');
-  toast('✅ World Cup 2026 installé sur votre écran d\'accueil !');
-});
-
-// Register service worker
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    // Inline service worker via blob
-    const swCode = `
-const CACHE = 'wc2026-v1';
-const ASSETS = ['/'];
-self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
-  self.skipWaiting();
-});
-self.addEventListener('activate', e => {
-  e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));
-  self.clients.claim();
-});
-self.addEventListener('fetch', e => {
-  if (e.request.method !== 'GET') return;
-  e.respondWith(
-    fetch(e.request).catch(() => caches.match(e.request))
-  );
-});
-    `;
-    const blob = new Blob([swCode], {type: 'application/javascript'});
-    const swUrl = URL.createObjectURL(blob);
-    navigator.serviceWorker.register(swUrl).catch(()=>{});
-  });
-}
-
-
-// ================================================
-// ADMIN LOGIN PANEL
-// ================================================
-window.showAdminLogin = function() {
-  document.getElementById('form-login').classList.add('hidden');
-  document.getElementById('form-register').classList.add('hidden');
-  document.getElementById('form-admin').classList.remove('hidden');
-  document.querySelectorAll('.atab').forEach(b => b.classList.remove('active'));
-};
-
-window.showNormalLogin = function() {
-  document.getElementById('form-admin').classList.add('hidden');
-  document.getElementById('form-login').classList.remove('hidden');
-  document.querySelectorAll('.atab')[0].classList.add('active');
-};
-
-window.doAdminLogin = async function() {
-  const p = document.getElementById('admin-pass-input').value;
-  const errEl = document.getElementById('admin-err');
-  errEl.textContent = '';
-  if (!p) return (errEl.textContent = '⚠️ Entrez le mot de passe');
-  // SECURITY: Admin pass compared directly (not stored in DB)
-  if (p !== ADMIN_PASS) return (errEl.textContent = '❌ Mot de passe incorrect');
-  ME = {username:'admin', emoji:'🛡️', isAdmin:true};
-  localStorage.setItem('wc2026_me', JSON.stringify(ME));
-  await loadUserData();
-  enterApp();
-};
-
-
-// ================================================
-// FORCE GROUP — user must be in a group
-// ================================================
-function checkUserHasGroup() {
-  if (!ME || ME.isAdmin) return true;
-  // Check DB_groupMeta first
-  const myGroups = Object.keys(DB_groupMeta || {});
-  if (myGroups.length > 0) return true;
-  // Also check localStorage cache
-  const cached = localStorage.getItem('wc2026_hasgroup_' + ME.username);
-  return cached === '1';
-}
-
-function markUserHasGroup() {
-  if (ME && !ME.isAdmin) {
-    localStorage.setItem('wc2026_hasgroup_' + ME.username, '1');
-  }
-}
-
-function showNoGroupModal() {
-  
-}
-
-window.createGroupFromModal = async function() {
-  const name = document.getElementById('nogroup-name').value.trim();
-  if (!name) return toast('⚠️ Entrez un nom de groupe');
-  const gid = uid();
-  const groupData = {name, adminUser: ME.username, createdAt: Date.now()};
-  await set(ref(db, 'groups/' + gid), groupData);
-  await set(ref(db, 'users/' + ME.username + '/groups/' + gid), true);
-  await set(ref(db, 'members/' + gid + '/' + ME.username), true);
-  DB_groupMeta[gid] = groupData;
-  DB_members[gid] = [ME.username];
-  CUR_GROUP = gid;
-  subscribeGroup(gid);
-  
-  markUserHasGroup();
-  document.getElementById('topbar-group').textContent = name;
-  renderAll();
-  toast('✅ Groupe créé : ' + name);
-};
-
-// showTab is used directly
-
-
-// ================================================
-// INVITE CODE SYSTEM
-// ================================================
-function generateCode() {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // no confusing chars
-  let code = '';
-  for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
-  return code;
-}
-
-window.joinByCode = async function(inputId) {
-  const code = document.getElementById(inputId)?.value.trim().toUpperCase();
-  if (!code || code.length < 4) return toast('⚠️ Entrez un code valide');
-  // Look up the code in Firebase
-  const snap = await get(ref(db, 'codes/' + code));
-  if (!snap.exists()) return toast('❌ Code invalide ou expiré');
-  const gid = snap.val();
-  // Check group exists
-  const gsnap = await get(ref(db, 'groups/' + gid));
-  if (!gsnap.exists()) return toast('❌ Groupe introuvable');
-  await joinGroup(gid);
-  
-  markUserHasGroup();
-  showTab('matches');
-  toast('✅ Groupe rejoint : ' + gsnap.val().name);
-};
-
-// Override createGroup to also generate a code
-const _origCreateGroup = window.createGroup;
-window.createGroup = async function() {
-  if (!ME) return;
-  const name = document.getElementById('new-gname').value.trim();
-  if (!name) return toast('⚠️ Entrez un nom de groupe');
-  const gid = uid();
-  const code = generateCode();
-  const groupData = {name, adminUser: ME.isAdmin ? 'admin' : ME.username, createdAt: Date.now(), code};
-  await set(ref(db, 'groups/' + gid), groupData);
-  await set(ref(db, 'codes/' + code), gid); // code lookup table
-  if (!ME.isAdmin) {
-    await set(ref(db, 'users/' + ME.username + '/groups/' + gid), true);
-    await set(ref(db, 'members/' + gid + '/' + ME.username), true);
-  }
-  DB_groupMeta[gid] = groupData;
-  DB_members[gid] = ME.isAdmin ? [] : [ME.username];
-  CUR_GROUP = gid;
-  subscribeGroup(gid);
-  document.getElementById('new-gname').value = '';
-  document.getElementById('topbar-group').textContent = name;
-  renderGroups();
-  toast('✅ Groupe créé : ' + name + ' · Code : ' + code);
-};
-
-// Override createGroupFromModal too
-window.createGroupFromModal = async function() {
-  const name = document.getElementById('nogroup-name').value.trim();
-  if (!name) return toast('⚠️ Entrez un nom de groupe');
-  const gid = uid();
-  const code = generateCode();
-  const groupData = {name, adminUser: ME.username, createdAt: Date.now(), code};
-  await set(ref(db, 'groups/' + gid), groupData);
-  await set(ref(db, 'codes/' + code), gid);
-  await set(ref(db, 'users/' + ME.username + '/groups/' + gid), true);
-  await set(ref(db, 'members/' + gid + '/' + ME.username), true);
-  DB_groupMeta[gid] = groupData;
-  DB_members[gid] = [ME.username];
-  CUR_GROUP = gid;
-  subscribeGroup(gid);
-  
-  document.getElementById('topbar-group').textContent = name;
-  renderAll();
-  toast('✅ Groupe créé : ' + name + ' · Code : ' + code);
-};
-
-
-window.adminDeleteGroup = async function(gid) {
-  if (!isAdmin()) return toast('🔒 Accès refusé');
-  const g = DB_groupMeta[gid];
-  if (!g) return;
-  if (!confirm('Supprimer le groupe "' + g.name + '" ? Cette action est irréversible.')) return;
-  // Remove group data from Firebase
-  await remove(ref(db, 'groups/' + gid));
-  await remove(ref(db, 'bets/' + gid));
-  await remove(ref(db, 'doubles/' + gid));
-  await remove(ref(db, 'members/' + gid));
-  if (g.code) await remove(ref(db, 'codes/' + g.code));
-  // Remove from all users' group lists
-  const members = DB_members[gid] || [];
-  for (const u of members) {
-    await remove(ref(db, 'users/' + u + '/groups/' + gid));
-  }
-  // Update local state
-  delete DB_groupMeta[gid];
-  delete DB_members[gid];
-  delete DB_bets[gid];
-  if (CUR_GROUP === gid) {
-    const remaining = Object.keys(DB_groupMeta);
-    CUR_GROUP = remaining.length > 0 ? remaining[0] : null;
-    document.getElementById('topbar-group').textContent = CUR_GROUP ? DB_groupMeta[CUR_GROUP]?.name : 'Pas de groupe';
-  }
-  renderAdmin();
-  toast('✅ Groupe supprimé');
-};
-
-// ================================================
-// GLOBAL LEADERBOARD
-// ================================================
-async function renderGlobalLeaderboard() {
-  const el = document.getElementById('global-lb-table');
-  if (!el) return;
-  // Collect ALL users across ALL groups (deduplicated)
-  const allUsers = new Set();
-  Object.values(DB_members).forEach(members => {
-    (members||[]).forEach(u => { if(u !== 'admin') allUsers.add(u); });
-  });
-  if (allUsers.size === 0) {
-    el.innerHTML = '<p style="color:var(--muted);text-align:center;padding:20px">Aucun joueur pour l\'instant.</p>';
-    return;
-  }
-  // Load missing user emojis
+async function renderAdminPlayers(){
+  const allUsers=new Set();
+  try{const snap=await get(ref(db,'users'));if(snap.exists())Object.keys(snap.val()).forEach(u=>{if(u!=='admin')allUsers.add(u);}});}catch(e){}
+  Object.values(DB_members).forEach(ms=>(ms||[]).forEach(u=>{if(u!=='admin')allUsers.add(u);}}}));
   await loadUsersEmoji([...allUsers]);
-  // Compute best score across all groups for each user
-  const scores = [...allUsers].map(u => {
-    let total=0, exact=0, bets=0, doubles=0;
-    // Sum across all groups they belong to
-    Object.keys(DB_groupMeta).forEach(gid => {
-      if ((DB_members[gid]||[]).includes(u)) {
-        const s = getScoreForGroup(u, gid);
-        total += s.total;
-        exact += s.exact;
-        bets += s.bets;
-        doubles += s.doubles;
-      }
-    });
-    return { u, emoji: DB_users[u]?.emoji||'🏳️', total, exact, bets, doubles };
-  }).sort((a,b) => b.total - a.total || b.exact - a.exact);
-
-  el.innerHTML = scores.map((pl, i) => `
-    <div class="lbr${pl.u===ME?.username?' me':''}">
-      <div class="lrank">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div>
-      <div class="linfo">
-        <div class="lav" style="font-size:20px">${pl.emoji}</div>
-        <div>
-          <div class="lname">${pl.u}${pl.u===ME?.username?' <span style="font-size:10px;color:var(--gold)">(vous)</span>':''}</div>
-          <div class="lsub">${pl.bets} paris · ${pl.exact} exacts</div>
-        </div>
-      </div>
-      <div class="lval">${pl.exact}<br><span style="font-size:9px">exacts</span></div>
-      <div class="lval">${pl.doubles}<br><span style="font-size:9px">bonus</span></div>
-      <div class="lpts">${pl.total}<span style="font-size:11px;color:var(--muted)"> pts</span></div>
-    </div>`).join('');
-}
-
-
-// ================================================
-// CODE SCREEN — after registration
-// ================================================
-window.joinByCodeFromScreen = async function() {
-  const code = document.getElementById('screen-code-input')?.value.trim().toUpperCase();
-  const errEl = document.getElementById('code-screen-err');
-  errEl.textContent = '';
-  if (!code || code.length < 4) return (errEl.textContent = '⚠️ Entrez un code valide');
-  const snap = await get(ref(db, 'codes/' + code));
-  if (!snap.exists()) return (errEl.textContent = '❌ Code invalide. Vérifiez avec votre organisateur.');
-  const gid = snap.val();
-  const gsnap = await get(ref(db, 'groups/' + gid));
-  if (!gsnap.exists()) return (errEl.textContent = '❌ Groupe introuvable');
-  await joinGroup(gid);
-  document.getElementById('screen-code').classList.remove('active');
-  enterApp();
-};
-
-
-// ================================================
-// PUSH NOTIFICATIONS — FCM
-// ================================================
-async function requestNotifPermission() {
-  if (!messaging) return;
-  try {
-    const permission = await Notification.requestPermission();
-    if (permission !== 'granted') return;
-    const token = await getToken(messaging, { vapidKey: VAPID_KEY });
-    if (token && ME && !ME.isAdmin) {
-      // Save token to Firebase under user
-      await set(ref(db, 'fcm_tokens/' + ME.username), {
-        token, 
-        updatedAt: Date.now(),
-        platform: /iphone|ipad|ipod/i.test(navigator.userAgent) ? 'ios' : 'android'
-      });
-      console.log('FCM token saved');
-    }
-  } catch(e) { console.log('Notif permission error:', e); }
-}
-
-// ================================================
-// MATCH REMINDER SCHEDULER
-// Checks every minute if a match is coming up
-// ================================================
-function startMatchReminders() {
-  if (!('Notification' in window) || Notification.permission !== 'granted') return;
-  
-  setInterval(() => {
-    const now = new Date();
-    MATCHES.forEach(m => {
-      if (!m.hn) return; // skip knockout placeholders
-      const matchDate = new Date(m.dt + 'T' + m.tm + ':00Z');
-      const diffMs = matchDate - now;
-      const diffMin = Math.round(diffMs / 60000);
-      
-      // Already started or result exists
-      if (diffMs < 0) return;
-      const result = DB_results[m.id];
-      if (result) return;
-      
-      // Check if user has bet
-      const myBet = CUR_GROUP ? (DB_bets[CUR_GROUP]?.[ME?.username]||{})[m.id] : null;
-      const hasBet = myBet && myBet.home !== undefined && myBet.away !== undefined;
-      
-      // 2h before — only if no bet yet
-      if (diffMin === 120 && !hasBet) {
-        showLocalNotif(
-          '⚽ ' + m.hn + ' vs ' + m.an,
-          'Le match commence dans 2h ! Faites votre pronostic avant qu\'il soit trop tard.',
-          m.id + '_2h'
-        );
-      }
-      // 30min before — only if no bet yet  
-      if (diffMin === 30 && !hasBet) {
-        showLocalNotif(
-          '⏰ Dernier rappel !',
-          m.hn + ' vs ' + m.an + ' dans 30 minutes. Plus que quelques minutes pour parier !',
-          m.id + '_30m'
-        );
-      }
-      // 10min before — urgent
-      if (diffMin === 10 && !hasBet) {
-        showLocalNotif(
-          '🚨 Urgence !',
-          m.hn + ' vs ' + m.an + ' dans 10 minutes ! Vous n\'avez pas encore parié !',
-          m.id + '_10m'
-        );
-      }
-    });
-  }, 60000); // check every minute
-}
-
-function showLocalNotif(title, body, tag) {
-  // Avoid duplicate notifications
-  const key = 'notif_sent_' + tag;
-  if (sessionStorage.getItem(key)) return;
-  sessionStorage.setItem(key, '1');
-  
-  if (!('Notification' in window) || Notification.permission !== 'granted') return;
-  
-  try {
-    new Notification(title, {
-      body,
-      icon: '/icon-192.png',
-      badge: '/icon-192.png',
-      tag,
-      requireInteraction: true,
-      vibrate: [200, 100, 200]
-    });
-  } catch(e) {
-    // Fallback: show in-app toast
-    toast('🔔 ' + title + ' — ' + body, 6000);
-  }
-}
-
-// Show notification when score updated
-function notifyScoreUpdate(matchId, home, away) {
-  const m = MATCHES.find(x => x.id === matchId);
-  if (!m || !m.hn) return;
-  showLocalNotif(
-    '✅ Résultat officiel !',
-    m.hn + ' ' + home + ' – ' + away + ' ' + m.an + ' · Classement mis à jour !',
-    matchId + '_result'
-  );
-}
-
-// ================================================
-// NOTIF PERMISSION BANNER
-// ================================================
-function showNotifBanner() {
-  if (!('Notification' in window)) return;
-  if (Notification.permission === 'granted') { startMatchReminders(); return; }
-  if (Notification.permission === 'denied') return;
-  if (sessionStorage.getItem('notif_banner_dismissed')) return;
-  // Show banner after 2s
-  setTimeout(() => {
-    const banner = document.getElementById('notif-banner');
-    if (banner) banner.classList.add('show');
-  }, 2000);
-}
-
-window.enableNotifs = async function() {
-  document.getElementById('notif-banner')?.classList.remove('show');
-  await requestNotifPermission();
-  startMatchReminders();
-  toast('🔔 Notifications activées ! Vous serez alerté avant chaque match.');
-};
-
-window.dismissNotifBanner = function() {
-  document.getElementById('notif-banner')?.classList.remove('show');
-  sessionStorage.setItem('notif_banner_dismissed', '1');
-};
-
-
-// ================================================
-// IN-APP MESSAGE SYSTEM
-// ================================================
-let inAppMsgTimer = null;
-
-function showInAppMsg(icon, title, body, type='info', actionLabel=null, actionFn=null, duration=6000) {
-  const el = document.getElementById('inapp-msg');
-  const iconEl = document.getElementById('inapp-icon');
-  const titleEl = document.getElementById('inapp-title');
-  const bodyEl = document.getElementById('inapp-body');
-  const actionBtn = document.getElementById('inapp-action-btn');
-  if (!el) return;
-
-  // Set content
-  iconEl.textContent = icon;
-  titleEl.textContent = title;
-  bodyEl.textContent = body;
-
-  // Set type
-  el.className = 'inapp-msg type-' + type;
-
-  // Action button
-  if (actionLabel && actionFn) {
-    actionBtn.textContent = actionLabel;
-    actionBtn.onclick = () => { closeInAppMsg(); actionFn(); };
-    actionBtn.className = 'inapp-msg-action ' + (type === 'gold' ? 'gold' : 'blue');
-    actionBtn.classList.remove('hidden');
-  } else {
-    actionBtn.classList.add('hidden');
-  }
-
-  el.classList.add('show');
-
-  // Auto-dismiss
-  clearTimeout(inAppMsgTimer);
-  if (duration > 0) {
-    inAppMsgTimer = setTimeout(closeInAppMsg, duration);
-  }
-}
-
-window.closeInAppMsg = function() {
-  const el = document.getElementById('inapp-msg');
-  if (el) el.classList.remove('show');
-  clearTimeout(inAppMsgTimer);
-};
-
-// ================================================
-// TRIGGER IN-APP MESSAGES AUTOMATICALLY
-// ================================================
-function checkInAppAlerts() {
-  if (!ME || ME.isAdmin || !CUR_GROUP) return;
-
-  const now = new Date();
-  const bets = (DB_bets[CUR_GROUP]||{})[ME.username] || {};
-
-  // Find next upcoming match without a bet
-  const upcoming = MATCHES.filter(m => {
-    if (!m.hn) return false;
-    const matchDate = new Date(m.dt + 'T' + m.tm + ':00Z');
-    const diffMin = (matchDate - now) / 60000;
-    const result = DB_results[m.id];
-    const hasBet = bets[m.id]?.home !== undefined;
-    return diffMin > 0 && diffMin <= 180 && !result && !hasBet;
-  }).sort((a,b) => new Date(a.dt+'T'+a.tm+':00Z') - new Date(b.dt+'T'+b.tm+':00Z'));
-
-  if (upcoming.length > 0) {
-    const m = upcoming[0];
-    const matchDate = new Date(m.dt + 'T' + m.tm + ':00Z');
-    const diffMin = Math.round((matchDate - now) / 60000);
-    const diffText = diffMin >= 60 ? Math.round(diffMin/60) + 'h' : diffMin + 'min';
-
-    showInAppMsg(
-      '⚽',
-      m.hn + ' vs ' + m.an + ' dans ' + diffText,
-      'Vous n\'avez pas encore parié sur ce match !',
-      'gold',
-      'Parier maintenant',
-      () => { showTab('matches'); setFilter(m.gr); },
-      8000
-    );
-    return;
-  }
-
-  // Check if user has no group selected
-  if (!CUR_GROUP) {
-    showInAppMsg('👥', 'Rejoignez un groupe !', 'Entrez un code d\'invitation pour commencer à jouer.', 'info', 'Groupes', () => showTab('groups'));
-    return;
-  }
-}
-
-// Show welcome message on first login
-function showWelcomeMsg(isNewUser) {
-  if (isNewUser) {
-    setTimeout(() => showInAppMsg(
-      '🎉',
-      'Bienvenue sur World Cup 2026 !',
-      'Pronostiquez les scores avant chaque match. Bonne chance !',
-      'gold',
-      null, null,
-      5000
-    ), 1500);
-  }
-}
-
-// checkInAppAlerts is called by scheduleInAppChecks every 5 min
-// No need to hook into renderMatches
-
-// Check when results update
-
-function onResultsUpdate() {
-  // Show score notification as in-app message
-}
-
-// Also check when entering app
-function scheduleInAppChecks() {
-  if (!ME || ME.isAdmin) return;
-  // Check immediately
-  setTimeout(checkInAppAlerts, 3000);
-  // Then every 5 minutes
-  setInterval(checkInAppAlerts, 5 * 60 * 1000);
-}
-
-// ================================================
-// SCORE RESULT IN-APP NOTIFICATION
-// ================================================
-// Override onValue for results to show in-app message
-let _prevResults = {};
-function checkNewResults(newResults) {
-  Object.keys(newResults).forEach(mid => {
-    if (!_prevResults[mid] && newResults[mid]) {
-      const m = MATCHES.find(x => x.id === mid);
-      if (!m || !m.hn) return;
-      const r = newResults[mid];
-      if (r.live) return; // don't notify for live scores, only final
-      const myBet = CUR_GROUP ? (DB_bets[CUR_GROUP]?.[ME?.username]||{})[mid] : null;
-      const pts = calcPts(myBet, r);
-      const ptsText = pts !== null ? ' · Vous marquez ' + pts + ' pts !' : '';
-      showInAppMsg(
-        '✅',
-        m.hn + ' ' + r.home + ' – ' + r.away + ' ' + m.an,
-        'Résultat officiel !' + ptsText,
-        pts > 0 ? 'green' : 'info',
-        'Voir le classement',
-        () => showTab('leaderboard'),
-        7000
-      );
-    }
-  });
-  _prevResults = {...newResults};
-}
-
-
-// ================================================
-// CHAT SYSTEM
-// ================================================
-let chatGroupId = null;
-let chatListener = null;
-let chatUnreadCount = 0;
-
-function initChat() {
-  if (!ME || !CUR_GROUP) return;
-  chatGroupId = CUR_GROUP;
-
-  // Render group selector
-  renderChatGroupSelector();
-
-  // Subscribe to messages
-  subscribeChatMessages(chatGroupId);
-}
-
-window.switchChatGroup = function(gid) {
-  chatGroupId = gid;
-  // Update selector UI
-  document.querySelectorAll('.chat-grp-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.chat-grp-btn').forEach(b => {
-    if (b.textContent === (DB_groupMeta[gid]?.name||gid)) b.classList.add('active');
-  });
-  // Unsubscribe old listener first
-  if (chatListener) { off(chatListener); chatListener = null; }
-  // Load bets for new group if not already loaded
-  if (!DB_bets[gid]) {
-    const bRef = ref(db, 'bets/' + gid);
-    onValue(bRef, snap => { DB_bets[gid] = snap.val() || {}; });
-  }
-  subscribeChatMessages(gid);
-  // Re-render group selector to update active state
-  renderChatGroupSelector();
-};
-
-function renderChatGroupSelector() {
-  const gids = Object.keys(DB_groupMeta);
-  const selector = document.getElementById('chat-group-selector');
-  if (!selector) return;
-  if (gids.length <= 1) { selector.innerHTML = ''; return; }
-  selector.innerHTML = gids.map(gid =>
-    `<button class="chat-grp-btn${gid===chatGroupId?' active':''}" onclick="switchChatGroup('${gid}')">${DB_groupMeta[gid]?.name||gid}</button>`
-  ).join('');
-}
-
-function subscribeChatMessages(gid) {
-  // Unsubscribe previous listener
-  if (chatListener) { off(chatListener); chatListener = null; }
-
-  const msgRef = ref(db, 'chat/' + gid);
-  // Listen to last 50 messages
-  const { query, orderByChild, limitToLast } = window._fbQuery || {};
-
-  onValue(msgRef, snap => {
-    const msgs = [];
-    snap.forEach(child => {
-      msgs.push({ id: child.key, ...child.val() });
-    });
-    renderChatMessages(msgs.slice(-50));
-  });
-  chatListener = msgRef;
-}
-
-function renderChatMessages(msgs) {
-  const el = document.getElementById('chat-messages');
-  if (!el) return;
-
-  if (msgs.length === 0) {
-    el.innerHTML = '<div class="chat-empty">💬 Pas encore de messages<br>Soyez le premier à réagir !</div>';
-    return;
-  }
-
-  let html = '';
-  let lastDay = '';
-
-  msgs.forEach(msg => {
-    const isMe = msg.user === ME?.username;
-    const d = new Date(msg.ts);
-    const day = d.toLocaleDateString('fr-FR', {weekday:'short', day:'numeric', month:'short'});
-    const time = d.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
-
-    if (day !== lastDay) {
-      html += `<div class="chat-day-sep">${day}</div>`;
-      lastDay = day;
-    }
-
-    // Avatar shows initials of username, not team flag
-    const initials = msg.user ? msg.user.slice(0,2).toUpperCase() : '??';
-
-    const isAdminUser = ME?.isAdmin || false;
-    html += `<div class="chat-msg${isMe?' me':''}">
-      <div class="chat-avatar" style="font-size:12px;font-weight:700;font-family:Inter,sans-serif;color:var(--gold)">${initials}</div>
-      <div class="chat-bubble">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
-          <div class="chat-sender" style="${isMe?'color:var(--gold)':''}">${msg.user}</div>
-          ${isAdminUser ? `<button onclick="adminDeleteMsg('${chatGroupId}','${msg.id}')" style="background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;padding:0 2px;flex-shrink:0" title="Supprimer">🗑</button>` : ''}
-        </div>
-        ${msg.matchRef ? `<div class="chat-match-ref">⚽ ${msg.matchRef}</div>` : ''}
-        <div class="chat-text">${escapeHtml(msg.text)}</div>
-        <div class="chat-time">${time}</div>
-      </div>
-    </div>`;
-  });
-
-  el.innerHTML = html;
-  // Scroll to bottom
-  el.scrollTop = el.scrollHeight;
-}
-
-function escapeHtml(text) {
-  return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-async function sendChatMsg() {
-  if (!ME || ME.isAdmin || !chatGroupId) return;
-  const input = document.getElementById('chat-input');
-  const text = input?.value.trim();
-  if (!text) return;
-
-  input.value = '';
-  const msgRef = ref(db, 'chat/' + chatGroupId);
-  const newMsg = ref(db, 'chat/' + chatGroupId + '/' + Date.now() + '_' + Math.random().toString(36).slice(2,6));
-
-  await set(newMsg, {
-    user: ME.username,
-    emoji: ME.emoji || '👤',
-    text,
-    ts: Date.now()
-  });
-}
-window.sendChatMsg = sendChatMsg;
-
-async function sendReaction(emoji) {
-  if (!ME || ME.isAdmin || !chatGroupId) return;
-  const newMsg = ref(db, 'chat/' + chatGroupId + '/' + Date.now() + '_' + Math.random().toString(36).slice(2,6));
-  await set(newMsg, {
-    user: ME.username,
-    emoji: ME.emoji || '👤',
-    text: emoji,
-    ts: Date.now()
-  });
-}
-window.sendReaction = sendReaction;
-
-// Send match comment from matches tab
-window.commentOnMatch = async function(matchId) {
-  if (!ME || ME.isAdmin || !CUR_GROUP) return;
-  const m = MATCHES.find(x => x.id === matchId);
-  if (!m) return;
-  const text = prompt('Votre commentaire sur ' + (m.hn||'ce match') + ' vs ' + (m.an||'') + ' :');
-  if (!text || !text.trim()) return;
-  chatGroupId = CUR_GROUP;
-  const newMsg = ref(db, 'chat/' + CUR_GROUP + '/' + Date.now() + '_' + Math.random().toString(36).slice(2,6));
-  await set(newMsg, {
-    user: ME.username,
-    emoji: ME.emoji || '👤',
-    text: text.trim(),
-    matchRef: (m.hn||'') + ' vs ' + (m.an||''),
-    ts: Date.now()
-  });
-  toast('💬 Commentaire envoyé !');
-  showTab('chat');
-};
-
-// Badge for unread messages
-function updateChatBadge(count) {
-  const btn = document.getElementById('bnav-chat');
-  if (!btn) return;
-  const existing = btn.querySelector('.chat-badge');
-  if (existing) existing.remove();
-  if (count > 0) {
-    btn.innerHTML = `<span class="ni">💬</span><span>Chat</span><span class="chat-badge" style="position:absolute;top:6px;right:8px;background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:10px;min-width:16px;text-align:center">${count>9?'9+':count}</span>`;
-    btn.style.position = 'relative';
-  }
-}
-
-
-// FIX: Offline detection
-window.addEventListener('online', () => {
-  setSyncStatus('connected');
-  toast('✅ Connexion rétablie');
-  autoFetchScores();
-});
-window.addEventListener('offline', () => {
-  setSyncStatus('error');
-  toast('⚠️ Hors ligne — les scores ne se mettent plus à jour');
-});
-
-
-// ================================================
-// ADMIN GATE — password verification for non-admins
-// ================================================
-window.verifyAdminGate = function() {
-  const p = document.getElementById('gate-pass')?.value;
-  const errEl = document.getElementById('gate-err');
-  if (errEl) errEl.textContent = '';
-  if (!p) return;
-  if (p === ADMIN_PASS) {
-    // Grant temporary admin access — session only, NOT saved to localStorage
-    ME.isAdmin = true;
-    // SECURITY: Only sessionStorage — clears on logout/new login
-    sessionStorage.setItem('wc2026_admin_session', '1');
-    document.getElementById('admin-badge')?.classList.remove('hidden');
-    const gate = document.getElementById('admin-gate');
-    const content = document.getElementById('admin-content');
-    if (gate) gate.style.display = 'none';
-    if (content) content.style.display = 'block';
-    document.getElementById('create-group-section')?.classList.remove('hidden');
-    renderAdmin();
-    toast('✅ Accès admin accordé');
-  } else {
-    if (errEl) errEl.textContent = '❌ Mot de passe incorrect';
-  }
-};
-
-// ================================================
-// DELETE PLAYER — admin only
-// ================================================
-window.adminDeletePlayer = async function(username) {
-  if (!isAdmin()) return;
-  if (!confirm('Supprimer le joueur "' + username + '" ? Cette action est irréversible.')) return;
-  
-  // Remove from all groups
-  const gids = Object.keys(DB_groupMeta);
-  for (const gid of gids) {
-    await remove(ref(db, 'members/' + gid + '/' + username));
-    await remove(ref(db, 'bets/' + gid + '/' + username));
-    await remove(ref(db, 'doubles/' + gid + '/' + username));
-  }
-  // Remove user account
-  await remove(ref(db, 'users/' + username));
-  
-  // Update local state
-  Object.keys(DB_members).forEach(gid => {
-    DB_members[gid] = (DB_members[gid] || []).filter(u => u !== username);
-  });
-  
-  renderAdmin();
-  renderLeaderboard();
-  toast('✅ Joueur ' + username + ' supprimé');
-};
-
-
-// ================================================
-// ADMIN PLAYERS LIST
-// ================================================
-async function renderAdminPlayers() {
-  // Collect all unique users across all groups
-  const allUsers = new Set();
-  Object.values(DB_members).forEach(members => {
-    (members||[]).forEach(u => { if (u !== 'admin') allUsers.add(u); });
-  });
-
-  // Also load all users from Firebase to catch users not in any group
-  try {
-    const snap = await get(ref(db, 'users'));
-    if (snap.exists()) {
-      Object.keys(snap.val()).forEach(u => { if (u !== 'admin') allUsers.add(u); });
-    }
-  } catch(e) {}
-
-  await loadUsersEmoji([...allUsers]);
-
-  const el = document.getElementById('admin-players-section');
-  if (!el) return;
-
-  if (allUsers.size === 0) {
-    el.innerHTML = '<p style="color:var(--muted);font-size:13px">Aucun joueur.</p>';
-    return;
-  }
-
-  const rows = [...allUsers].sort().map(u => {
-    const emoji = DB_users[u]?.emoji || '👤';
-    const groups = Object.keys(DB_groupMeta).filter(gid => (DB_members[gid]||[]).includes(u));
-    const groupNames = groups.map(gid => DB_groupMeta[gid]?.name || gid).join(', ') || 'Aucun groupe';
+  const el=document.getElementById('admin-players-section');if(!el) return;
+  if(allUsers.size===0){el.innerHTML='<p style="color:var(--muted);font-size:13px;padding:14px">Aucun joueur.</p>';return;}
+  el.innerHTML=[...allUsers].sort().map(u=>{
+    const emoji=DB_users[u]?.emoji||'👤';
+    const groups=Object.keys(DB_groupMeta).filter(gid=>(DB_members[gid]||[]).includes(u));
+    const groupNames=groups.map(gid=>DB_groupMeta[gid]?.name||gid).join(', ')||'Aucun groupe';
     return `<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--bd)">
       <span style="font-size:22px">${emoji}</span>
       <div style="flex:1;min-width:0">
-        <div style="font-size:13px;font-weight:600">${u}</div>
-        <div style="font-size:11px;color:var(--muted)">${groupNames}</div>
+        <div style="font-size:13px;font-weight:600">${escHtml(u)}</div>
+        <div style="font-size:11px;color:var(--muted)">${escHtml(groupNames)}</div>
       </div>
       <button onclick="adminDeletePlayer('${u}')"
-        style="background:rgba(255,61,61,0.12);border:1px solid rgba(255,61,61,0.25);color:var(--red);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer">
+        style="background:rgba(255,61,61,.12);border:1px solid rgba(255,61,61,.25);color:var(--red);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer">
         🗑 Supprimer
       </button>
     </div>`;
   }).join('');
-
-  el.innerHTML = rows;
 }
 
-window.adminDeletePlayer = async function(username) {
-  if (!isAdmin()) return;
-  if (!confirm('Supprimer "' + username + '" ? Tous ses paris seront supprimés.')) return;
-  // Remove from all groups
-  const gids = Object.keys(DB_groupMeta);
-  for (const gid of gids) {
-    await remove(ref(db, 'members/' + gid + '/' + username));
-    await remove(ref(db, 'bets/' + gid + '/' + username));
-    await remove(ref(db, 'doubles/' + gid + '/' + username));
+window.adminDeletePlayer=async function(username){
+  if(!isAdmin()) return;
+  if(!confirm('Supprimer "'+username+'" ? Tous ses paris seront supprimés.')) return;
+  const gids=Object.keys(DB_groupMeta);
+  for(const gid of gids){
+    await remove(ref(db,'members/'+gid+'/'+username));
+    await remove(ref(db,'bets/'+gid+'/'+username));
+    await remove(ref(db,'doubles/'+gid+'/'+username));
   }
-  await remove(ref(db, 'users/' + username));
-  // Update local
-  Object.keys(DB_members).forEach(gid => {
-    DB_members[gid] = (DB_members[gid]||[]).filter(u => u !== username);
-  });
+  await remove(ref(db,'users/'+username));
+  Object.keys(DB_members).forEach(gid=>{DB_members[gid]=(DB_members[gid]||[]).filter(u=>u!==username);}});
   delete DB_users[username];
-  renderAdminPlayers();
-  renderLeaderboard();
-  toast('✅ Joueur "' + username + '" supprimé');
+  renderAdminPlayers();renderLeaderboard();
+  toast('✅ Joueur "'+username+'" supprimé');
 };
 
+window.adminDeleteGroup=async function(gid){
+  if(!isAdmin()) return;
+  const g=DB_groupMeta[gid];if(!g) return;
+  if(!confirm('Supprimer le groupe "'+g.name+'" ?')) return;
+  await remove(ref(db,'groups/'+gid));
+  await remove(ref(db,'bets/'+gid));
+  await remove(ref(db,'doubles/'+gid));
+  await remove(ref(db,'members/'+gid));
+  if(g.code) await remove(ref(db,'codes/'+g.code));
+  delete DB_groupMeta[gid];delete DB_members[gid];delete DB_bets[gid];
+  if(CUR_GROUP===gid){const rem=Object.keys(DB_groupMeta);CUR_GROUP=rem.length>0?rem[0]:null;document.getElementById('topbar-group').textContent=CUR_GROUP?DB_groupMeta[CUR_GROUP]?.name:'Pas de groupe';}
+  renderAdmin();toast('✅ Groupe supprimé');
+};
 
-// Admin delete chat message
-window.adminDeleteMsg = async function(groupId, msgId) {
-  if (!isAdmin()) return;
-  await remove(ref(db, 'chat/' + groupId + '/' + msgId));
+window.adminSaveResult=async function(mid){
+  const hv=document.getElementById('rh_'+mid)?.value.trim(),av=document.getElementById('ra_'+mid)?.value.trim();
+  if(hv===''||av==='') return toast('⚠️ Entrez les deux scores');
+  await set(ref(db,'results/'+mid),{home:+hv,away:+av,ts:Date.now()});
+  notifyScoreUpdate(mid,hv,av);
+  toast('✅ Score enregistré !');
+};
+window.adminClearResult=async function(mid){
+  await remove(ref(db,'results/'+mid));
+  toast('🗑 Score supprimé');
+};
+
+// ========================================
+// CHAT
+// ========================================
+let chatGroupId=null,chatListener=null;
+
+function initChat(){
+  if(!ME||!CUR_GROUP) return;
+  chatGroupId=CUR_GROUP;
+  renderChatGroupSelector();
+  subscribeChatMessages(chatGroupId);
+}
+
+function renderChatGroupSelector(){
+  const gids=Object.keys(DB_groupMeta);
+  const el=document.getElementById('chat-group-selector');
+  if(!el) return;
+  if(gids.length<=1){el.innerHTML='';return;}
+  el.innerHTML=gids.map(gid=>`<button class="chat-grp-btn${gid===chatGroupId?' active':''}" onclick="switchChatGroup('${gid}')">${escHtml(DB_groupMeta[gid]?.name||gid)}</button>`).join('');
+}
+
+window.switchChatGroup=function(gid){
+  chatGroupId=gid;
+  if(chatListener){off(chatListener);chatListener=null;}
+  renderChatGroupSelector();
+  subscribeChatMessages(gid);
+};
+
+function subscribeChatMessages(gid){
+  if(chatListener){off(chatListener);chatListener=null;}
+  const msgRef=ref(db,'chat/'+gid);
+  chatListener=msgRef;
+  onValue(msgRef,snap=>{
+    const msgs=[];
+    snap.forEach(child=>{msgs.push({id:child.key,...child.val()});}});
+    renderChatMessages(msgs.slice(-60));
+  });
+}
+
+function renderChatMessages(msgs){
+  const el=document.getElementById('chat-messages');if(!el) return;
+  if(msgs.length===0){el.innerHTML='<div class="chat-empty">💬 Pas encore de messages<br>Soyez le premier à réagir !</div>';return;}
+  let html='',lastDay='';
+  msgs.forEach(msg=>{
+    const isMe=msg.user===ME?.username;
+    const d=new Date(msg.ts);
+    const day=d.toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'});
+    const time=d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+    if(day!==lastDay){html+=`<div class="chat-day-sep">${day}</div>`;lastDay=day;}
+    const initials=msg.user?msg.user.slice(0,2).toUpperCase():'??';
+    html+=`<div class="chat-msg${isMe?' me':''}">
+      <div class="chat-avatar" style="font-size:12px;font-weight:700;color:var(--gold)">${initials}</div>
+      <div class="chat-bubble">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:2px">
+          <span class="chat-sender" style="${isMe?'color:var(--gold)':''}">${escHtml(msg.user)}</span>
+          ${isAdmin()?`<button onclick="adminDeleteMsg('${chatGroupId}','${msg.id}')" style="background:none;border:none;color:var(--muted);font-size:11px;cursor:pointer;padding:0" title="Supprimer">🗑</button>`:''}
+        </div>
+        ${msg.matchRef?`<div class="chat-match-ref">⚽ ${escHtml(msg.matchRef)}</div>`:''}
+        <div class="chat-text">${escHtml(msg.text)}</div>
+        <div class="chat-time">${time}</div>
+      </div>
+    </div>`;
+  });
+  el.innerHTML=html;
+  el.scrollTop=el.scrollHeight;
+}
+
+function escapeHtml(s){return escHtml(s);}
+
+window.sendChatMsg=async function(){
+  if(!ME||ME.isAdmin||!chatGroupId) return;
+  const input=document.getElementById('chat-input');
+  const text=input?.value.trim();if(!text) return;
+  input.value='';
+  const key=Date.now()+'_'+Math.random().toString(36).slice(2,6);
+  await set(ref(db,'chat/'+chatGroupId+'/'+key),{user:ME.username,emoji:ME.emoji||'👤',text,ts:Date.now()});
+};
+
+window.sendReaction=async function(emoji){
+  if(!ME||ME.isAdmin||!chatGroupId) return;
+  const key=Date.now()+'_'+Math.random().toString(36).slice(2,6);
+  await set(ref(db,'chat/'+chatGroupId+'/'+key),{user:ME.username,emoji:ME.emoji||'👤',text:emoji,ts:Date.now()});
+};
+
+window.adminDeleteMsg=async function(groupId,msgId){
+  if(!isAdmin()) return;
+  await remove(ref(db,'chat/'+groupId+'/'+msgId));
   toast('🗑 Message supprimé');
 };
 
-</script>
+window.commentOnMatch=async function(matchId){
+  if(!ME||ME.isAdmin||!CUR_GROUP) return;
+  const m=MATCHES.find(x=>x.id===matchId);if(!m) return;
+  const text=prompt('Commentaire sur '+(m.hn||'ce match')+' vs '+(m.an||'')+' :');
+  if(!text||!text.trim()) return;
+  chatGroupId=CUR_GROUP;
+  const key=Date.now()+'_'+Math.random().toString(36).slice(2,6);
+  await set(ref(db,'chat/'+CUR_GROUP+'/'+key),{user:ME.username,emoji:ME.emoji||'👤',text:text.trim(),matchRef:(m.hn||'')+' vs '+(m.an||''),ts:Date.now()});
+  toast('💬 Commentaire envoyé !');showTab('chat');
+};
 
+// ========================================
+// SCORES ESPN AUTO
+// ========================================
+async function autoFetchScores(){
+  try{
+    const r=await fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard');
+    const data=await r.json();
+    const events=data.events||[];
+    const updates={};
+    events.forEach(ev=>{
+      const comp=ev.competitions?.[0];if(!comp) return;
+      const status=comp.status?.type?.name;
+      const isFinal=status==='STATUS_FINAL';
+      const isLive=['STATUS_IN_PROGRESS','STATUS_HALFTIME'].includes(status);
+      if(!isFinal&&!isLive) return;
+      const home=comp.competitors?.find(c=>c.homeAway==='home');
+      const away=comp.competitors?.find(c=>c.homeAway==='away');
+      if(!home||!away) return;
+      const hScore=+home.score,aScore=+away.score;
+      const hAbbr=(home.team?.abbreviation||'').toUpperCase();
+      const aAbbr=(away.team?.abbreviation||'').toUpperCase();
+      const hFull=(home.team?.shortDisplayName||'').toLowerCase();
+      const aFull=(away.team?.shortDisplayName||'').toLowerCase();
+      const match=MATCHES.find(m=>{
+        if(!m.hn) return false;
+        const mh=(m.hc||'').toUpperCase(),ma=(m.ac||'').toUpperCase();
+        const mhn=(m.hn||'').toLowerCase(),man=(m.an||'').toLowerCase();
+        return (mh===hAbbr||mhn.includes(hFull.split(' ')[0])||hFull.includes(mhn.split(' ')[0]))&&
+               (ma===aAbbr||man.includes(aFull.split(' ')[0])||aFull.includes(man.split(' ')[0]));
+      });
+      if(match){const key=match.id.replace(/[^a-zA-Z0-9_]/g,'_');updates[key]={home:hScore,away:aScore,live:isLive,ts:Date.now()};if(isFinal)delete updates[key].live;}
+    });
+    if(Object.keys(updates).length>0){await update(ref(db,'results'),updates);setSyncStatus('connected');}
+  }catch(e){setSyncStatus('error');}
+}
+
+// ========================================
+// INVITE CODE
+// ========================================
+async function checkInvite(){
+  const gid=getURLParam('group');
+  if(gid){
+    const snap=await get(ref(db,'groups/'+gid));
+    if(snap.exists()){
+      document.getElementById('invite-bar').classList.remove('hidden');
+      document.getElementById('invite-gname').textContent=snap.val().name;
+    }
+  }
+  // Secret admin URL
+  const adminKey=getURLParam('admin');
+  if(adminKey===ADMIN_PASS){
+    ME={username:'admin',emoji:'🛡️',isAdmin:true};
+    localStorage.setItem('wc2026_me',JSON.stringify(ME));
+    await loadUserData();enterApp();
+  }
+}
+
+// ========================================
+// NOTIFICATIONS
+// ========================================
+async function requestNotifPermission(){
+  if(!messaging) return;
+  try{
+    const perm=await Notification.requestPermission();if(perm!=='granted') return;
+    const token=await getToken(messaging,{vapidKey:VAPID_KEY});
+    if(token&&ME&&!ME.isAdmin) await set(ref(db,'fcm_tokens/'+ME.username),{token,ts:Date.now()});
+  }catch(e){}
+}
+
+function startMatchReminders(){
+  if(!('Notification' in window)||Notification.permission!=='granted') return;
+  setInterval(()=>{
+    const now=new Date();
+    MATCHES.forEach(m=>{
+      if(!m.hn) return;
+      const matchDate=new Date(m.dt+'T'+m.tm+':00Z');
+      const diffMin=Math.round((matchDate-now)/60000);
+      if(diffMin<0) return;
+      const result=DB_results[m.id];if(result) return;
+      const bets=(DB_bets[CUR_GROUP]||{})[ME?.username]||{};
+      const hasBet=bets[m.id]?.home!==undefined;
+      if(diffMin===120&&!hasBet) showLocalNotif('⚽ '+m.hn+' vs '+m.an,'Match dans 2h ! Faites votre pronostic.',m.id+'_2h');
+      if(diffMin===30&&!hasBet) showLocalNotif('⏰ Dernier rappel !',m.hn+' vs '+m.an+' dans 30 minutes !',m.id+'_30m');
+    });
+  },60000);
+}
+
+function showLocalNotif(title,body,tag){
+  const key='notif_'+tag;if(sessionStorage.getItem(key)) return;
+  sessionStorage.setItem(key,'1');
+  if(!('Notification' in window)||Notification.permission!=='granted') return;
+  try{new Notification(title,{body,icon:'/icon-192.png',tag,requireInteraction:true});}
+  catch(e){toast('🔔 '+title+' — '+body,6000);}
+}
+
+function notifyScoreUpdate(matchId,h,a){
+  const m=MATCHES.find(x=>x.id===matchId);if(!m||!m.hn) return;
+  showLocalNotif('✅ Résultat !',m.hn+' '+h+' – '+a+' '+m.an+' · Classement mis à jour !',matchId+'_result');
+}
+
+function showNotifBanner(){
+  if(!('Notification' in window)) return;
+  if(Notification.permission==='granted'){startMatchReminders();return;}
+  if(Notification.permission==='denied') return;
+  if(sessionStorage.getItem('notif_dismissed')) return;
+  setTimeout(()=>{const b=document.getElementById('notif-banner');if(b)b.classList.add('show');},2000);
+}
+
+window.enableNotifs=async function(){
+  document.getElementById('notif-banner')?.classList.remove('show');
+  await requestNotifPermission();startMatchReminders();
+  toast('🔔 Notifications activées !');
+};
+window.dismissNotifBanner=function(){
+  document.getElementById('notif-banner')?.classList.remove('show');
+  sessionStorage.setItem('notif_dismissed','1');
+};
+
+// ========================================
+// IN-APP MESSAGES
+// ========================================
+let inAppTimer=null;
+function showInAppMsg(icon,title,body,type,actionLabel,actionFn,dur=6000){
+  const el=document.getElementById('inapp-msg');if(!el) return;
+  document.getElementById('inapp-icon').textContent=icon;
+  document.getElementById('inapp-title').textContent=title;
+  document.getElementById('inapp-body').textContent=body;
+  el.className='inapp-msg type-'+type;
+  const btn=document.getElementById('inapp-action-btn');
+  if(actionLabel&&actionFn){btn.textContent=actionLabel;btn.onclick=()=>{closeInAppMsg();actionFn();};btn.className='inapp-msg-action '+(type==='gold'?'gold':'blue');btn.classList.remove('hidden');}
+  else btn.classList.add('hidden');
+  el.classList.add('show');
+  clearTimeout(inAppTimer);
+  if(dur>0) inAppTimer=setTimeout(closeInAppMsg,dur);
+}
+window.closeInAppMsg=function(){document.getElementById('inapp-msg')?.classList.remove('show');clearTimeout(inAppTimer);};
+
+let _prevResults={};
+function checkNewResults(newResults){
+  Object.keys(newResults).forEach(mid=>{
+    if(!_prevResults[mid]&&newResults[mid]){
+      const m=MATCHES.find(x=>x.id===mid);if(!m||!m.hn) return;
+      const r=newResults[mid];if(r.live) return;
+      const myBet=CUR_GROUP?(DB_bets[CUR_GROUP]?.[ME?.username]||{})[mid]:null;
+      const pts=calcPts(myBet,r);
+      showInAppMsg('✅',m.hn+' '+r.home+' – '+r.away+' '+m.an,'Résultat officiel !'+(pts!==null?' · +'+pts+' pts !':''),pts>0?'green':'info','Classement',()=>showTab('leaderboard'),7000);
+    }
+  });
+  _prevResults={...newResults};
+}
+
+function checkInAppAlerts(){
+  if(!ME||ME.isAdmin||!CUR_GROUP) return;
+  const now=new Date();
+  const bets=(DB_bets[CUR_GROUP]||{})[ME.username]||{};
+  const upcoming=MATCHES.filter(m=>{
+    if(!m.hn) return false;
+    const matchDate=new Date(m.dt+'T'+m.tm+':00Z');
+    const diffMin=(matchDate-now)/60000;
+    return diffMin>0&&diffMin<=120&&!DB_results[m.id]&&!bets[m.id]?.home;
+  }).sort((a,b)=>new Date(a.dt+'T'+a.tm+':00Z')-new Date(b.dt+'T'+b.tm+':00Z'));
+  if(upcoming.length>0){
+    const m=upcoming[0];
+    const R=resolveKnockoutTeams(DB_results),em=enrichMatch(m,R);
+    const diffMin=Math.round((new Date(m.dt+'T'+m.tm+':00Z')-now)/60000);
+    const diffText=diffMin>=60?Math.round(diffMin/60)+'h':diffMin+'min';
+    showInAppMsg('⚽',em.hn+' vs '+em.an+' dans '+diffText,'Vous n'avez pas encore parié !','gold','Parier maintenant',()=>{showTab('matches');setFilter(m.gr);},8000);
+  }
+}
+
+function scheduleInAppChecks(){
+  if(!ME||ME.isAdmin) return;
+  setTimeout(checkInAppAlerts,3000);
+  setInterval(checkInAppAlerts,5*60*1000);
+}
+
+// ========================================
+// PWA
+// ========================================
+let deferredPrompt=null;
+const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+const isStandalone=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone;
+if(!isStandalone){
+  if(isIOS){if(!sessionStorage.getItem('pwa_dismissed'))setTimeout(()=>{document.getElementById('ios-hint').classList.add('show');},3000);}
+  else window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;if(!sessionStorage.getItem('pwa_dismissed'))setTimeout(()=>{document.getElementById('pwa-banner').classList.add('show');},2000);}});
+}
+document.getElementById('pwa-install-btn')?.addEventListener('click',async()=>{
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const {outcome}=await deferredPrompt.userChoice;
+  if(outcome==='accepted'){document.getElementById('pwa-banner').classList.remove('show');toast('✅ App installée !');}
+  deferredPrompt=null;
+});
+window.dismissPWA=function(){
+  document.getElementById('pwa-banner').classList.remove('show');
+  document.getElementById('ios-hint').classList.remove('show');
+  sessionStorage.setItem('pwa_dismissed','1');
+};
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    const sw=`importScripts('https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js');importScripts('https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-compat.js');firebase.initializeApp({apiKey:"AIzaSyCdm6T0RlBvnFFgXuGB3-q5EtTcci7p6LI",authDomain:"world-cup-2026-1b9ee.firebaseapp.com",databaseURL:"https://world-cup-2026-1b9ee-default-rtdb.firebaseio.com",projectId:"world-cup-2026-1b9ee",messagingSenderId:"349637498450",appId:"1:349637498450:web:70be216f600622526d718b"});const messaging=firebase.messaging();messaging.onBackgroundMessage(p=>{self.registration.showNotification(p.notification?.title||'⚽ WC2026',{body:p.notification?.body||'',icon:'/icon-192.png'});}});`;
+    const blob=new Blob([sw],{type:'application/javascript'});
+    navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
+  });
+}
+
+// ========================================
+// EMOJI PICKER
+// ========================================
+function initEP(){
+  const teams=[
+    {f:'🇦🇷',n:'Argentine'},{f:'🇫🇷',n:'France'},{f:'🇧🇷',n:'Brésil'},
+    {f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',n:'Angleterre'},{f:'🇩🇪',n:'Allemagne'},{f:'🇪🇸',n:'Espagne'},
+    {f:'🇵🇹',n:'Portugal'},{f:'🇳🇱',n:'Pays-Bas'},{f:'🇧🇪',n:'Belgique'},
+    {f:'🇺🇸',n:'USA'},{f:'🇲🇽',n:'Mexique'},{f:'🇨🇦',n:'Canada'},
+    {f:'🇯🇵',n:'Japon'},{f:'🇰🇷',n:'Corée du Sud'},{f:'🇲🇦',n:'Maroc'},
+    {f:'🇸🇳',n:'Sénégal'},{f:'🇩🇿',n:'Algérie'},{f:'🇨🇮',n:"C.d'Ivoire"},
+    {f:'🇪🇬',n:'Égypte'},{f:'🇬🇭',n:'Ghana'},{f:'🇨🇩',n:'RD Congo'},
+    {f:'🇺🇾',n:'Uruguay'},{f:'🇨🇴',n:'Colombie'},{f:'🇵🇾',n:'Paraguay'},
+    {f:'🇪🇨',n:'Équateur'},{f:'🇨🇭',n:'Suisse'},{f:'🇭🇷',n:'Croatie'},
+    {f:'🇦🇹',n:'Autriche'},{f:'🇹🇷',n:'Türkiye'},{f:'🇺🇦',n:'Ukraine'},
+    {f:'🇶🇦',n:'Qatar'},{f:'🇸🇦',n:'Arabie S.'},{f:'🇮🇷',n:'Iran'},
+    {f:'🇳🇴',n:'Norvège'},{f:'🇦🇺',n:'Australie'},{f:'🇿🇦',n:'Afrique du Sud'},
+    {f:'🇧🇦',n:'Bosnie'},{f:'🇨🇻',n:'Cap-Vert'},{f:'🇭🇹',n:'Haïti'},
+    {f:'🇮🇶',n:'Irak'},{f:'🇵🇦',n:'Panama'},{f:'🇬🇭',n:'Ghana'},
+    {f:'🇹🇳',n:'Tunisie'},{f:'🇳🇿',n:'N-Zélande'},{f:'🇺🇿',n:'Ouzbékistan'},
+    {f:'🇯🇴',n:'Jordanie'},{f:'🇨🇼',n:'Curaçao'},{f:'🇨🇿',n:'Tchéquie'},
+  ];
+  const seen=new Set();const unique=teams.filter(t=>{if(seen.has(t.n))return false;seen.add(t.n);return true;}});
+  window._epTeams=unique;
+  document.getElementById('ep').innerHTML=unique.map((t,i)=>
+    `<div data-idx="${i}" onclick="pickE(${i})" id="ep_${i}"
+      style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 5px;border-radius:9px;border:2px solid transparent;transition:all .15s;min-width:50px;text-align:center">
+      <span style="font-size:26px;line-height:1.1">${t.f}</span>
+      <span style="font-size:9px;color:var(--muted2);font-weight:600;max-width:50px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.n}</span>
+    </div>`
+  ).join('');
+  pickE(0);
+}
+window.pickE=function(idx){
+  const teams=window._epTeams||[];if(idx>=teams.length) return;
+  document.getElementById('re').value=teams[idx].f;
+  document.querySelectorAll('#ep>div').forEach(d=>{d.style.borderColor='transparent';d.style.background='transparent';}});
+  const el=document.getElementById('ep_'+idx);
+  if(el){el.style.borderColor='var(--gold)';el.style.background='rgba(232,184,75,.12)';}
+};
+
+// ========================================
+// OFFLINE DETECTION
+// ========================================
+window.addEventListener('online',()=>{setSyncStatus('connected');autoFetchScores();toast('✅ Connexion rétablie');}});
+window.addEventListener('offline',()=>{setSyncStatus('error');toast('⚠️ Hors ligne');}});
+
+// ========================================
+// INIT
+// ========================================
+initEP();
+checkInvite();
+</script>
 </body>
 </html>
