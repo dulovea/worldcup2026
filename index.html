@@ -997,6 +997,7 @@ const GROUP_MATCHES = {};
 let ME = null, CUR_GROUP = null, FILTER = 'all', ADMIN_FILTER = 'all';
 let pendingDouble = null;
 let DB_users = {}, DB_groups = {}, DB_bets = {}, DB_doubles = {};
+let _intervals = []; // Track setIntervals for cleanup
 let DB_members = {}, DB_groupMeta = {}, DB_results = {};
 const _activeListeners = {};
 
@@ -1027,7 +1028,7 @@ async function initApp() {
     if (ME) { renderMatches(); renderLeaderboard(); renderStats(); if (ACTIVE_TAB==='admin') renderAdmin(); }
   });
   checkInvite();
-  setInterval(autoFetchScores, 60000);
+  _intervals.push(setInterval(autoFetchScores, 60000));
   autoFetchScores();
   // FCM
   try {
@@ -1225,9 +1226,14 @@ window.doAdminLogin=async function(){
 
 window.doLogout=function(){
   cleanupAllListeners();
+  // Clean up all intervals
+  _intervals.forEach(id=>clearInterval(id));
+  _intervals=[];
   ME=null;CUR_GROUP=null;
   localStorage.removeItem('wc2026_me');
   sessionStorage.removeItem('wc2026_admin_session');
+  // Clean up chat listener
+  if(chatListener){try{off(chatListener);}catch(e){} chatListener=null;}
   document.getElementById('screen-app').classList.remove('active');
   document.getElementById('screen-auth').classList.add('active');
 };
@@ -1308,6 +1314,7 @@ async function loadUserData(){
 }
 
 function subscribeGroup(gid){
+  if(_activeListeners[gid]&&_activeListeners[gid].length>0) return; // Already subscribed
   cleanupGroupListeners(gid);
   _activeListeners[gid]=[];
   const bRef=ref(db,'bets/'+gid);
@@ -1398,8 +1405,8 @@ function renderMatches(){
     const curWk=getWeekKey(new Date().toISOString().slice(0,10));
     const used=doubles[curWk];
     const bi=document.getElementById('bonus-info');
-    if(used){bi.classList.remove('hidden');const m=MATCHES.find(x=>x.id===used);const em=m?enrichMatch(m,R):null;document.getElementById('bonus-txt').textContent='Bonus ×2 utilisé cette semaine'+(em?' sur '+em.hn+' vs '+em.an:'')+'.';}}
-    }else bi.classList.add('hidden');
+    if(used){bi.classList.remove('hidden');const m=MATCHES.find(x=>x.id===used);const em=m?enrichMatch(m,R):null;document.getElementById('bonus-txt').textContent='Bonus ×2 utilisé cette semaine'+(em?' sur '+em.hn+' vs '+em.an:'')+'.';}
+    else bi.classList.add('hidden');
   }
   const matches=FILTER==='all'?MATCHES:MATCHES.filter(m=>m.gr===FILTER);
   let html='',lastDate='';
@@ -1549,7 +1556,7 @@ function renderStats(){
   if(!ME) return;
   const s=getScore(ME.username);
   const members=(DB_members[CUR_GROUP]||[]).filter(u=>u!=='admin');
-  const sorted=members.map(u=>(({u,...getScore(u)})).sort((a,b)=>b.total-a.total);
+  const sorted=members.map(u=>({u,...getScore(u)})).sort((a,b)=>b.total-a.total);
   const rank=sorted.findIndex(x=>x.u===ME.username)+1;
   const played=MATCHES.filter(m=>DB_results[m.id]?.home!==undefined).length;
   document.getElementById('sgrid').innerHTML=[
@@ -1562,7 +1569,7 @@ function renderStats(){
 async function renderGlobalLeaderboard(){
   const el=document.getElementById('global-lb-table');if(!el) return;
   const allUsers=new Set();
-  Object.values(DB_members).forEach(ms=>(ms||[]).forEach(u=>{if(u!=='admin')allUsers.add(u);}}}));
+  Object.values(DB_members).forEach(ms=>(ms||[]).forEach(u=>{if(u!=='admin')allUsers.add(u);}));
   if(allUsers.size===0){el.innerHTML='<p style="color:var(--muted);text-align:center;padding:20px">Aucun joueur.</p>';return;}
   await loadUsersEmoji([...allUsers]);
   const scores=[...allUsers].map(u=>{
@@ -1625,7 +1632,7 @@ window.switchGroup=async function(gid){
 };
 
 window.createGroup=async function(){
-  if(!ME||!isAdmin()) return toast('⚠️ Réservé à l'admin');
+  if(!ME||!isAdmin()) return toast('⚠️ Réservé à admin');
   const name=document.getElementById('new-gname').value.trim();
   if(!name) return toast('⚠️ Entrez un nom');
   const gid=uid(),code=generateCode();
@@ -1738,8 +1745,8 @@ function renderAdmin(){
 
 async function renderAdminPlayers(){
   const allUsers=new Set();
-  try{const snap=await get(ref(db,'users'));if(snap.exists())Object.keys(snap.val()).forEach(u=>{if(u!=='admin')allUsers.add(u);}});}catch(e){}
-  Object.values(DB_members).forEach(ms=>(ms||[]).forEach(u=>{if(u!=='admin')allUsers.add(u);}}}));
+  try{const snap=await get(ref(db,'users'));if(snap.exists())Object.keys(snap.val()).forEach(u=>{if(u!=='admin')allUsers.add(u);});}catch(e){}
+  Object.values(DB_members).forEach(ms=>(ms||[]).forEach(u=>{if(u!=='admin')allUsers.add(u);}));
   await loadUsersEmoji([...allUsers]);
   const el=document.getElementById('admin-players-section');if(!el) return;
   if(allUsers.size===0){el.innerHTML='<p style="color:var(--muted);font-size:13px;padding:14px">Aucun joueur.</p>';return;}
@@ -1771,7 +1778,7 @@ window.adminDeletePlayer=async function(username){
     await remove(ref(db,'doubles/'+gid+'/'+username));
   }
   await remove(ref(db,'users/'+username));
-  Object.keys(DB_members).forEach(gid=>{DB_members[gid]=(DB_members[gid]||[]).filter(u=>u!==username);}});
+  Object.keys(DB_members).forEach(gid=>{DB_members[gid]=(DB_members[gid]||[]).filter(u=>u!==username);});
   delete DB_users[username];
   renderAdminPlayers();renderLeaderboard();
   toast('✅ Joueur "'+username+'" supprimé');
@@ -1836,7 +1843,7 @@ function subscribeChatMessages(gid){
   chatListener=msgRef;
   onValue(msgRef,snap=>{
     const msgs=[];
-    snap.forEach(child=>{msgs.push({id:child.key,...child.val()});}});
+    snap.forEach(child=>{msgs.push({id:child.key,...child.val()});});
     renderChatMessages(msgs.slice(-60));
   });
 }
@@ -1906,7 +1913,10 @@ window.commentOnMatch=async function(matchId){
 // ========================================
 // SCORES ESPN AUTO
 // ========================================
+let _fetchingScores=false;
 async function autoFetchScores(){
+  if(_fetchingScores) return; // Prevent overlapping calls
+  _fetchingScores=true;
   try{
     const r=await fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard');
     const data=await r.json();
@@ -1937,6 +1947,7 @@ async function autoFetchScores(){
     });
     if(Object.keys(updates).length>0){await update(ref(db,'results'),updates);setSyncStatus('connected');}
   }catch(e){setSyncStatus('error');}
+  _fetchingScores=false;
 }
 
 // ========================================
@@ -1974,7 +1985,7 @@ async function requestNotifPermission(){
 
 function startMatchReminders(){
   if(!('Notification' in window)||Notification.permission!=='granted') return;
-  setInterval(()=>{
+  _intervals.push(setInterval(()=>{
     const now=new Date();
     MATCHES.forEach(m=>{
       if(!m.hn) return;
@@ -1987,7 +1998,7 @@ function startMatchReminders(){
       if(diffMin===120&&!hasBet) showLocalNotif('⚽ '+m.hn+' vs '+m.an,'Match dans 2h ! Faites votre pronostic.',m.id+'_2h');
       if(diffMin===30&&!hasBet) showLocalNotif('⏰ Dernier rappel !',m.hn+' vs '+m.an+' dans 30 minutes !',m.id+'_30m');
     });
-  },60000);
+  },60000));
 }
 
 function showLocalNotif(title,body,tag){
@@ -2069,14 +2080,14 @@ function checkInAppAlerts(){
     const R=resolveKnockoutTeams(DB_results),em=enrichMatch(m,R);
     const diffMin=Math.round((new Date(m.dt+'T'+m.tm+':00Z')-now)/60000);
     const diffText=diffMin>=60?Math.round(diffMin/60)+'h':diffMin+'min';
-    showInAppMsg('⚽',em.hn+' vs '+em.an+' dans '+diffText,'Vous n'avez pas encore parié !','gold','Parier maintenant',()=>{showTab('matches');setFilter(m.gr);},8000);
+    showInAppMsg('⚽',em.hn+' vs '+em.an+' dans '+diffText,'Vous navez pas encore parié !','gold','Parier maintenant',()=>{showTab('matches');setFilter(m.gr);},8000);
   }
 }
 
 function scheduleInAppChecks(){
   if(!ME||ME.isAdmin) return;
   setTimeout(checkInAppAlerts,3000);
-  setInterval(checkInAppAlerts,5*60*1000);
+  _intervals.push(setInterval(checkInAppAlerts,5*60*1000));
 }
 
 // ========================================
@@ -2087,7 +2098,7 @@ const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
 const isStandalone=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone;
 if(!isStandalone){
   if(isIOS){if(!sessionStorage.getItem('pwa_dismissed'))setTimeout(()=>{document.getElementById('ios-hint').classList.add('show');},3000);}
-  else window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;if(!sessionStorage.getItem('pwa_dismissed'))setTimeout(()=>{document.getElementById('pwa-banner').classList.add('show');},2000);}});
+  else window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;if(!sessionStorage.getItem('pwa_dismissed'))setTimeout(()=>{document.getElementById('pwa-banner').classList.add('show');},2000);});
 }
 document.getElementById('pwa-install-btn')?.addEventListener('click',async()=>{
   if(!deferredPrompt) return;
@@ -2131,7 +2142,7 @@ function initEP(){
     {f:'🇹🇳',n:'Tunisie'},{f:'🇳🇿',n:'N-Zélande'},{f:'🇺🇿',n:'Ouzbékistan'},
     {f:'🇯🇴',n:'Jordanie'},{f:'🇨🇼',n:'Curaçao'},{f:'🇨🇿',n:'Tchéquie'},
   ];
-  const seen=new Set();const unique=teams.filter(t=>{if(seen.has(t.n))return false;seen.add(t.n);return true;}});
+  const seen=new Set();const unique=teams.filter(t=>{if(seen.has(t.n))return false;seen.add(t.n);return true;});
   window._epTeams=unique;
   document.getElementById('ep').innerHTML=unique.map((t,i)=>
     `<div data-idx="${i}" onclick="pickE(${i})" id="ep_${i}"
@@ -2145,7 +2156,7 @@ function initEP(){
 window.pickE=function(idx){
   const teams=window._epTeams||[];if(idx>=teams.length) return;
   document.getElementById('re').value=teams[idx].f;
-  document.querySelectorAll('#ep>div').forEach(d=>{d.style.borderColor='transparent';d.style.background='transparent';}});
+  document.querySelectorAll('#ep>div').forEach(d=>{d.style.borderColor='transparent';d.style.background='transparent';});
   const el=document.getElementById('ep_'+idx);
   if(el){el.style.borderColor='var(--gold)';el.style.background='rgba(232,184,75,.12)';}
 };
@@ -2153,8 +2164,8 @@ window.pickE=function(idx){
 // ========================================
 // OFFLINE DETECTION
 // ========================================
-window.addEventListener('online',()=>{setSyncStatus('connected');autoFetchScores();toast('✅ Connexion rétablie');}});
-window.addEventListener('offline',()=>{setSyncStatus('error');toast('⚠️ Hors ligne');}});
+window.addEventListener('online',()=>{setSyncStatus('connected');autoFetchScores();toast('✅ Connexion rétablie');});
+window.addEventListener('offline',()=>{setSyncStatus('error');toast('⚠️ Hors ligne');});
 
 // ========================================
 // INIT
